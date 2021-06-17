@@ -1,0 +1,38 @@
+{
+  "name": "engineer-v3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "test": "jest --runInBand spec",
+    "test:cov": "jest --runInBand --collectCoverage --collectCoverageFrom=./src/**"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitea.oziabr.com:oziabr/spore-engineer-mvp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "admin-lte": "^3.1.0",
+    "body-parser": "^1.19.0",
+    "cookie-session": "^1.4.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-sequelize-crud": "^6.1.5",
+    "method-override": "^3.0.0",
+    "morgan": "^1.10.0",
+    "pg": "^8.6.0",
+    "pug": "^3.0.2",
+    "sequelize": "^6.6.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.28.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "html2jade": "^0.8.6",
+    "sequelize-cli": "^6.2.0"
+  }
+}

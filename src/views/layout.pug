@@ -1,0 +1,115 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    block title
+      title Maximus Инженер
+    block css
+      link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback')
+      link(rel='stylesheet', href='/plugins/fontawesome-free/css/all.min.css')
+      link(rel='stylesheet', href='https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css')
+      link(rel='stylesheet', href='/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')
+      link(rel='stylesheet', href='/plugins/icheck-bootstrap/icheck-bootstrap.min.css')
+      link(rel='stylesheet', href='/plugins/jqvmap/jqvmap.min.css')
+      link(rel='stylesheet', href='/dist/css/adminlte.min.css')
+      link(rel='stylesheet', href='/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')
+      link(rel='stylesheet', href='/plugins/daterangepicker/daterangepicker.css')
+      link(rel='stylesheet', href='/plugins/summernote/summernote-bs4.min.css')
+
+      link(rel='stylesheet', href='/plugins/jsgrid/jsgrid.css')
+      link(rel='stylesheet', href='/plugins/jsgrid/jsgrid-theme.css')
+      link(rel='stylesheet', href='/plugins/jquery-ui/jquery-ui.css')
+      link(rel='stylesheet', href='/plugins/jquery-ui/jquery-ui.structure.css')
+  body.hold-transition.sidebar-mini.layout-fixed
+    .wrapper
+      // Preloader
+      .preloader.flex-column.justify-content-center.align-items-center
+        img.animation__shake(src='/dist/img/AdminLTELogo.png', alt='AdminLTELogo', height='60', width='60')
+      // Navbar
+      nav.main-header.navbar.navbar-expand.navbar-white.navbar-light
+        // Left navbar links
+        ul.navbar-nav
+          li.nav-item
+            a.nav-link(data-widget='pushmenu', href='#', role='button')
+              i.fas.fa-bars
+          |       
+          li.nav-item.d-none.d-sm-inline-block
+            a.nav-link(href='/') Home
+        // Right navbar links
+        ul.navbar-nav.ml-auto
+          li.nav-item
+            a.nav-link(data-widget='fullscreen', href='#', role='button')
+              i.fas.fa-expand-arrows-alt
+          |       
+          li.nav-item
+            a.nav-link(data-widget='control-sidebar', data-slide='true', href='#', role='button')
+              i.fas.fa-th-large
+      // /.navbar
+      // Main Sidebar Container
+      aside.main-sidebar.sidebar-dark-primary.elevation-4
+        // Brand Logo
+        a.brand-link(href='/')
+          img.brand-image.img-circle.elevation-3(src='/dist/img/AdminLTELogo.png', alt='AdminLTE Logo', style='opacity: .8')
+          |       
+          span.brand-text.font-weight-light AdminLTE 3
+        // Sidebar
+        .sidebar
+          // Sidebar Menu
+          nav.mt-2
+            ul.nav.nav-pills.nav-sidebar.flex-column(data-widget='treeview', role='menu', data-accordion='false')
+              li.nav-item
+                a.nav-link.active(href='/nomenclature')
+                  p Номенклатура
+              li.nav-item
+                a.nav-link.active(href='/nomenclaturemodel')
+                  p Модели номенклатуры
+              li.nav-item
+                a.nav-link.active(href='/nomenclaturetype')
+                  p Типы номенклатуры
+              li.nav-item
+                a.nav-link.active(href='/nomenclaturegroup')
+                  p Групы номенклатуры
+              li.nav-item
+                a.nav-link.active(href='/nomenclatureclass')
+                  p Классы номенклатуры
+              li.nav-item
+                a.nav-link.active(href='/unit')
+                  p Единицы измерения
+          // /.sidebar-menu
+        // /.sidebar
+      // Content Wrapper. Contains page content
+
+      .content-wrapper
+        // Content Header (Page header)
+        .content-header
+        // /.content-header
+        // Main content
+        section.content
+          block body
+      footer.main-footer
+        strong
+          | Maximus 
+          | &copy; 2021 
+        .float-right.d-none.d-sm-inline-block
+          b Version
+          |  3.1.0
+      // Control Sidebar
+      aside.control-sidebar.control-sidebar-dark
+    block script
+      script(src='/plugins/jquery/jquery.js')
+      script(src='/plugins/jquery-ui/jquery-ui.min.js')
+      script.
+        $.widget.bridge('uibutton', $.ui.button)
+      script(src='/plugins/bootstrap/js/bootstrap.bundle.min.js')
+      script(src='/plugins/chart.js/Chart.min.js')
+      script(src='/plugins/sparklines/sparkline.js')
+      script(src='/plugins/jquery-knob/jquery.knob.min.js')
+      script(src='/plugins/moment/moment.min.js')
+      script(src='/plugins/daterangepicker/daterangepicker.js')
+      script(src='/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')
+      script(src='/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')
+      script(src='/dist/js/adminlte.js')
+
+      script(src='/plugins/jsgrid/jsgrid.js')
+      script(src='/plugins/jquery-validation/jquery.validate.js')

@@ -1,0 +1,44 @@
+extends ../layout.pug
+
+block body
+  .card
+    .card-header
+       h3.card-title Модели номенклатуры
+    .card-body
+      #jsGrid
+
+append script
+    script.
+      $(() => {
+        $('#jsGrid').jsGrid({
+          height: "auto",
+          width: "100%",
+          editing: false,
+          autoload: true,
+          sorting: true,
+          paging: false,
+          rowClick: function(args) {
+            showDetailsDialog("Edit", args.item);
+          },
+          controller: {
+            loadData: () =>
+              $.ajax({
+                url: "http://localhost:8090/api/nomenclaturemodel"
+              })
+          },
+          fields: [
+            { name: 'id' },
+            { name: "code", type: "number" },
+            { name: "title", type: "textarea" },
+            { name: "nomenclatureTypeID" },
+            { name: "createdAt" },
+            { name: "updatedAt" },
+            {
+              type: "control",
+              modeSwitchButton: false,
+              editButton: true,
+              headerTemplate: () => $(`<a type="submit" class="btn btn-success" href="/nomenclaturemodel/edit">Добавить</button>`)
+            }
+          ]
+        })
+      })

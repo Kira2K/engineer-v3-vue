@@ -1,0 +1,38 @@
+---
+env:
+  node: true
+  jest: true
+globals:
+  BigInt: true
+rules:
+  global-require: 'off'
+  func-names: 'off'
+  no-underscore-dangle: 'off'
+  padding-line-between-statements:
+  - error
+  - blankLine: always
+    prev: "*"
+    next: return
+  - blankLine: always
+    prev:
+    - const
+    - let
+    - var
+    next: "*"
+  - blankLine: any
+    prev:
+    - const
+    - let
+    - var
+    next:
+    - const
+    - let
+    - var
+  brace-style:
+  - error
+  - 1tbs
+  semi: [error, never]
+  eqeqeq: off
+  arrow-parens: ["error", "as-needed"]
+  no-unused-vars: ["error", { "varsIgnorePattern": "debug" }]
+extends: airbnb-base

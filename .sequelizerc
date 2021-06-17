@@ -1,0 +1,9 @@
+require('dotenv').config()
+
+module.exports = {
+  "url": process.env.DB_URL,
+  "migrations-path": "./src/db/migrations",
+  "models-path": "./src/db/models",
+  "seeders-path": "./src/db/seeds",
+  "seeder-storage": "sequelize"
+}
