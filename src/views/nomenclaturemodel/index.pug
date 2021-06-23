@@ -21,18 +21,35 @@ append script
             showDetailsDialog("Edit", args.item);
           },
           controller: {
-            loadData: () =>
+            loadData: () => {
+              var deferred = $.Deferred();
               $.ajax({
-                url: "http://localhost:8090/api/nomenclaturemodel"
+                url: "http://localhost:8090/api/nomenclaturemodel",
+                success: function(response) {
+                  deferred.resolve(response.map(el => {
+                    el.classCode = el["NomenclatureType.NomenclatureGroup.NomenclatureClass.code"]
+                    el.className = el["NomenclatureType.NomenclatureGroup.NomenclatureClass.title"]
+                    el.groupCode = el["NomenclatureType.NomenclatureGroup.code"] || ''
+                    el.groupName = el["NomenclatureType.NomenclatureGroup.title"]
+                    el.typeCode =  el["NomenclatureType.code"] || ''
+                    el.typeName =  el["NomenclatureType.title"]
+                    el.modelCode = `${el.classCode}.${el.groupCode}.${el.typeCode}.${el.code || ''}`
+                    return el
+                  }));
+                }
               })
+              return deferred.promise();
+            }
           },
           fields: [
             { name: 'id' },
-            { name: "code", type: "number" },
-            { name: "title", type: "textarea" },
-            { name: "nomenclatureTypeID" },
-            { name: "createdAt" },
-            { name: "updatedAt" },
+            { title: "Код", name: "modelCode" },
+            { title: "Модель", name: "title" },
+            { title: "Тип", name: "typeName" },
+            { title: "Группа", name: "groupName" },
+            { title: "Класс", name: "className" },
+            //{ name: "createdAt" },
+            //{ name: "updatedAt" },
             {
               type: "control",
               modeSwitchButton: false,

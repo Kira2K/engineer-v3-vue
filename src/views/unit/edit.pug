@@ -1,0 +1,22 @@
+extends ../layout.pug
+
+block body
+  .card: form(method='post' enctype='application/x-www-form-urlencoded')
+    .card-header
+      h3.card-title Новая единица измерений
+    .card-body
+      .form-group
+        label(for="code") Код
+        input#code.form-control(name="code" type="text" placeholder="" value=code)
+      .form-group
+        label(for="title") Наименование
+        input#title.form-control(name="title" type="text" placeholder="" value=title)
+      .form-group
+        label(for="short") Аббревиатура
+        input#short.form-control(name="short" type="text" placeholder="" value=short)
+    .card-footer
+      if id
+        button.btn.btn-primary(type="submit") Сохранить
+        a.float-right.btn.btn-danger(href=`/unit/delete/${id}`) Удалить
+      else
+        button.btn.btn-primary(type="submit") Добавить

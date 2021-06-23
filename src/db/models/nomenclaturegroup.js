@@ -22,6 +22,11 @@ module.exports = (sequelize, DataTypes) => {
     code: DataTypes.INTEGER,
     title: DataTypes.STRING
   }, {
+    defaultScope: {
+      include: [
+        { model: sequelize.models.NomenclatureClass },
+      ]
+    },
     sequelize,
     paranoid: true,
     modelName: 'NomenclatureGroup',

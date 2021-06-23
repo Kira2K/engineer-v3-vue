@@ -4,6 +4,7 @@ block body
   .card
     .card-header
        h3.card-title Единицы измерения
+       a.float-right.btn.btn-success(type="button" href="/unit/edit") Добавить
     .card-body
       #jsGrid
 
@@ -14,11 +15,12 @@ append script
           height: "auto",
           width: "100%",
           editing: false,
+          filtering: false,
           autoload: true,
           sorting: true,
           paging: false,
           rowClick: function(args) {
-            showDetailsDialog("Edit", args.item);
+            window.location.href=`/unit/edit/${args.item.id}`
           },
           controller: {
             loadData: () =>
@@ -28,16 +30,11 @@ append script
           },
           fields: [
             { name: 'id' },
-            { name: "code", type: "number" },
-            { name: "title", type: "textarea" },
-            { name: "createdAt" },
-            { name: "updatedAt" },
-            {
-              type: "control",
-              modeSwitchButton: false,
-              editButton: true,
-              headerTemplate: () => $(`<a type="submit" class="btn btn-success" href="/unit/edit">Добавить</button>`)
-            }
+            { title: "Код", name: "code", type: "number" },
+            { title: "Наименование", name: "title", type: "text" },
+            { title: "Аббревиатура", name: "short", type: "text" },
+            // { name: "createdAt" },
+            // { name: "updatedAt" }
           ]
         })
       })
