@@ -21,7 +21,30 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'nomenclatureModelID'
       })
       this.belongsTo(models.NomenclatureModel, {
-        foreignKey: 'nomenclatureModelID'
+        foreignKey: 'nomenclatureModelID',
+        as: 'nm'
+      })
+
+      this.addScope('defaultScope', {
+        include: [{
+          model: models.NomenclatureModel.unscoped(),
+          as: 'nm',
+          include: {
+            model: models.NomenclatureType.unscoped(),
+            as: 'nt',
+            include: {
+              model: models.NomenclatureGroup.unscoped(),
+              as: 'ng',
+              include: {
+                model: models.NomenclatureClass.unscoped(),
+                as: 'nc',
+              }
+            }
+          }
+        },
+        {
+          model: models.Unit.unscoped()
+        }]
       })
     }
   };

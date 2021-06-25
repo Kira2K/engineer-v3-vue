@@ -4,6 +4,7 @@ block body
   .card
     .card-header
        h3.card-title Классы номенклатуры
+       a.float-right.btn.btn-success(type="button" href="/nomenclatureclass/edit") Добавить
     .card-body
       #jsGrid
 
@@ -18,20 +19,17 @@ append script
           sorting: true,
           paging: false,
           rowClick: function(args) {
-            showDetailsDialog("Edit", args.item);
+            window.location.href=`/nomenclatureclass/edit/${args.item.id}`
           },
           controller: {
             loadData: () =>
               $.ajax({
-                url: `http://${window.location.hostname}:8090/api/nomenclatureclass`
+                url: `http://${window.location.hostname}:8090/api/nomenclatureclass`,
               })
           },
           fields: [
-            { name: 'id' },
-            { name: "code", type: "number" },
-            { name: "title", type: "textarea" },
-            { name: "createdAt" },
-            { name: "updatedAt" },
+            { title: "Код", name: "code" },
+            { title: "Модель", name: "title" },
           ]
         })
       })

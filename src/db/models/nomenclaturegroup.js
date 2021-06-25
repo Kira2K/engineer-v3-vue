@@ -11,22 +11,24 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.NomenclatureClass, {
-        foreignKey: 'nomenclatureClassID'
+        foreignKey: 'nomenclatureClassID',
+        as: 'nc'
       })
       this.hasMany(models.NomenclatureType, {
         foreignKey: 'nomenclatureGroupID'
-      })      // define association here
+      })
+      this.addScope('defaultScope', {
+        include: [{
+          model: models.NomenclatureClass.unscoped(),
+          as: 'nc',
+        }]
+      })
     }
   };
   NomenclatureGroup.init({
     code: DataTypes.INTEGER,
     title: DataTypes.STRING
   }, {
-    defaultScope: {
-      include: [
-        { model: sequelize.models.NomenclatureClass },
-      ]
-    },
     sequelize,
     paranoid: true,
     modelName: 'NomenclatureGroup',

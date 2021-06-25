@@ -23,17 +23,29 @@ append script
             window.location.href=`/nomenclature/edit/${args.item.id}`
           },
           controller: {
-            loadData: () =>
+            loadData: () => {
+              var deferred = $.Deferred();
               $.ajax({
-                url: `http://${window.location.hostname}:8090/api/nomenclature`
+                url: `http://${window.location.hostname}:8090/api/nomenclature`,
+                success: function(response) {
+                  deferred.resolve(response.map(el => {
+                    el.unit = `${el['Unit.title']} (${el['Unit.short']})`
+                    el.model = `${el['nm.nt.ng.nc.code']}.${el['nm.nt.ng.code']}.${el['nm.nt.code']}.${el['nm.code']}\t` +
+                      `${el['nm.nt.ng.nc.title']} > ${el['nm.nt.ng.title']} > ${el['nm.nt.title']} > ${el['nm.title']}`
+                    return el
+                  }));
+                }
               })
+              return deferred.promise();
+            }
           },
           fields: [
-            { name: 'id' },
-            { name: "code", type: "number" },
-            { name: "title", type: "textarea" },
-            // { name: "createdAt" },
-            // { name: "updatedAt" },
+            { title: "Код", name: "code" },
+            { title: "Обозначание", name: "designation" },
+            { title: "Наименование", name: "title" },
+            { title: "Ед. Изм.", name: "unit" },
+            { title: "Классификация номенклатуры", name: "model" },
+            { title: "Дата создания", name: "createdAt" },
           ]
         })
       })

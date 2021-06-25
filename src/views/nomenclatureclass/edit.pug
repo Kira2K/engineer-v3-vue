@@ -1,0 +1,20 @@
+extends ../layout.pug
+
+block body
+  - var instance = instance || {}
+  .card: form(method='post' enctype='application/x-www-form-urlencoded')
+    .card-header
+      h3.card-title Новый номенклатурный класс
+    .card-body
+      .form-group
+        label(for="code") Код
+        input#code.form-control(name="code" type="text" placeholder="" value=instance.code)
+      .form-group
+        label(for="title") Наименование
+        input#title.form-control(name="title" type="text" placeholder="" value=instance.title)
+    .card-footer
+      if instance.id
+        button.btn.btn-primary(type="submit") Сохранить
+        a.float-right.btn.btn-danger(href=`/nomenclatureclass/delete/${instance.id}`) Удалить
+      else
+        button.btn.btn-primary(type="submit") Добавить

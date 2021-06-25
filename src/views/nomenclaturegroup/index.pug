@@ -4,6 +4,7 @@ block body
   .card
     .card-header
        h3.card-title Группы номенклатуры
+       a.float-right.btn.btn-success(type="button" href="/nomenclaturegroup/edit") Добавить
     .card-body
       #jsGrid
 
@@ -18,22 +19,28 @@ append script
           sorting: true,
           paging: false,
           rowClick: function(args) {
-            showDetailsDialog("Edit", args.item);
+            window.location.href=`/nomenclaturegroup/edit/${args.item.id}`
           },
           controller: {
-            loadData: () =>
+            loadData: () => {
+              var deferred = $.Deferred();
               $.ajax({
-                url: `http://${window.location.hostname}:8091/api/nomenclaturegroup`
-
+                url: `http://${window.location.hostname}:8090/api/nomenclaturegroup`,
+                success: function(response) {
+                  deferred.resolve(response.map(el => {
+                    el.type = `${el['nc.code']}\t` +
+                      `${el['nc.title']}`
+                    return el
+                  }));
+                }
               })
+              return deferred.promise();
+            }
           },
           fields: [
-            { name: 'id' },
-            { name: "code", type: "number" },
-            { name: "title", type: "textarea" },
-            { name: "nomenclatureClassID" },
-            { name: "createdAt" },
-            { name: "updatedAt" },
+            { title: "Код", name: "code" },
+            { title: "Модель", name: "title" },
+            { title: "Родитель", name: "type" },
           ]
         })
       })

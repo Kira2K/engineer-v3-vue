@@ -59,16 +59,23 @@ front.use('/:module/:action/:id', async (req, res, next) => {
 })
 
 front.get('/nomenclature/:action/:id?', async (req, res, next) => {
-  const { module, action, id } = req.params
-  const rest = await fetch(`http://localhost:${port}/api/nomenclatureclass`).then(res => res.json())
-  const nomenclatureclass = rest.map(el => ({
-    id: el['NomenclatureGroups.NomenclatureTypes.NomenclatureModels.id'],
-    text: `${el.code}.${el['NomenclatureGroups.code'] || ''}.${el['NomenclatureGroups.NomenclatureTypes.code'] || ''}.${el['NomenclatureGroups.NomenclatureTypes.NomenclatureModels.code'] || ''}: ` +
-        `${el.title} > ${el['NomenclatureGroups.title'] || ''} > ${el['NomenclatureGroups.NomenclatureTypes.title'] || ''} > ${el['NomenclatureGroups.NomenclatureTypes.NomenclatureModels.title'] || ''}`
-  })).filter(el => el.id)
-
-  res.locals.nomenclatureclass = nomenclatureclass
+  res.locals.parent = await fetch(`http://localhost:${port}/api/nomenclaturemodel`).then(res => res.json())
   res.locals.unit = await fetch(`http://localhost:${port}/api/unit`).then(res => res.json())
+  next()
+})
+
+front.get('/nomenclaturemodel/:action/:id?', async (req, res, next) => {
+  res.locals.parent = await fetch(`http://localhost:${port}/api/nomenclaturetype`).then(res => res.json())
+  next()
+})
+
+front.get('/nomenclaturetype/:action/:id?', async (req, res, next) => {
+  res.locals.parent = await fetch(`http://localhost:${port}/api/nomenclaturegroup`).then(res => res.json())
+  next()
+})
+
+front.get('/nomenclaturegroup/:action/:id?', async (req, res, next) => {
+  res.locals.parent = await fetch(`http://localhost:${port}/api/nomenclatureclass`).then(res => res.json())
   next()
 })
 

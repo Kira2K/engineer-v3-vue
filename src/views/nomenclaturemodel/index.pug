@@ -4,6 +4,7 @@ block body
   .card
     .card-header
        h3.card-title Модели номенклатуры
+       a.float-right.btn.btn-success(type="button" href="/nomenclaturemodel/edit") Добавить
     .card-body
       #jsGrid
 
@@ -18,7 +19,7 @@ append script
           sorting: true,
           paging: false,
           rowClick: function(args) {
-            showDetailsDialog("Edit", args.item);
+            window.location.href=`/nomenclaturemodel/edit/${args.item.id}`
           },
           controller: {
             loadData: () => {
@@ -27,13 +28,8 @@ append script
                 url: `http://${window.location.hostname}:8090/api/nomenclaturemodel`,
                 success: function(response) {
                   deferred.resolve(response.map(el => {
-                    el.classCode = el["NomenclatureType.NomenclatureGroup.NomenclatureClass.code"]
-                    el.className = el["NomenclatureType.NomenclatureGroup.NomenclatureClass.title"]
-                    el.groupCode = el["NomenclatureType.NomenclatureGroup.code"] || ''
-                    el.groupName = el["NomenclatureType.NomenclatureGroup.title"]
-                    el.typeCode =  el["NomenclatureType.code"] || ''
-                    el.typeName =  el["NomenclatureType.title"]
-                    el.modelCode = `${el.classCode}.${el.groupCode}.${el.typeCode}.${el.code || ''}`
+                    el.type = `${el['nt.ng.nc.code']}.${el['nt.ng.code']}.${el['nt.code']}\t` +
+                      `${el['nt.ng.nc.title']} > ${el['nt.ng.title']} > ${el['nt.title']}`
                     return el
                   }));
                 }
@@ -42,20 +38,9 @@ append script
             }
           },
           fields: [
-            { name: 'id' },
-            { title: "Код", name: "modelCode" },
+            { title: "Код", name: "code" },
             { title: "Модель", name: "title" },
-            { title: "Тип", name: "typeName" },
-            { title: "Группа", name: "groupName" },
-            { title: "Класс", name: "className" },
-            //{ name: "createdAt" },
-            //{ name: "updatedAt" },
-            {
-              type: "control",
-              modeSwitchButton: false,
-              editButton: true,
-              headerTemplate: () => $(`<a type="submit" class="btn btn-success" href="/nomenclaturemodel/edit">Добавить</button>`)
-            }
+            { title: "Родитель", name: "type" },
           ]
         })
       })
