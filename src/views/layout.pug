@@ -17,6 +17,8 @@ html(lang='en')
       link(rel='stylesheet', href='/plugins/daterangepicker/daterangepicker.css')
       link(rel='stylesheet', href='/plugins/summernote/summernote-bs4.min.css')
 
+      link(rel='stylesheet', href='/plugins/select2/css/select2.min.css')
+      link(rel='stylesheet', href='/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')
       link(rel='stylesheet', href='/plugins/jsgrid/jsgrid.css')
       link(rel='stylesheet', href='/plugins/jsgrid/jsgrid-theme.css')
       link(rel='stylesheet', href='/plugins/jquery-ui/jquery-ui.css')
@@ -24,8 +26,8 @@ html(lang='en')
   body.hold-transition.sidebar-mini.layout-fixed
     .wrapper
       // Preloader
-      .preloader.flex-column.justify-content-center.align-items-center
-        img.animation__shake(src='/dist/img/AdminLTELogo.png', alt='AdminLTELogo', height='60', width='60')
+      //.preloader.flex-column.justify-content-center.align-items-center
+      //  img.animation__shake(src='/dist/img/AdminLTELogo.png', alt='AdminLTELogo', height='60', width='60')
       // Navbar
       nav.main-header.navbar.navbar-expand.navbar-white.navbar-light
         // Left navbar links
@@ -59,22 +61,22 @@ html(lang='en')
           nav.mt-2
             ul.nav.nav-pills.nav-sidebar.flex-column(data-widget='treeview', role='menu', data-accordion='false')
               li.nav-item
-                a.nav-link.active(href='/nomenclature')
+                a.nav-link(href='/nomenclature')
                   p Номенклатура
               li.nav-item
-                a.nav-link.active(href='/nomenclaturemodel')
+                a.nav-link(href='/nomenclaturemodel')
                   p Модели номенклатуры
               li.nav-item
-                a.nav-link.active(href='/nomenclaturetype')
+                a.nav-link(href='/nomenclaturetype')
                   p Типы номенклатуры
               li.nav-item
-                a.nav-link.active(href='/nomenclaturegroup')
+                a.nav-link(href='/nomenclaturegroup')
                   p Групы номенклатуры
               li.nav-item
-                a.nav-link.active(href='/nomenclatureclass')
+                a.nav-link(href='/nomenclatureclass')
                   p Классы номенклатуры
               li.nav-item
-                a.nav-link.active(href='/unit')
+                a.nav-link(href='/unit')
                   p Единицы измерения
           // /.sidebar-menu
         // /.sidebar
@@ -87,6 +89,8 @@ html(lang='en')
         // Main content
         section.content
           block body
+
+          pre.debug= JSON.stringify(locals._locals, 0, 2)
       footer.main-footer
         strong
           | Maximus 
@@ -111,5 +115,6 @@ html(lang='en')
       script(src='/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')
       script(src='/dist/js/adminlte.js')
 
+      script(src='/plugins/select2/js/select2.full.min.js')
       script(src='/plugins/jsgrid/jsgrid.js')
       script(src='/plugins/jquery-validation/jquery.validate.js')

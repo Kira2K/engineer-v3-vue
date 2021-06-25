@@ -29,6 +29,14 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+/*db.NomenclatureClass.addScope('defaultScope', {
+  include: [
+    {
+      model: db.NomenclatureGroup.unscoped(),
+    }
+  ]
+}, {override: true})*/
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

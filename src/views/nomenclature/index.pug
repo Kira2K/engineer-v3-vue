@@ -4,6 +4,7 @@ block body
   .card
     .card-header
        h3.card-title Номенклатура
+       a.float-right.btn.btn-success(type="button" href="/nomenclature/edit") Добавить
     .card-body
       #jsGrid
 
@@ -14,11 +15,12 @@ append script
           height: "auto",
           width: "100%",
           editing: false,
+          filtering: false,
           autoload: true,
           sorting: true,
           paging: false,
           rowClick: function(args) {
-            showDetailsDialog("Edit", args.item);
+            window.location.href=`/nomenclature/edit/${args.item.id}`
           },
           controller: {
             loadData: () =>
@@ -30,14 +32,8 @@ append script
             { name: 'id' },
             { name: "code", type: "number" },
             { name: "title", type: "textarea" },
-            { name: "createdAt" },
-            { name: "updatedAt" },
-            {
-              type: "control",
-              modeSwitchButton: false,
-              editButton: true,
-              headerTemplate: () => $(`<a type="submit" class="btn btn-success" href="/nomenclature/edit">Добавить</button>`)
-            }
+            // { name: "createdAt" },
+            // { name: "updatedAt" },
           ]
         })
       })

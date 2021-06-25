@@ -25,13 +25,13 @@ module.exports = (sequelize, DataTypes) => {
     defaultScope: {
       include: [
         {
-          model: sequelize.models.NomenclatureType,
+          model: sequelize.models.NomenclatureType.unscoped(),
           right: true,
           include: {
-            model: sequelize.models.NomenclatureGroup,
+            model: sequelize.models.NomenclatureGroup.unscoped(),
             right: true,
             include: {
-              model: sequelize.models.NomenclatureClass,
+              model: sequelize.models.NomenclatureClass.unscoped(),
               right: true,
             }
           }

@@ -37,12 +37,6 @@ front.get('/', (req, res) => {
 
 //app.use(methodOverride('_method'))
 
-//app.use('/api/*', async (req, res, next) => {
-/*  console.log(req.query)
-  await next()
-//  if (req.query.redirect) res.redirect(302, req.query.redirect)
-})*/
-
 app.use(crud('/api/unit', sequelizeCrud(db.Unit)))
 app.use(crud('/api/nomenclatureclass', sequelizeCrud(db.NomenclatureClass)))
 app.use(crud('/api/nomenclaturegroup', sequelizeCrud(db.NomenclatureGroup)))
@@ -52,6 +46,7 @@ app.use(crud('/api/nomenclature', sequelizeCrud(db.Nomenclature)))
 
 app.use('/api/*', (err, req, res, next) => {
   const { errors } = err
+  console.log({ err, src: JSON.stringify(err, 0, 2) })
   if (errors) return res.status(400).send({ errors })
   res.status(400).send({ error: err })
 })
@@ -59,21 +54,31 @@ app.use('/api/*', (err, req, res, next) => {
 front.use('/:module/:action/:id', async (req, res, next) => {
   const { module, action, id } = req.params
   const rest = await fetch(`http://localhost:${port}/api/${module}/${id}`).then(res => res.json())
-  res.instanceData = rest
-  return next()
+  res.locals.instance = rest
+  next()
+})
+
+front.get('/nomenclature/:action/:id?', async (req, res, next) => {
+  const { module, action, id } = req.params
+  const rest = await fetch(`http://localhost:${port}/api/nomenclatureclass`).then(res => res.json())
+  const nomenclatureclass = rest.map(el => ({
+    id: el['NomenclatureGroups.NomenclatureTypes.NomenclatureModels.id'],
+    text: `${el.code}.${el['NomenclatureGroups.code'] || ''}.${el['NomenclatureGroups.NomenclatureTypes.code'] || ''}.${el['NomenclatureGroups.NomenclatureTypes.NomenclatureModels.code'] || ''}: ` +
+        `${el.title} > ${el['NomenclatureGroups.title'] || ''} > ${el['NomenclatureGroups.NomenclatureTypes.title'] || ''} > ${el['NomenclatureGroups.NomenclatureTypes.NomenclatureModels.title'] || ''}`
+  })).filter(el => el.id)
+
+  res.locals.nomenclatureclass = nomenclatureclass
+  res.locals.unit = await fetch(`http://localhost:${port}/api/unit`).then(res => res.json())
+  next()
 })
 
 front.get('/:module/:action?/:id?', async (req, res) => {
   const { module, action } = req.params
-  const { instanceData } = res
-  res.render(`${module}/${action || 'index'}`, instanceData)
+  res.render(`${module}/${action || 'index'}`)
 })
-
 
 front.post('/:module/edit/:id?', async (req, res, next) => {
   const { module, id } = req.params
-  const { instanceData } = res
-  console.log(instanceData, JSON.stringify(req.body), Object.assign({}, instanceData, req.body))
 
   const result = await fetch(`http://localhost:${port}/api/${module}/${id ? id : ''}`, {
     method: id ? 'put' : 'post',

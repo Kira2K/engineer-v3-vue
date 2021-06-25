@@ -13,6 +13,19 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.NomenclatureGroup, {
         foreignKey: 'nomenclatureClassID'
       })
+      this.addScope('defaultScope', {
+        include: [
+          {
+            model: models.NomenclatureGroup.unscoped(),
+            include: [{
+              model: models.NomenclatureType.unscoped(),
+              include: [{
+                model: models.NomenclatureModel.unscoped(),
+              }]
+            }]
+          }
+        ]
+      }, {override: true})
     }
   };
   NomenclatureClass.init({

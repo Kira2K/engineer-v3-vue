@@ -1,22 +1,23 @@
 extends ../layout.pug
 
 block body
+  - var instance = instance || {}
   .card: form(method='post' enctype='application/x-www-form-urlencoded')
     .card-header
       h3.card-title Новая единица измерений
     .card-body
       .form-group
         label(for="code") Код
-        input#code.form-control(name="code" type="text" placeholder="" value=code)
+        input#code.form-control(name="code" type="text" placeholder="" value=instance.code)
       .form-group
         label(for="title") Наименование
-        input#title.form-control(name="title" type="text" placeholder="" value=title)
+        input#title.form-control(name="title" type="text" placeholder="" value=instance.title)
       .form-group
         label(for="short") Аббревиатура
-        input#short.form-control(name="short" type="text" placeholder="" value=short)
+        input#short.form-control(name="short" type="text" placeholder="" value=instance.short)
     .card-footer
-      if id
+      if instance.id
         button.btn.btn-primary(type="submit") Сохранить
-        a.float-right.btn.btn-danger(href=`/unit/delete/${id}`) Удалить
+        a.float-right.btn.btn-danger(href=`/unit/delete/${instance.id}`) Удалить
       else
         button.btn.btn-primary(type="submit") Добавить
