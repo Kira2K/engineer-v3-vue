@@ -23,7 +23,7 @@ append script
           controller: {
             loadData: () =>
               $.ajax({
-                url: `http://${window.location.host}/api/nomenclaturegroup`
+                url: `http://${window.location.hostname}:8091/api/nomenclaturegroup`
 
               })
           },

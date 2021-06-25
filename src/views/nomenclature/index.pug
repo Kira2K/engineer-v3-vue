@@ -25,7 +25,7 @@ append script
           controller: {
             loadData: () =>
               $.ajax({
-                url: `http://${window.location.host}/api/nomenclature`
+                url: `http://${window.location.hostname}:8090/api/nomenclature`
               })
           },
           fields: [

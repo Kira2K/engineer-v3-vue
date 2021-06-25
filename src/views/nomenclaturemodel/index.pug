@@ -24,7 +24,7 @@ append script
             loadData: () => {
               var deferred = $.Deferred();
               $.ajax({
-                url: `http://${window.location.host}/api/nomenclaturemodel`,
+                url: `http://${window.location.hostname}:8090/api/nomenclaturemodel`,
                 success: function(response) {
                   deferred.resolve(response.map(el => {
                     el.classCode = el["NomenclatureType.NomenclatureGroup.NomenclatureClass.code"]
