@@ -23,7 +23,8 @@ append script
           controller: {
             loadData: () =>
               $.ajax({
-                url: "http://localhost:8090/api/nomenclaturegroup"
+                url: `http://${window.location.host}/api/nomenclaturegroup`
+
               })
           },
           fields: [
@@ -33,12 +34,6 @@ append script
             { name: "nomenclatureClassID" },
             { name: "createdAt" },
             { name: "updatedAt" },
-            {
-              type: "control",
-              modeSwitchButton: false,
-              editButton: true,
-              headerTemplate: () => $(`<a type="submit" class="btn btn-success" href="/nomenclaturegroup/edit">Добавить</button>`)
-            }
           ]
         })
       })
