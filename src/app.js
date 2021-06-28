@@ -23,6 +23,7 @@ app.use(morgan('dev'))
 front.use(favicon('src/views/favicon.ico'))
 
 front.use('/plugins', express.static('node_modules/admin-lte/plugins'))
+front.use('/dist/bootstrap.css', express.static('node_modules/bootswatch/dist/superhero/bootstrap.css'))
 front.use('/dist', express.static('node_modules/admin-lte/dist'))
 
 

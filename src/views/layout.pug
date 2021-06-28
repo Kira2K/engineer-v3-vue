@@ -7,20 +7,37 @@ html(lang='en')
       title Maximus Инженер
     block css
       link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback')
-      link(rel='stylesheet', href='/plugins/fontawesome-free/css/all.min.css')
-      link(rel='stylesheet', href='https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css')
-      link(rel='stylesheet', href='/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')
+      //link(rel='stylesheet', href='/plugins/fontawesome-free/css/all.css')
+      link(href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet")
+      link(rel='stylesheet', href='/dist/css/adminlte.min.css')
+      link(rel='stylesheet', href='/dist/bootstrap.css')
+      link(rel='stylesheet', href='/plugins/jsgrid/jsgrid.css')
+      link(rel='stylesheet', href='/plugins/jsgrid/jsgrid-theme.css')
+      style.
+        body { color: #c9ebff }
+        .content-wrapper { background: #121b25 }
+        .main-footer { background: #121b25 }
+        .card { border-radius: 4px }
+        .card-header { background: #213345; }
+        .card-header:first-child { border-radius: 4px 4px 0 0; }
+        .card-body { background: #213345 }
+        .card-footer { background: #213345 }
+        .card-footer:last-child { border-radius: 0 0 4px 4px; }
+        .form-control, .form-control:focus, option { background-color: #142333; color: #c9ebff }
+        .btn { background-color: #2a445e; color: #c9ebff; border-radius: 3px }
+        .jsgrid-header-row > .jsgrid-header-cell { background: #142333; border-color: #30485c }
+        .jsgrid-row > .jsgrid-cell, .jsgrid-alt-row > .jsgrid-cell, .jsgrid-nodata-row > .jsgrid-cell { border-color: #30485c; background: #213345 }
+        .jsgrid-cell, .jsgrid-selected-row > .jsgrid-cell,
+        .navbar, .main-footer { border-color: #30485c; }
+        .jsgrid-grid-header, .jsgrid-grid-body { border-color: #30485c; overflow: auto; }
       link(rel='stylesheet', href='/plugins/icheck-bootstrap/icheck-bootstrap.min.css')
       link(rel='stylesheet', href='/plugins/jqvmap/jqvmap.min.css')
-      link(rel='stylesheet', href='/dist/css/adminlte.min.css')
       link(rel='stylesheet', href='/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')
       link(rel='stylesheet', href='/plugins/daterangepicker/daterangepicker.css')
       link(rel='stylesheet', href='/plugins/summernote/summernote-bs4.min.css')
 
       link(rel='stylesheet', href='/plugins/select2/css/select2.min.css')
       link(rel='stylesheet', href='/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')
-      link(rel='stylesheet', href='/plugins/jsgrid/jsgrid.css')
-      link(rel='stylesheet', href='/plugins/jsgrid/jsgrid-theme.css')
       link(rel='stylesheet', href='/plugins/jquery-ui/jquery-ui.css')
       link(rel='stylesheet', href='/plugins/jquery-ui/jquery-ui.structure.css')
   body.hold-transition.sidebar-mini.layout-fixed
@@ -29,7 +46,7 @@ html(lang='en')
       //.preloader.flex-column.justify-content-center.align-items-center
       //  img.animation__shake(src='/dist/img/AdminLTELogo.png', alt='AdminLTELogo', height='60', width='60')
       // Navbar
-      nav.main-header.navbar.navbar-expand.navbar-white.navbar-light
+      nav.main-header.navbar.navbar-expand
         // Left navbar links
         ul.navbar-nav
           li.nav-item
@@ -49,7 +66,7 @@ html(lang='en')
               i.fas.fa-th-large
       // /.navbar
       // Main Sidebar Container
-      aside.main-sidebar.sidebar-dark-primary.elevation-4
+      aside.main-sidebar.elevation-4
         // Brand Logo
         a.brand-link(href='/')
           img.brand-image.img-circle.elevation-3(src='/dist/img/AdminLTELogo.png', alt='AdminLTE Logo', style='opacity: .8')
