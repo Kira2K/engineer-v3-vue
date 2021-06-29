@@ -30,6 +30,8 @@ html(lang='en')
         .jsgrid-cell, .jsgrid-selected-row > .jsgrid-cell,
         .navbar, .main-footer { border-color: #30485c; }
         .jsgrid-grid-header, .jsgrid-grid-body { border-color: #30485c; overflow: auto; }
+        .layout-fixed .brand-link img { width: 210px; max-height: 90px; }
+        .layout-fixed .brand-link { height: 140px; }
       link(rel='stylesheet', href='/plugins/icheck-bootstrap/icheck-bootstrap.min.css')
       link(rel='stylesheet', href='/plugins/jqvmap/jqvmap.min.css')
       link(rel='stylesheet', href='/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')
@@ -51,7 +53,7 @@ html(lang='en')
         ul.navbar-nav
           li.nav-item
             a.nav-link(data-widget='pushmenu', href='#', role='button')
-              i.fas.fa-bars
+              // i.ion.ion-md-menu
           |       
           li.nav-item.d-none.d-sm-inline-block
             a.nav-link(href='/') Home
@@ -69,9 +71,9 @@ html(lang='en')
       aside.main-sidebar.elevation-4
         // Brand Logo
         a.brand-link(href='/')
-          img.brand-image.img-circle.elevation-3(src='/dist/img/AdminLTELogo.png', alt='AdminLTE Logo', style='opacity: .8')
+          img.brand-image.img-circle.elevation-3(src='/public/logo.png', alt='Maximus Инженер', style='opacity: .8')
           |       
-          span.brand-text.font-weight-light AdminLTE 3
+          // span.brand-text.font-weight-light AdminLTE 3
         // Sidebar
         .sidebar
           // Sidebar Menu
