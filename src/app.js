@@ -39,12 +39,12 @@ front.get('/', (req, res) => {
 
 //app.use(methodOverride('_method'))
 
-app.use(crud('/api/unit', sequelizeCrud(db.Unit)))
-app.use(crud('/api/nomenclatureclass', sequelizeCrud(db.NomenclatureClass)))
-app.use(crud('/api/nomenclaturegroup', sequelizeCrud(db.NomenclatureGroup)))
-app.use(crud('/api/nomenclaturemodel', sequelizeCrud(db.NomenclatureModel)))
-app.use(crud('/api/nomenclaturetype', sequelizeCrud(db.NomenclatureType)))
-app.use(crud('/api/nomenclature', sequelizeCrud(db.Nomenclature)))
+app.use(crud('/api/unit', sequelizeCrud(db.unit)))
+app.use(crud('/api/nomenclatureclass', sequelizeCrud(db.nomenclature_class)))
+app.use(crud('/api/nomenclaturegroup', sequelizeCrud(db.nomenclature_group)))
+app.use(crud('/api/nomenclaturemodel', sequelizeCrud(db.nomenclature_model)))
+app.use(crud('/api/nomenclaturetype', sequelizeCrud(db.nomenclature_type)))
+app.use(crud('/api/nomenclature', sequelizeCrud(db.nomenclature)))
 
 app.use('/api/*', (err, req, res, next) => {
   const { errors } = err
@@ -53,7 +53,7 @@ app.use('/api/*', (err, req, res, next) => {
   res.status(400).send({ error: err })
 })
 
-front.use('/:module/:action/:id', async (req, res, next) => {
+front.get('/:module/:action/:id', async (req, res, next) => {
   const { module, action, id } = req.params
   const rest = await fetch(`http://localhost:${port}/api/${module}/${id}`).then(res => res.json())
   res.locals.instance = rest
@@ -88,7 +88,7 @@ front.get('/:module/:action?/:id?', async (req, res) => {
 
 front.post('/:module/edit/:id?', async (req, res, next) => {
   const { module, id } = req.params
-
+console.log('ss', JSON.stringify(req.body))
   const result = await fetch(`http://localhost:${port}/api/${module}/${id ? id : ''}`, {
     method: id ? 'put' : 'post',
     body: JSON.stringify(req.body),

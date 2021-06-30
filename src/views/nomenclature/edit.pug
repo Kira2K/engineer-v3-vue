@@ -6,25 +6,26 @@ block body
     .card-header
       h3.card-title Новая номенклатурная позиция
     .card-body
+      if instance.id
+        .form-group
+          label(for="id") Код
+          input#id.form-control(type="text" placeholder="" disabled value=instance.id)
       .form-group
-        label(for="nomenclatureModelID") Классификация номенклатуры
-        select#nomenclatureModelID.form-control(name="nomenclatureModelID")
+        label(for="nomenclatureModelId") Классификация номенклатуры
+        select#nomenclatureModelId.form-control(name="nomenclatureModelId")
           option(value='') Класс > Группа > Тип > Модель
           each val in parent
-            if instance.nomenclatureModelID == val.id
+            if instance.nomenclatureModelId == val.id
               option(selected value=val.id)= val['nt.ng.nc.title'] + ' > ' + val['nt.ng.title'] + ' > ' + val['nt.title'] + ' > ' + val.title
 
             else
               option(value=val.id)= val['nt.ng.nc.title'] + ' > ' + val['nt.ng.title'] + ' > ' + val['nt.title'] + ' > ' + val.title
       .form-group
-        label(for="code") Код
-        input#code.form-control(name="code" type="text" placeholder="" value=instance.code)
-      .form-group
-        label(for="unitID") Единица измерения
-        select#unitID.form-control(name="unitID")
+        label(for="unitId") Единица измерения
+        select#unitId.form-control(name="unitId")
           option(value='') ___
           each val in unit
-            if instance.unitID == val.id
+            if instance.unitId == val.id
               option(selected value=val.id)= val.title + ' (' + val.short + ')'
             else
               option(value=val.id)= val.title + ' (' + val.short + ')'

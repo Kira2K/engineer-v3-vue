@@ -6,18 +6,19 @@ block body
     .card-header
       h3.card-title Новый номенклатурный тип
     .card-body
+      if instance.id
+        .form-group
+          label(for="id") Код
+          input#id.form-control(type="text" placeholder="" disabled value=instance.id)
       .form-group
-        label(for="nomenclatureGroupID") Классификация номенклатуры
-        select#nomenclatureGroupID.form-control(name="nomenclatureGroupID")
+        label(for="nomenclatureGroupId") Классификация номенклатуры
+        select#nomenclatureGroupId.form-control(name="nomenclatureGroupId")
           option(value='') Класс > Группа
           each val in parent
-            if instance.nomenclatureGroupID == val.id
+            if instance.nomenclatureGroupId == val.id
               option(selected value=val.id)= val['nc.title'] + ' > ' + val.title
             else
               option(value=val.id)= val['nc.title'] + ' > ' + val.title
-      .form-group
-        label(for="code") Код
-        input#code.form-control(name="code" type="text" placeholder="" value=instance.code)
       .form-group
         label(for="title") Наименование
         input#title.form-control(name="title" type="text" placeholder="" value=instance.title)

@@ -2,17 +2,17 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('NomenclatureGroups', [
-      {code: 1, nomenclatureClassID: 3, title: 'Запасные части к вычислительной технике'},
-      {code: 2, nomenclatureClassID: 3, title: 'Запасные части к бытовой технике, офисной технике и электронике'},
-      {code: 3, nomenclatureClassID: 3, title: 'Запасные части к медицинскому оборудованию'},
-      {code: 1, nomenclatureClassID: 4, title: 'Вычислительная техника'},
-      {code: 2, nomenclatureClassID: 4, title: 'Электронные компоненты'},
-      {code: 3, nomenclatureClassID: 4, title: 'Мебель медицинская и лабораторная'},
-      {code: 1, nomenclatureClassID: 7, title: 'Аппаратура медицинская'},
-      {code: 2, nomenclatureClassID: 7, title: 'Вычислительная техника'},
-      {code: 3, nomenclatureClassID: 7, title: 'Электрооборудование'},
-    ].map(el => Object.assign({}, el, { createdAt: new Date(), updatedAt: new Date()})), {})
+    await queryInterface.bulkInsert('nomenclature_groups', [
+      {nomenclature_class_id: 3, title: 'Запасные части к вычислительной технике'},
+      {nomenclature_class_id: 3, title: 'Запасные части к бытовой технике, офисной технике и электронике'},
+      {nomenclature_class_id: 3, title: 'Запасные части к медицинскому оборудованию'},
+      {nomenclature_class_id: 4, title: 'Вычислительная техника'},
+      {nomenclature_class_id: 4, title: 'Электронные компоненты'},
+      {nomenclature_class_id: 4, title: 'Мебель медицинская и лабораторная'},
+      {nomenclature_class_id: 7, title: 'Аппаратура медицинская'},
+      {nomenclature_class_id: 7, title: 'Вычислительная техника'},
+      {nomenclature_class_id: 7, title: 'Электрооборудование'},
+    ].map(el => Object.assign({}, el, { created_at: new Date(), updated_at: new Date()})), {})
   },
 
   down: async (queryInterface, Sequelize) => {

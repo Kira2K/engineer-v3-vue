@@ -29,8 +29,8 @@ append script
                 url: `http://${window.location.hostname}:8090/api/nomenclature`,
                 success: function(response) {
                   deferred.resolve(response.map(el => {
-                    el.unit = `${el['Unit.title']} (${el['Unit.short']})`
-                    el.model = `${el['nm.nt.ng.nc.code']}.${el['nm.nt.ng.code']}.${el['nm.nt.code']}.${el['nm.code']}\t` +
+                    el.unit = `${el['unit.title']} (${el['unit.short']})`
+                    el.model = `${el['nm.nt.ng.nc.id']}.${el['nm.nt.ng.id']}.${el['nm.nt.id']}.${el['nm.id']}\t` +
                       `${el['nm.nt.ng.nc.title']} > ${el['nm.nt.ng.title']} > ${el['nm.nt.title']} > ${el['nm.title']}`
                     return el
                   }));
@@ -40,7 +40,7 @@ append script
             }
           },
           fields: [
-            { title: "Код", name: "code" },
+            { title: "Код", name: "id" },
             { title: "Обозначание", name: "designation" },
             { title: "Наименование", name: "title" },
             { title: "Ед. Изм.", name: "unit" },

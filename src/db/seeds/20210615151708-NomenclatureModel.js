@@ -2,12 +2,12 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('NomenclatureModels', [
-      {code: 1, nomenclatureTypeID: 5, title: 'TravelMate'},
-      {code: 2, nomenclatureTypeID: 5, title: 'Satelit'},
-      {code: 1, nomenclatureTypeID: 6, title: 'Иннова'},
-      {code: 2, nomenclatureTypeID: 6, title: 'Артис'},
-    ].map(el => Object.assign({}, el, { createdAt: new Date(), updatedAt: new Date()})), {})
+    await queryInterface.bulkInsert('nomenclature_models', [
+      {nomenclature_type_id: 5, title: 'TravelMate'},
+      {nomenclature_type_id: 5, title: 'Satelit'},
+      {nomenclature_type_id: 6, title: 'Иннова'},
+      {nomenclature_type_id: 6, title: 'Артис'},
+    ].map(el => Object.assign({}, el, { created_at: new Date(), updated_at: new Date()})), {})
   },
 
   down: async (queryInterface, Sequelize) => {

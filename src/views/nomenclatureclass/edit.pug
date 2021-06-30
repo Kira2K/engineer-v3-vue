@@ -6,9 +6,10 @@ block body
     .card-header
       h3.card-title Новый номенклатурный класс
     .card-body
-      .form-group
-        label(for="code") Код
-        input#code.form-control(name="code" type="text" placeholder="" value=instance.code)
+      if instance.id
+        .form-group
+          label(for="id") Код
+          input#id.form-control(type="text" placeholder="" disabled value=instance.id)
       .form-group
         label(for="title") Наименование
         input#title.form-control(name="title" type="text" placeholder="" value=instance.title)

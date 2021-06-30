@@ -1,51 +1,54 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Nomenclatures', {
+    await queryInterface.createTable('nomenclatures', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      code: {
-        type: Sequelize.INTEGER,
-        unique: true
-      },
       title: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       designation: {
         type: Sequelize.STRING
       },
-      unitID: {
+      unit_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'Units'
+          model: 'units'
         }
       },
-      nomenclatureModelID: {
+      nomenclature_model_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'NomenclatureModels'
+          model: 'nomenclature_models'
         }
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         defaultValue: Sequelize.NOW,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         defaultValue: Sequelize.NOW,
         type: Sequelize.DATE
       },
-      deletedAt: {
+      deleted_at: {
         type: Sequelize.DATE
       }
     });
+    await queryInterface.addConstraint('nomenclatures', {
+      fields: ['title', 'nomenclature_model_id'],
+      type: 'unique',
+    });  
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Nomenclatures');
+    await queryInterface.dropTable('nomenclatures');
   }
 };

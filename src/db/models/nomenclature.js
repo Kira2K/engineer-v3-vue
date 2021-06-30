@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Nomenclature extends Model {
+  class nomenclature extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,51 +11,51 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.Unit.hasMany(this, {
-        foreignKey: 'unitID'
+      models.unit.hasMany(this, {
+        foreignKey: 'unitId'
       })
-      this.belongsTo(models.Unit, {
-        foreignKey: 'unitID'
+      this.belongsTo(models.unit, {
+        foreignKey: 'unitId'
       })
-      models.NomenclatureModel.hasMany(this, {
-        foreignKey: 'nomenclatureModelID'
+      models.nomenclature_model.hasMany(this, {
+        foreignKey: 'nomenclatureModelId'
       })
-      this.belongsTo(models.NomenclatureModel, {
-        foreignKey: 'nomenclatureModelID',
+      this.belongsTo(models.nomenclature_model, {
+        foreignKey: 'nomenclatureModelId',
         as: 'nm'
       })
 
       this.addScope('defaultScope', {
         include: [{
-          model: models.NomenclatureModel.unscoped(),
+          model: models.nomenclature_model.unscoped(),
           as: 'nm',
           include: {
-            model: models.NomenclatureType.unscoped(),
+            model: models.nomenclature_type.unscoped(),
             as: 'nt',
             include: {
-              model: models.NomenclatureGroup.unscoped(),
+              model: models.nomenclature_group.unscoped(),
               as: 'ng',
               include: {
-                model: models.NomenclatureClass.unscoped(),
+                model: models.nomenclature_class.unscoped(),
                 as: 'nc',
               }
             }
           }
         },
         {
-          model: models.Unit.unscoped()
+          model: models.unit.unscoped()
         }]
       })
     }
   };
-  Nomenclature.init({
-    code: DataTypes.INTEGER,
+  nomenclature.init({
     title: DataTypes.STRING,
     designation: DataTypes.STRING
   }, {
     sequelize,
     paranoid: true,
-    modelName: 'Nomenclature',
+    underscored: true,
+    modelName: 'nomenclature',
   });
-  return Nomenclature;
+  return nomenclature;
 };

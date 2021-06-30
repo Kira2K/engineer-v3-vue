@@ -1,43 +1,44 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('NomenclatureTypes', {
+    await queryInterface.createTable('nomenclature_types', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      code: {
-        type: Sequelize.INTEGER,
-        unique: 'NomenclatureTypeUniqueKey'
-      },
       title: {
+        allowNull: false,
         type: Sequelize.STRING
       },
-      nomenclatureGroupID: {
+      nomenclature_group_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
-        unique: 'NomenclatureTypeUniqueKey',
         references: {
-          model: 'NomenclatureGroups'
+          model: 'nomenclature_groups'
         }
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         defaultValue: Sequelize.NOW,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         defaultValue: Sequelize.NOW,
         type: Sequelize.DATE
       },
-      deletedAt: {
+      deleted_at: {
         type: Sequelize.DATE
       }
     });
+    await queryInterface.addConstraint('nomenclature_types', {
+      fields: ['title', 'nomenclature_group_id'],
+      type: 'unique',
+    });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('NomenclatureTypes');
+    await queryInterface.dropTable('nomenclature_types');
   }
 };

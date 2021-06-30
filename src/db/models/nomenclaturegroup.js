@@ -3,35 +3,35 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class NomenclatureGroup extends Model {
+  class nomenclature_group extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.NomenclatureClass, {
-        foreignKey: 'nomenclatureClassID',
+      this.belongsTo(models.nomenclature_class, {
+        foreignKey: 'nomenclatureClassId',
         as: 'nc'
       })
-      this.hasMany(models.NomenclatureType, {
-        foreignKey: 'nomenclatureGroupID'
+      this.hasMany(models.nomenclature_type, {
+        foreignKey: 'nomenclatureGroupId'
       })
       this.addScope('defaultScope', {
         include: [{
-          model: models.NomenclatureClass.unscoped(),
+          model: models.nomenclature_class.unscoped(),
           as: 'nc',
         }]
       })
     }
   };
-  NomenclatureGroup.init({
-    code: DataTypes.INTEGER,
+  nomenclature_group.init({
     title: DataTypes.STRING
   }, {
     sequelize,
     paranoid: true,
-    modelName: 'NomenclatureGroup',
+    underscored: true,
+    modelName: 'nomenclature_group',
   });
-  return NomenclatureGroup;
+  return nomenclature_group;
 };

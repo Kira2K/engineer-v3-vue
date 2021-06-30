@@ -28,7 +28,7 @@ append script
                 url: `http://${window.location.hostname}:8090/api/nomenclaturetype`,
                 success: function(response) {
                   deferred.resolve(response.map(el => {
-                    el.type = `${el['ng.nc.code']}.${el['ng.code']}\t` +
+                    el.group = `${el['ng.nc.id']}.${el['ng.id']}.\t` +
                       `${el['ng.nc.title']} > ${el['ng.title']}`
                     return el
                   }));
@@ -38,9 +38,9 @@ append script
             }
           },
           fields: [
-            { title: "Код", name: "code" },
+            { title: "Код", name: "id" },
             { title: "Тип", name: "title" },
-            { title: "Родитель", name: "type" },
+            { title: "Родитель", name: "group" },
           ]
         })
       })
