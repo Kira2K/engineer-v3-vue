@@ -17,8 +17,22 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   unit.init({
-    title: DataTypes.STRING,
-    short: DataTypes.STRING
+    title: {
+      type: DataTypes.STRING,
+      // defaultValue: '',
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    short: {
+      type: DataTypes.STRING,
+      // defaultValue: '',
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    }
   }, {
     sequelize,
     paranoid: true,

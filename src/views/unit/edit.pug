@@ -6,16 +6,9 @@ block body
     .card-header
       h3.card-title Новая единица измерений
     .card-body
-      if instance.id
-        .form-group
-          label(for="id") Код
-          input#id.form-control(type="text" placeholder="" disabled value=instance.id)
-      .form-group
-        label(for="title") Наименование
-        input#title.form-control(name="title" type="text" placeholder="" value=instance.title)
-      .form-group
-        label(for="short") Аббревиатура
-        input#short.form-control(name="short" type="text" placeholder="" value=instance.short)
+      +dummy_input('id', 'Код')
+      +input('title',  'Наименование')
+      +input('short', 'Аббревиатура')
     .card-footer
       if instance.id
         button.btn.btn-primary(type="submit") Сохранить
