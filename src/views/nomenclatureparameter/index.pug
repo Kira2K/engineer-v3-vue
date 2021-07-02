@@ -1,0 +1,46 @@
+extends ../layout.pug
+
+block body
+  .card
+    .card-header
+       h3.card-title Параметры номенклатуры
+       a.float-right.btn.btn-success(type="button" href="/nomenclature/edit") Добавить
+    .card-body
+      #jsGrid
+
+append script
+    script.
+      $(() => {
+        $('#jsGrid').jsGrid({
+          height: "auto",
+          width: "100%",
+          editing: false,
+          filtering: false,
+          autoload: true,
+          sorting: true,
+          paging: false,
+          rowClick: function(args) {
+            window.location.href=`/nomenclatureparameter/edit/${args.item.id}`
+          },
+          controller: {
+            loadData: () => {
+              var deferred = $.Deferred();
+              $.ajax({
+                url: `http://${window.location.hostname}:8090/api/nomenclatureparameter`,
+                success: function(response) {
+                  deferred.resolve(response.map(el => {
+                    el.unit = `${el['unit.title']} (${el['unit.short']})`
+                    return el
+                  }));
+                }
+              })
+              return deferred.promise();
+            }
+          },
+          fields: [
+            { title: "Код", name: "id" },
+            { title: "Наименование", name: "title" },
+            { title: "Ед. Изм.", name: "unit" },
+          ]
+        })
+      })

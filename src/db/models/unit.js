@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
   unit.init({
     title: {
       type: DataTypes.STRING,
-      // defaultValue: '',
       allowNull: false,
       validate: {
         notEmpty: true
@@ -27,7 +26,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     short: {
       type: DataTypes.STRING,
-      // defaultValue: '',
       allowNull: false,
       validate: {
         notEmpty: true

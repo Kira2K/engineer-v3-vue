@@ -12,7 +12,7 @@ module.exports = {
       {nomenclature_class_id: 7, title: 'Аппаратура медицинская'},
       {nomenclature_class_id: 7, title: 'Вычислительная техника'},
       {nomenclature_class_id: 7, title: 'Электрооборудование'},
-    ].map(el => Object.assign({}, el, { created_at: new Date(), updated_at: new Date()})), {})
+    ].map(el => Object.assign({}, el, { created_at: new Date(), updated_at: new Date()})), { ignoreDuplicates: true })
   },
 
   down: async (queryInterface, Sequelize) => {

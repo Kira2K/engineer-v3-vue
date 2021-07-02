@@ -1,13 +1,16 @@
 npx sequelize-cli db:create
 npx sequelize-cli init
 rm config/config.json
-npx sequelize-cli model:generate --name Nomenclature --attributes code:integer,title:string,designation:string,unitID:integer,nomenclatureModelID:integer
-npx sequelize-cli model:generate --name Unit --attributes code:integer,title:string,short:string
-npx sequelize-cli model:generate --name NomenclatureModel --attributes code:integer,title:string,nomenclatureTypeID:integer
-npx sequelize-cli model:generate --name NomenclatureType --attributes code:integer,title:string,nomenclatureGroupID:integer
-npx sequelize-cli model:generate --name NomenclatureGroup --attributes code:integer,title:string,nomenclatureClassID:integer
-npx sequelize-cli model:generate --name NomenclatureClass --attributes code:integer,title:string
+npx sequelize-cli model:generate --name Nomenclature --attributes title:string,designation:string,unitID:integer,nomenclatureModelID:integer
+npx sequelize-cli model:generate --name Unit --attributes title:string,short:string
+npx sequelize-cli model:generate --name NomenclatureModel --attributes title:string,nomenclatureTypeID:integer
+npx sequelize-cli model:generate --name NomenclatureType --attributes title:string,nomenclatureGroupID:integer
+npx sequelize-cli model:generate --name NomenclatureGroup --attributes title:string,nomenclatureClassID:integer
+npx sequelize-cli model:generate --name NomenclatureClass --attributes title:string
 npx sequelize-cli db:migrate
+
+npx sequelize-cli model:generate --name NomenclatureParameters --attributes title:string --underscored
+npx sequelize-cli model:generate --name EnabledParameters --attributes none:string --underscored
 
 npx sequelize-cli seed:generate --name Unit
 npx sequelize-cli db:seed:all

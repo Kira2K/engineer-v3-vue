@@ -164,7 +164,7 @@ module.exports = {
       {
         title: 'Рубль',
         short: 'руб',
-      }].map(el => Object.assign({}, el, { created_at: new Date(), updated_at: new Date()})), {})
+      }].map(el => Object.assign({}, el, { created_at: new Date(), updated_at: new Date()})), { ignoreDuplicates: true })
   },
 
   down: async (queryInterface, Sequelize) => {

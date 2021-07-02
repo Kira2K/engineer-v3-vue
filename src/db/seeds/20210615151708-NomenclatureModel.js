@@ -7,7 +7,7 @@ module.exports = {
       {nomenclature_type_id: 5, title: 'Satelit'},
       {nomenclature_type_id: 6, title: 'Иннова'},
       {nomenclature_type_id: 6, title: 'Артис'},
-    ].map(el => Object.assign({}, el, { created_at: new Date(), updated_at: new Date()})), {})
+    ].map(el => Object.assign({}, el, { created_at: new Date(), updated_at: new Date()})), { ignoreDuplicates: true })
   },
 
   down: async (queryInterface, Sequelize) => {

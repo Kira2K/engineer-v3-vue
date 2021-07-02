@@ -44,6 +44,8 @@ app.use(crud('/api/nomenclaturegroup', sequelizeCrud(db.nomenclature_group)))
 app.use(crud('/api/nomenclaturemodel', sequelizeCrud(db.nomenclature_model)))
 app.use(crud('/api/nomenclaturetype', sequelizeCrud(db.nomenclature_type)))
 app.use(crud('/api/nomenclature', sequelizeCrud(db.nomenclature)))
+app.use(crud('/api/nomenclatureparameter', sequelizeCrud(db.nomenclature_parameter)))
+app.use(crud('/api/enabledparameter', sequelizeCrud(db.enabled_parameter)))
 
 app.use('/api/*', (err, req, res, next) => {
   const { errors } = err
@@ -79,6 +81,18 @@ front.get('/nomenclaturegroup/:action/:id?', async (req, res, next) => {
   res.locals.parent = await fetch(`http://localhost:${port}/api/nomenclatureclass`).then(res => res.json())
   next()
 })
+
+front.get('/nomenclatureparameter/:action/:id?', async (req, res, next) => {
+  res.locals.unit = await fetch(`http://localhost:${port}/api/unit`).then(res => res.json())
+  next()
+})
+
+front.get('/enabledparameter/:action/:id?', async (req, res, next) => {
+  res.locals.nomenclature = await fetch(`http://localhost:${port}/api/nomenclature`).then(res => res.json())
+  res.locals.nomenclatureparameter = await fetch(`http://localhost:${port}/api/nomenclatureparameter`).then(res => res.json())
+  next()
+})
+
 
 front.get('/:module/:action?/:id?', async (req, res, next) => {
   const cookies = cookieParser.JSONCookies(req.cookies)
