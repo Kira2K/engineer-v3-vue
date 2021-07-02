@@ -4,6 +4,7 @@
   "description": "",
   "main": "src/app.js",
   "scripts": {
+    "demo": "git pull; npm ci; npx sequelize-cli db:migrate; npx sequelize-cli db:seed:all; pm2 restart engineer-v3",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "test": "jest --runInBand spec",
