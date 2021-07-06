@@ -11,19 +11,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.unit.hasMany(this, {
-        foreignKey: 'unitId'
-      })
-      this.belongsTo(models.unit, {
-        foreignKey: 'unitId'
-      })
-      models.nomenclature_model.hasMany(this, {
-        foreignKey: 'nomenclatureModelId'
-      })
+      models.unit.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
+      this.belongsTo(models.unit)
+      models.nomenclature_model.hasMany(this)
       this.belongsTo(models.nomenclature_model, {
         foreignKey: 'nomenclatureModelId',
         as: 'nm'
       })
+      this.belongsToMany(models.nomenclature_parameter, { through: models.enabled_parameter })
+      models.nomenclature_parameter.belongsToMany(this, { through: models.enabled_parameter })
 
       this.addScope('defaultScope', {
         include: [{
@@ -42,9 +38,8 @@ module.exports = (sequelize, DataTypes) => {
             }
           }
         },
-        {
-          model: models.unit.unscoped()
-        }]
+        { model: models.unit.unscoped() }
+        ]
       })
     }
   };

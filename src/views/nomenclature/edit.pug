@@ -35,6 +35,15 @@ block body
       .form-group
         label(for="designation") Обозначение
         input#short.form-control(name="designation" type="text" placeholder="" value=instance.designation)
+      each val in nomenclatureparameter
+        - var id = `nomenclatureparameter_${val.id}`
+        .form-group
+          .custom-control.custom-switch
+            if enabledparameters.find(el => el.nomenclatureParameterId == val.id)
+              input.custom-control-input(id=id name=id type="checkbox" checked)
+            else
+              input.custom-control-input(id=id name=id type="checkbox")
+            label.custom-control-label(for=id)= `${val.title} (${val['unit.short']})`
     .card-footer
       if instance.id
         button.btn.btn-primary(type="submit") Сохранить

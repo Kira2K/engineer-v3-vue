@@ -49,9 +49,10 @@ app.use(crud('/api/enabledparameter', sequelizeCrud(db.enabled_parameter)))
 
 app.use('/api/*', (err, req, res, next) => {
   const { errors } = err
-  //console.log({ src: JSON.stringify(err, 0, 2) })
+  console.log({ src: JSON.stringify(err, 0, 2) })
   if (errors) return res.status(400).send({ errors })
-  res.status(400).send({ error: err })
+  if (err.original) return res.status(400).send(err.original)
+  res.status(400).send(err)
 })
 
 front.get('/:module/:action/:id', async (req, res, next) => {
@@ -62,8 +63,11 @@ front.get('/:module/:action/:id', async (req, res, next) => {
 })
 
 front.get('/nomenclature/:action/:id?', async (req, res, next) => {
+  const { module, action, id } = req.params
   res.locals.parent = await fetch(`http://localhost:${port}/api/nomenclaturemodel`).then(res => res.json())
   res.locals.unit = await fetch(`http://localhost:${port}/api/unit`).then(res => res.json())
+  res.locals.nomenclatureparameter = await fetch(`http://localhost:${port}/api/nomenclatureparameter`).then(res => res.json())
+  res.locals.enabledparameters = !id ? [] : await fetch(`http://localhost:${port}/api/enabledparameter?filter=%7b"nomenclatureId":${id}%7d`).then(res => res.json())
   next()
 })
 
@@ -98,7 +102,8 @@ front.get('/:module/:action?/:id?', async (req, res, next) => {
   const cookies = cookieParser.JSONCookies(req.cookies)
   const errorPath = Object.keys(cookies).find(el => el.replace(/\/$/, '') == `errors${req.path}`.replace(/\/$/, ''))
   if (!errorPath) return next()
-  res.locals.errors = cookies[errorPath]
+  if (!Array.isArray(cookies[errorPath])) res.locals.error = cookies[errorPath]
+  else res.locals.errors = cookies[errorPath]
     .reduce((acc, el) => {
       acc[el.path] = acc[el.path] || el
       return acc
@@ -120,24 +125,38 @@ front.post('/:module/edit/:id?', async (req, res, next) => {
     body: JSON.stringify(req.body),
     headers: { 'Content-Type': 'application/json' },
   })
-  if (result.ok) {
-    return res.redirect(302, `/${module}`)
+  if (!result.ok) {
+    const err = await result.json()
+    res.cookie(`errors${req.path}`, err)
+    return res.redirect(302, `/${module}/edit/${id ? id : ''}`)
   }
-  const { errors } = await result.json()
-  res.cookie(`errors${req.path}`, errors)
-  return res.redirect(302, `/${module}/edit/${id ? id : ''}`)
+  const instanceId = (await result.json()).id
+  if (module == 'nomenclature') {
+    const enabledparameters = !id ? [] : (await fetch(`http://localhost:${port}/api/enabledparameter?filter=%7b"nomenclatureId":${id}%7d`).then(res => res.json()))
+    const requested = Object.keys(req.body).filter(el => el.startsWith('nomenclatureparameter_')).map(el => parseInt(el.replace(/^nomenclatureparameter_/, '')))
+    const deleted = enabledparameters.filter(el => !requested.includes(el.nomenclatureParameterId))
+    const added = requested.filter(el => !enabledparameters.find(ep => ep.nomenclatureParameterId == el))
+    await Promise.all(added.map(id => fetch(`http://localhost:${port}/api/enabledparameter`, {
+      method: 'post',
+      body: JSON.stringify({nomenclatureId: instanceId, nomenclatureParameterId: id}),
+      headers: { 'Content-Type': 'application/json' },
+    }).then(res => res.json())))
+    await Promise.all(deleted.map(el => console.log(`http://localhost:${port}/api/enabledparameter/${el.id}`) || fetch(`http://localhost:${port}/api/enabledparameter/${el.id}`, { method: 'delete' }).then(res => res.json())))
+
+  }
+  return res.redirect(302, `/${module}`)
 })
 
 front.post('/:module/delete/:id', async (req, res, next) => {
   const { module, id } = req.params
-  const result = await fetch(`http://localhost:${port}/api/${module}/${id ? id : ''}`, {
+  const result = await fetch(`http://localhost:${port}/api/${module}/${id}`, {
     method: 'delete'
   })
   if (result.ok) {
     return res.redirect(302, `/${module}`)
   }
-  const { errors } = await result.json()
-  res.cookie(`errors${req.path}`, errors)
+  const err = await result.json()
+  res.cookie(`errors${req.path}`, err)
   return res.redirect(302, `/${module}/delete/${id ? id : ''}`)
 })
 
