@@ -40,6 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     title: {
       type: DataTypes.STRING,
+
       allowNull: false,
       validate: {
         notEmpty: true
@@ -47,10 +48,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     designation: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
+
+
     },
 
   }, {

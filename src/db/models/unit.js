@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     title: {
       type: DataTypes.STRING,
+      unique: true,
       allowNull: false,
       validate: {
         notEmpty: true
@@ -23,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     short: {
       type: DataTypes.STRING,
+      unique: true,
       allowNull: false,
       validate: {
         notEmpty: true
