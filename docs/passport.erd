@@ -97,9 +97,9 @@ enabled_parameter	}o--|| nomenclature_parameter : ""
 
 value {
   string	value
-  ref_id	enabled_parameters_id
+  ref_id	enabled_parameter_id
   ref_id	passport_id
 }
-value	}o--|| enabled_parameters : ""
+value	}o--|| enabled_parameter : ""
 value	}o--|| passport : ""
 
