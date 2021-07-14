@@ -60,21 +60,21 @@ toro {
   dateonly	toro_start
   dateonly	toro_end
   integer	labor_cost
-  ref_id	malfunctionType_id
-  ref_id	repairType_id
+  ref_id	malfunction_type_id
+  ref_id	repair_type_id
   ref_id	passport_id
   ref_id	branch_id
 }
-toro	}o--|| malfunctionType : ""
-toro	}o--|| repairType : ""
+toro	}o--|| malfunction_type : ""
+toro	}o--|| repair_type : ""
 toro	}o--|| passport : ""
 toro	}o--|| branch : ""
 
-repairType {
+repair_type {
   string	title
 }
 
-malfunctionType {
+malfunction_type {
   string	title
 }
 
@@ -97,9 +97,9 @@ enabled_parameter	}o--|| nomenclature_parameter : ""
 
 value {
   string	value
-  ref_id	enabledParameters_id
+  ref_id	enabled_parameters_id
   ref_id	passport_id
 }
-value	}o--|| enabledParameters : ""
+value	}o--|| enabled_parameters : ""
 value	}o--|| passport : ""
 
