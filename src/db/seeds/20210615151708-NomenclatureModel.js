@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('nomenclature_models', [
+    await queryInterface.bulkInsert('nomenclature_model', [
       {nomenclature_type_id: 5, title: 'TravelMate'},
       {nomenclature_type_id: 5, title: 'Satelit'},
       {nomenclature_type_id: 6, title: 'Иннова'},

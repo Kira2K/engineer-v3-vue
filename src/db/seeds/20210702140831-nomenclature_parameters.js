@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('nomenclature_parameters', [
+    await queryInterface.bulkInsert('nomenclature_parameter', [
       { unit_id: 1, title: 'Скорость потока диализата' },
       { unit_id: 1, title: 'Скорость кровотока в экстракорпоральном контуре' },
       { unit_id: 1, title: 'Детектор утечки крови' },

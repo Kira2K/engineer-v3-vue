@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('nomenclature_classes', {
+    await queryInterface.createTable('nomenclature_class', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,9 +10,10 @@ module.exports = {
       },
       title: {
         allowNull: false,
-        unique: true,
         type: Sequelize.STRING
       },
+
+
       created_at: {
         allowNull: false,
         defaultValue: Sequelize.NOW,
@@ -27,8 +28,9 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('nomenclature_classes');
+    await queryInterface.dropTable('nomenclature_class');
   }
 };

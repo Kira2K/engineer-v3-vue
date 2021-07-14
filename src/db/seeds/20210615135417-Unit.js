@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('units', [
+    await queryInterface.bulkInsert('unit', [
       {
         title: 'Миллиметр',
         short: 'мм',

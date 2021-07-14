@@ -3,12 +3,19 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class unit extends Model {
+  class nomenclature_parameter extends Model {
     static associate(models) {
+      models.unit.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
+      this.belongsTo(models.unit);
 
+      this.addScope('defaultScope', {
+        include: [{
+          model: models.unit.unscoped()
+        }]
+      })
     }
   };
-  unit.init({
+  nomenclature_parameter.init({
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
@@ -21,20 +28,13 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
-    short: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
 
   }, {
     sequelize,
     paranoid: true,
     underscored: true,
     freezeTableName: true,
-    modelName: 'unit',
+    modelName: 'nomenclature_parameter',
   });
-  return unit;
+  return nomenclature_parameter;
 };

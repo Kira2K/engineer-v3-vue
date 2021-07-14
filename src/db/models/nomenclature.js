@@ -4,22 +4,11 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class nomenclature extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
       models.unit.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
-      this.belongsTo(models.unit)
-      models.nomenclature_model.hasMany(this)
-      this.belongsTo(models.nomenclature_model, {
-        foreignKey: 'nomenclatureModelId',
-        as: 'nm'
-      })
-      this.belongsToMany(models.nomenclature_parameter, { through: models.enabled_parameter })
-      models.nomenclature_parameter.belongsToMany(this, { through: models.enabled_parameter })
+      this.belongsTo(models.unit);
+      models.nomenclature_model.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
+      this.belongsTo(models.nomenclature_model, { foreignKey: 'nomenclature_model_id', as: 'nm' });
 
       this.addScope('defaultScope', {
         include: [{
@@ -44,12 +33,31 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   nomenclature.init({
-    title: DataTypes.STRING,
-    designation: DataTypes.STRING
+    id: {
+      type: DataTypes.BIGINT,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    designation: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+
   }, {
     sequelize,
     paranoid: true,
     underscored: true,
+    freezeTableName: true,
     modelName: 'nomenclature',
   });
   return nomenclature;
