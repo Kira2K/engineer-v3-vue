@@ -1,4 +1,10 @@
-# Схемы данных
+## Схемы данных
 
-[![Номенклатура](docs/nomenclature.png)](https://bit.ly/3wb0iqL)
+### Номенклатура
+![Номенклатура](docs/nomenclature.png)
+
+### Паспорт
+![Номенклатура](docs/passport.png)
+
+### Тех-карта
 [![Тех-карта](docs/techmap.png)](https://bit.ly/3iJu6rI)

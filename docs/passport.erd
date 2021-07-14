@@ -1,0 +1,105 @@
+erDiagram
+passport {
+  string	factory_id
+  dateonly	produced
+  dateonly	commissioned
+  string	provisioner
+  integer	warranty
+  dateonly	warranty_expiration
+  text	extra
+  integer	accepted_runtime
+  integer	max_runtime
+  ref_id	nomenclature_id
+  ref_id	counterparty_id
+}
+passport	}o--|| nomenclature : ""
+passport	}o--|| counterparty : ""
+
+counterparty {
+  string	title
+}
+
+nomenclature {
+  string	title
+  string	designation
+  ref_id	unit_id
+  ref_id	nomenclature_model_id
+}
+nomenclature	}o--|| unit : ""
+nomenclature	}o--|| nomenclature_model : ""
+
+unit {
+  string	title
+  string	short
+}
+
+part {
+  integer	quantity
+  ref_id	nomenclature_id
+  ref_id	passport_id
+}
+part	}o--|| nomenclature : ""
+part	}o--|| passport : ""
+
+commission {
+  string	commission_id
+  dateonly	commissioned
+  string	inventory_id
+  string	ip
+  string	mac
+  ref_id	passport_id
+  ref_id	branch_id
+}
+commission	}o--|| passport : ""
+commission	}o--|| branch : ""
+
+toro {
+  date	registered
+  text	description
+  integer	runtime
+  dateonly	toro_start
+  dateonly	toro_end
+  integer	labor_cost
+  ref_id	malfunctionType_id
+  ref_id	repairType_id
+  ref_id	passport_id
+  ref_id	branch_id
+}
+toro	}o--|| malfunctionType : ""
+toro	}o--|| repairType : ""
+toro	}o--|| passport : ""
+toro	}o--|| branch : ""
+
+repairType {
+  string	title
+}
+
+malfunctionType {
+  string	title
+}
+
+branch {
+  string	title
+}
+
+nomenclature_parameter {
+  string	title
+  ref_id	unit_id
+}
+nomenclature_parameter	}o--|| unit : ""
+
+enabled_parameter {
+  ref_id	nomenclature_id
+  ref_id	nomenclature_parameter_id
+}
+enabled_parameter	}o--|| nomenclature : ""
+enabled_parameter	}o--|| nomenclature_parameter : ""
+
+value {
+  string	value
+  ref_id	enabledParameters_id
+  ref_id	passport_id
+}
+value	}o--|| enabledParameters : ""
+value	}o--|| passport : ""
+
