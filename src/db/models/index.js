@@ -19,7 +19,6 @@ fs
   })
   .forEach(file => {
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    console.log(model, typeof model, model instanceof Sequelize.Model)
     db[model.name] = model;
   });
 
@@ -28,14 +27,6 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
-
-/*db.NomenclatureClass.addScope('defaultScope', {
-  include: [
-    {
-      model: db.NomenclatureGroup.unscoped(),
-    }
-  ]
-}, {override: true})*/
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
