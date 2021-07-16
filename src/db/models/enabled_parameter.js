@@ -10,6 +10,18 @@ module.exports = (sequelize, DataTypes) => {
       models.nomenclature_parameter.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
       this.belongsTo(models.nomenclature_parameter);
 
+      this.addScope('defaultScope', {
+        include: [
+          {
+            model: models.nomenclature_parameter.unscoped(),
+            include: [
+              {
+                model: models.unit.unscoped(),
+              },
+            ]
+          },
+        ]
+      });
     }
   };
   enabled_parameter.init({

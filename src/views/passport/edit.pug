@@ -1,0 +1,25 @@
+extends ../layout.pug
+
+block body
+  - var instance = instance || {}
+  .card: form(method='post' enctype='application/x-www-form-urlencoded')
+    .card-header
+      h3.card-title Новый паспорт
+    .card-body
+      +dummy_input('id', 'Код')
+      - instance.nomenclatureTitle = instance.nomenclature.title
+      +dummy_input('nomenclatureTitle', 'Номенклатура')
+      +input('factory_id',  'Заводской номер')
+      +input('produced', 'Произведён')
+      +input('commissioned', 'Введён в эксплуатацию')
+      +input('warranty', 'Гарантия (мес)')
+      +input('warranty_expiration', 'Истечение гарантии')
+      +input('accepted_runtime', 'Допустимая наработка')
+      +input('max_runtime', 'Максимальная наработка')
+      +input('extra', 'Особые отметки')
+    .card-footer
+      if instance.id
+        button.btn.btn-primary(type="submit") Сохранить
+        a.float-right.btn.btn-danger(href=`/passport/delete/${instance.id}`) Удалить
+      else
+        button.btn.btn-primary(type="submit") Добавить

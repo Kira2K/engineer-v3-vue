@@ -38,6 +38,11 @@ front.get('/', (req, res) => {
   res.render('index')
 })
 
+front.use((req, res, next) => {
+  res.locals.query = req.query
+  next()
+})
+
 app.use(crud('/api/unit', sequelizeCrud(db.unit)))
 app.use(crud('/api/nomenclatureclass', sequelizeCrud(db.nomenclature_class)))
 app.use(crud('/api/nomenclaturegroup', sequelizeCrud(db.nomenclature_group)))
@@ -46,6 +51,15 @@ app.use(crud('/api/nomenclaturetype', sequelizeCrud(db.nomenclature_type)))
 app.use(crud('/api/nomenclature', sequelizeCrud(db.nomenclature)))
 app.use(crud('/api/nomenclatureparameter', sequelizeCrud(db.nomenclature_parameter)))
 app.use(crud('/api/enabledparameter', sequelizeCrud(db.enabled_parameter)))
+app.use(crud('/api/branch', sequelizeCrud(db.branch)))
+app.use(crud('/api/comission', sequelizeCrud(db.comission)))
+app.use(crud('/api/counterparty', sequelizeCrud(db.counterparty)))
+app.use(crud('/api/malfunction_type', sequelizeCrud(db.malfunction_type)))
+app.use(crud('/api/part', sequelizeCrud(db.part)))
+app.use(crud('/api/passport', sequelizeCrud(db.passport)))
+app.use(crud('/api/repair_type', sequelizeCrud(db.repair_type)))
+app.use(crud('/api/toro', sequelizeCrud(db.toro)))
+app.use(crud('/api/value', sequelizeCrud(db.value)))
 
 app.use('/api/*', (err, req, res, next) => {
   const { errors } = err
@@ -97,6 +111,17 @@ front.get('/enabledparameter/:action/:id?', async (req, res, next) => {
   next()
 })
 
+front.get('/value/:action/:id?', async (req, res, next) => {
+  res.locals.enabledparameter = await fetch(`http://localhost:${port}/api/enabledparameter`).then(res => res.json())
+  res.locals.passport = await fetch(`http://localhost:${port}/api/passport`).then(res => res.json())
+  next()
+})
+
+front.get('/part/:action/:id?', async (req, res, next) => {
+  res.locals.nomenclature = await fetch(`http://localhost:${port}/api/nomenclature`).then(res => res.json())
+  res.locals.passport = await fetch(`http://localhost:${port}/api/passport`).then(res => res.json())
+  next()
+})
 
 front.get('/:module/:action?/:id?', async (req, res, next) => {
   const cookies = cookieParser.JSONCookies(req.cookies)

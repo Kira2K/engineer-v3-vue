@@ -1,0 +1,34 @@
+extends ../layout.pug
+
+block body
+  - var instance = instance || {}
+  .card: form(method='post' enctype='application/x-www-form-urlencoded')
+    .card-header
+      h3.card-title Новая запчасть
+    .card-body
+      +dummy_input('id', 'Код')
+      +input('quantity', 'Количество')
+      .form-group
+        label(for="unitId") Единица измерения
+        select#unitId.form-control(name="nomenclatureId")
+          option(value='') ___
+          each val in nomenclature
+            if instance.nomenclatureId == val.id
+              option(selected value=val.id)= val.title
+            else
+              option(value=val.id)= val.title
+      .form-group
+        label(for="passportId") Единица измерения
+        select#unitId.form-control(name="passportId")
+          option(value='') ___
+          each val in passport
+            if instance.passportId == val.id
+              option(selected value=val.id)= val.factory_id + ' (' + val['nomenclature.title'] + ')'
+            else
+              option(value=val.id)= val.factory_id + ' (' + val['nomenclature.title'] + ')'
+    .card-footer
+      if instance.id
+        button.btn.btn-primary(type="submit") Сохранить
+        a.float-right.btn.btn-danger(href=`/part/delete/${instance.id}`) Удалить
+      else
+        button.btn.btn-primary(type="submit") Добавить

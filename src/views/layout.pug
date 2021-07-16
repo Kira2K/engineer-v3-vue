@@ -82,6 +82,33 @@ html(lang='en')
           nav.mt-2
             ul.nav.nav-pills.nav-sidebar.flex-column(data-widget='treeview', role='menu', data-accordion='false')
               li.nav-item
+                a.nav-link(href='/passport')
+                  p Паспорта
+              li.nav-item
+                a.nav-link(href='/value')
+                  p Значения параметров
+              li.nav-item
+                a.nav-link(href='/counterparty')
+                  p Контрагенты
+              li.nav-item
+                a.nav-link(href='/part')
+                  p Комплектация
+              li.nav-item
+                a.nav-link(href='/branch')
+                  p Организационная структура
+              li.nav-item
+                a.nav-link(href='/malfunction_type')
+                  p Типы неисправностей
+              li.nav-item
+                a.nav-link(href='/repair_type')
+                  p Типы ремонта
+              // li.nav-item
+                a.nav-link (href='/toro')
+                  p TOPO
+              // li.nav-item
+                a.nav-link (href='/commission')
+                  p Закрепления оборудования
+              li.nav-item
                 a.nav-link(href='/nomenclature')
                   p Номенклатура
               li.nav-item
@@ -114,7 +141,7 @@ html(lang='en')
         section.content
           block body
 
-          // pre.debug= JSON.stringify(locals._locals, 0, 2)
+          // pre.debug= JSON.stringify(locals, 0, 2)
       footer.main-footer
         strong
           | Maximus 
@@ -125,6 +152,8 @@ html(lang='en')
       // Control Sidebar
       aside.control-sidebar.control-sidebar-dark
     block script
+      script(src='https://cdnjs.cloudflare.com/ajax/libs/url-search-params/1.1.0/url-search-params.max.js')
+
       script(src='/plugins/jquery/jquery.js')
       script(src='/plugins/jquery-ui/jquery-ui.min.js')
       script.

@@ -1,0 +1,38 @@
+extends ../layout.pug
+
+block body
+  .card
+    .card-header
+      h3.card-title Типы неисправностей
+      a.float-right.btn.btn-success(type="button" href="/malfunction_type/edit")
+        i.ion.ion-md-add-circle-outline
+        |  Добавить
+    .card-body
+      #jsGrid
+
+append script
+    script.
+      $(() => {
+        $('#jsGrid').jsGrid({
+          height: "auto",
+          width: "100%",
+          editing: false,
+          filtering: false,
+          autoload: true,
+          sorting: true,
+          paging: false,
+          rowClick: function(args) {
+            window.location.href=`/malfunction_type/edit/${args.item.id}`
+          },
+          controller: {
+            loadData: () =>
+              $.ajax({
+                url: `http://${window.location.hostname}:8090/api/malfunction_type`
+              })
+          },
+          fields: [
+            { title: "Код", name: "id" },
+            { title: "Наименование", name: "title", type: "text" },
+          ]
+        })
+      })

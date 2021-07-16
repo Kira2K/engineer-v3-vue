@@ -10,6 +10,21 @@ module.exports = (sequelize, DataTypes) => {
       models.passport.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
       this.belongsTo(models.passport);
 
+      this.addScope('defaultScope', {
+        include: [
+          {
+            model: models.nomenclature.unscoped(),
+          },
+          {
+            model: models.passport.unscoped(),
+            include: [
+              {
+                model: models.nomenclature.unscoped(),
+              },
+            ]
+          },
+        ]
+      })
     }
   };
   part.init({

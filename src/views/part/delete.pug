@@ -1,0 +1,10 @@
+extends ../layout.pug
+
+block body
+  .card: form(method='post' enctype='application/x-www-form-urlencoded')
+    .card-header
+      h3.card-title Удалить запчасть
+    .card-body
+      pre.debug= JSON.stringify(locals._locals.instance, 0, 2)
+    .card-footer
+      button.btn.btn-danger(type="submit") Подтвердить удаление

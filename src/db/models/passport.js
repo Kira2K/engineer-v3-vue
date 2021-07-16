@@ -10,6 +10,46 @@ module.exports = (sequelize, DataTypes) => {
       models.counterparty.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
       this.belongsTo(models.counterparty);
 
+      this.addScope('defaultScope', {
+        include: [
+          {
+            model: models.nomenclature.unscoped(),
+            include: [
+              {
+                model: models.unit.unscoped(),
+              },
+            ]
+          },
+/*          {
+            model: models.counterparty.unscoped(),
+          },
+          {
+            model: models.part.unscoped(),
+          },
+          {
+            model: models.commission.unscoped(),
+            include: [
+              {
+                model: models.branch.unscoped(),
+              },
+            ]
+          },
+          {
+            model: models.toro.unscoped(),
+            include: [
+              {
+                model: models.branch.unscoped(),
+              },
+              {
+                model: models.repair_type.unscoped(),
+              },
+              {
+                model: models.malfunction_type.unscoped(),
+              },
+            ]
+          },
+*/        ]
+      })
     }
   };
   passport.init({

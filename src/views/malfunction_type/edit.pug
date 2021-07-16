@@ -1,0 +1,16 @@
+extends ../layout.pug
+
+block body
+  - var instance = instance || {}
+  .card: form(method='post' enctype='application/x-www-form-urlencoded')
+    .card-header
+      h3.card-title Новый тип неисправности
+    .card-body
+      +dummy_input('id', 'Код')
+      +input('title',  'Наименование')
+    .card-footer
+      if instance.id
+        button.btn.btn-primary(type="submit") Сохранить
+        a.float-right.btn.btn-danger(href=`/malfunction_type/delete/${instance.id}`) Удалить
+      else
+        button.btn.btn-primary(type="submit") Добавить

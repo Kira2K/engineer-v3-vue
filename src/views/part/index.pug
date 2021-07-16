@@ -1,0 +1,50 @@
+extends ../layout.pug
+
+block body
+  .card
+    .card-header
+      h3.card-title Комплектация
+      a.float-right.btn.btn-success(type="button" href="/part/edit")
+        i.ion.ion-md-add-circle-outline
+        |  Добавить
+    .card-body
+      #jsGrid
+
+append script
+    script.
+      $(() => {
+        $('#jsGrid').jsGrid({
+          height: "auto",
+          width: "100%",
+          editing: false,
+          filtering: false,
+          autoload: true,
+          sorting: true,
+          paging: false,
+          rowClick: function(args) {
+            window.location.href=`/part/edit/${args.item.id}`
+          },
+          controller: {
+            loadData: () => {
+              var deferred = $.Deferred();
+              $.ajax({
+                url: `http://${window.location.hostname}:8090/api/part`,
+                success: function(response) {
+                  deferred.resolve(response.map(el => {
+                    el.passport = `${el['passport.factory_id']} (${el['passport.nomenclature.title']})`
+                    el.nomenclature = `${el['nomenclature.title']}`
+                    return el
+                  }));
+                }
+              })
+              return deferred.promise();
+            }
+          },
+          fields: [
+            { title: "Код", name: "id" },
+            { title: "Паспорт", name: "passport", type: "text" },
+            { title: "Деталь", name: "nomenclature", type: "text" },
+            { title: "Количество", name: "quantity", type: "text" },
+          ]
+        })
+      })

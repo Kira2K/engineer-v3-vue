@@ -1,0 +1,54 @@
+extends ../layout.pug
+
+block body
+  .card
+    .card-header
+      h3.card-title Паспорта
+      a.float-right.btn.btn-success(type="button" href="/passport/edit")
+        i.ion.ion-md-add-circle-outline
+        |  Добавить
+    .card-body
+      #jsGrid
+
+append script
+    script.
+      $(() => {
+        $('#jsGrid').jsGrid({
+          height: "auto",
+          width: "100%",
+          editing: false,
+          filtering: false,
+          autoload: true,
+          sorting: true,
+          paging: false,
+          rowClick: function(args) {
+            window.location.href=`/passport/edit/${args.item.id}`
+          },
+          controller: {
+            loadData: () => {
+              var deferred = $.Deferred();
+              $.ajax({
+                url: `http://${window.location.hostname}:8090/api/passport`,
+                success: function(response) {
+                  deferred.resolve(response.map(el => {
+                    el.nomenclature = `${el['nomenclature.title']}`
+                    return el
+                  }));
+                }
+              })
+              return deferred.promise();
+            }
+          },
+          fields: [
+            { title: "Код", name: "id" },
+            { title: "Номенклатура", name: "nomenclature", type: "text" },
+            { title: "Заводской номер", name: "factory_id", type: "text" },
+            { title: "Произведён", name: "produced", type: "text" },
+            { title: "Введён в эксплуатацию", name: "commissioned", type: "text" },
+            { title: "Гарантия (мес)", name: "warranty", type: "text" },
+            { title: "Истечение гарантии", name: "warranty_expiration", type: "text" },
+            { title: "Допустимая наработка", name: "accepted_runtime", type: "text" },
+            { title: "Максимальная наработка", name: "max_runtime", type: "text" },
+          ]
+        })
+      })

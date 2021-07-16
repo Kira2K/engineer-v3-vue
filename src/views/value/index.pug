@@ -1,0 +1,51 @@
+extends ../layout.pug
+
+block body
+  .card
+    .card-header
+      h3.card-title Значения
+      a.float-right.btn.btn-success(type="button" href="/value/edit")
+        i.ion.ion-md-add-circle-outline
+        |  Добавить
+    .card-body
+      #jsGrid
+
+append script
+    script.
+      $(() => {
+        $('#jsGrid').jsGrid({
+          height: "auto",
+          width: "100%",
+          editing: false,
+          filtering: false,
+          autoload: true,
+          sorting: true,
+          paging: false,
+          rowClick: function(args) {
+            window.location.href=`/value/edit/${args.item.id}`
+          },
+          controller: {
+            loadData: () => {
+              var deferred = $.Deferred();
+              $.ajax({
+                url: `http://${window.location.hostname}:8090/api/value`,
+                success: function(response) {
+                  deferred.resolve(response.map(el => {
+                    el.factoryId = `${el['passport.factory_id']}`
+                    el.parameterTitle = `${el['enabled_parameter.nomenclature_parameter.title']}`
+                    console.log(el.factoryId, JSON.stringify(el, 0, 2))
+                    return el
+                  }));
+                }
+              })
+              return deferred.promise();
+            }
+          },
+          fields: [
+            { title: "Код", name: "id" },
+            { title: "Название параметра", name: "parameterTitle", type: "text" },
+            { title: "Заводской номер паспорта", name: "factoryId", type: "text" },
+            { title: "Значение", name: "value", type: "text" },
+          ]
+        })
+      })
