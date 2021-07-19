@@ -1,7 +1,7 @@
 extends ../layout.pug
 
 block body
-  - var instance = instance || {}
+  - var instance = Object.assign({}, instance || {}, query)
   .card: form(method='post' enctype='application/x-www-form-urlencoded')
     .card-header
       h3.card-title Новая запчасть

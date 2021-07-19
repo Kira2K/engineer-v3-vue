@@ -124,8 +124,13 @@ front.get('/part/:action/:id?', async (req, res, next) => {
 })
 
 front.get('/passport/:action/:id?', async (req, res, next) => {
+  const { module, action, id } = req.params
   res.locals.nomenclature = await fetch(`http://localhost:${port}/api/nomenclature`).then(res => res.json())
   res.locals.counterparty = await fetch(`http://localhost:${port}/api/counterparty`).then(res => res.json())
+  if (id) {
+    res.locals.enabledparameters = await fetch(`http://localhost:${port}/api/enabledparameter?filter=%7b"nomenclatureId":${res.locals.instance.nomenclatureId}%7d`).then(res => res.json())
+    res.locals.value = await fetch(`http://localhost:${port}/api/value?filter=%7b"passportId":${id}%7d`).then(res => res.json())
+  }
   next()
 })
 

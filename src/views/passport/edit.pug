@@ -33,9 +33,73 @@ block body
       +input('accepted_runtime', 'Допустимая наработка')
       +input('max_runtime', 'Максимальная наработка')
       +input('extra', 'Особые отметки')
+
+      if instance.id
+        hr
+        ul#tabs.nav.nav-tabs(role="tablist")
+          li.nav-item
+            a#part-tab.nav-link.active(data-toggle="tab" href="#part" role="tab" aria-controls="part" aria-selected="true") Комплектация
+          li.nav-item
+            a#value-tab.nav-link(data-toggle="tab" href="#value" role="tab" aria-controls="value" aria-selected="false") Тех. параметры
+          li.nav-item
+            a#commission-tab.nav-link(data-toggle="tab" href="#commission" role="tab" aria-controls="commission" aria-selected="false" disabled) Закрепления оборудования
+          li.nav-item
+            a#toro-tab.nav-link(data-toggle="tab" href="#toro" role="tab" aria-controls="toro" aria-selected="false" disabled) Учет работ и неисправностей
+        #tabsContent.tab-content
+          #part.tab-pane.fade.show.active(role="tabpanel" aria-labelledby="part-tab")
+            a.float-right.btn.btn-success(type="button" href=`/part/edit?passportId=${instance.id}`)
+              i.ion.ion-md-add-circle-outline
+              |  Добавить
+            #part-grid
+          #value.tab-pane.fade(role="tabpanel" aria-labelledby="value-tab")
+            each param in value
+              - instance['value_' + param.id] = param.value
+            each param in enabledparameters
+              - var _label = param['nomenclature_parameter.title'] + ' (' + param['nomenclature_parameter.unit.short'] + ')'
+              - var _id = 'value_' + param.nomenclatureParameterId
+              +input(_id, _label)
+
     .card-footer
       if instance.id
         button.btn.btn-primary(type="submit") Сохранить
         a.float-right.btn.btn-danger(href=`/passport/delete/${instance.id}`) Удалить
       else
         button.btn.btn-primary(type="submit") Добавить
+
+append script
+    script.
+      $(() => {
+        $('#part-grid').jsGrid({
+          height: "auto",
+          width: "100%",
+          editing: false,
+          filtering: false,
+          autoload: true,
+          sorting: true,
+          paging: false,
+          rowClick: function(args) {
+            window.location.href=`/part/edit/${args.item.id}`
+          },
+          controller: {
+            loadData: () => {
+              var deferred = $.Deferred();
+              $.ajax({
+                url: `http://${window.location.hostname}:8090/api/part`,
+                success: function(response) {
+                  deferred.resolve(response.map(el => {
+                    el.passport = `${el['passport.factory_id']} (${el['passport.nomenclature.title']})`
+                    el.nomenclature = `${el['nomenclature.title']}`
+                    return el
+                  }));
+                }
+              })
+              return deferred.promise();
+            }
+          },
+          fields: [
+            { title: "Код", name: "id" },
+            { title: "Деталь", name: "nomenclature", type: "text" },
+            { title: "Количество", name: "quantity", type: "text" },
+          ]
+        })
+      })
