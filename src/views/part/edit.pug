@@ -9,8 +9,8 @@ block body
       +dummy_input('id', 'Код')
       +input('quantity', 'Количество')
       .form-group
-        label(for="unitId") Единица измерения
-        select#unitId.form-control(name="nomenclatureId")
+        label(for="nomenclatureId") Номенклатура
+        select#nomenclatureId.form-control(name="nomenclatureId")
           option(value='') ___
           each val in nomenclature
             if instance.nomenclatureId == val.id
@@ -18,8 +18,8 @@ block body
             else
               option(value=val.id)= val.title
       .form-group
-        label(for="passportId") Единица измерения
-        select#unitId.form-control(name="passportId")
+        label(for="passportId") Паспорт
+        select#passportId.form-control(name="passportId")
           option(value='') ___
           each val in passport
             if instance.passportId == val.id

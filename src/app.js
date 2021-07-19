@@ -123,6 +123,12 @@ front.get('/part/:action/:id?', async (req, res, next) => {
   next()
 })
 
+front.get('/passport/:action/:id?', async (req, res, next) => {
+  res.locals.nomenclature = await fetch(`http://localhost:${port}/api/nomenclature`).then(res => res.json())
+  res.locals.counterparty = await fetch(`http://localhost:${port}/api/counterparty`).then(res => res.json())
+  next()
+})
+
 front.get('/:module/:action?/:id?', async (req, res, next) => {
   const cookies = cookieParser.JSONCookies(req.cookies)
   const errorPath = Object.keys(cookies).find(el => el.replace(/\/$/, '') == `errors${req.path}`.replace(/\/$/, ''))

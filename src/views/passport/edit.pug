@@ -7,8 +7,24 @@ block body
       h3.card-title Новый паспорт
     .card-body
       +dummy_input('id', 'Код')
-      - instance.nomenclatureTitle = instance.nomenclature.title
-      +dummy_input('nomenclatureTitle', 'Номенклатура')
+      .form-group
+        label(for="unitId") Номенклатура
+        select#unitId.form-control(name="nomenclatureId")
+          option(value='') ___
+          each val in nomenclature
+            if instance.nomenclatureId == val.id
+              option(selected value=val.id)= val.title
+            else
+              option(value=val.id)= val.title
+      .form-group
+        label(for="counterpartyId") Производитель
+        select#counterpartyId.form-control(name="counterpartyId")
+          option(value='') ___
+          each val in counterparty
+            if instance.counterpartyId == val.id
+              option(selected value=val.id)= val.title
+            else
+              option(value=val.id)= val.title
       +input('factory_id',  'Заводской номер')
       +input('produced', 'Произведён')
       +input('commissioned', 'Введён в эксплуатацию')
