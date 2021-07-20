@@ -8,6 +8,13 @@ block body
     .card-body
       +dummy_input('id', 'Код')
       +input('title',  'Наименование')
+      +input('short',  'Краткое наименование')
+      +input('inn',  'ИНН')
+      +input('kpp',  'КПП')
+      +input('ogrn',  'ОГРН')
+      +input('address',  'Юридический адрес')
+      +input('www',  'Web сайт')
+      +input('expiration',  'Дата прекращения действия')
     .card-footer
       if instance.id
         button.btn.btn-primary(type="submit") Сохранить

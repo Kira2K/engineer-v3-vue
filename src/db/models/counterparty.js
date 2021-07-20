@@ -22,6 +22,50 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
+    short: {
+      type: DataTypes.STRING,
+
+
+    },
+    inn: {
+      type: DataTypes.STRING,
+
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    kpp: {
+      type: DataTypes.STRING,
+
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    ogrn: {
+      type: DataTypes.STRING,
+
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    address: {
+      type: DataTypes.STRING,
+
+
+    },
+    www: {
+      type: DataTypes.STRING,
+
+
+    },
+    expiration: {
+      type: DataTypes.DATEONLY,
+
+
+    },
 
   }, {
     sequelize,

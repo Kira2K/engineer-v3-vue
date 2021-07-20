@@ -17,6 +17,13 @@ passport	}o--|| counterparty : ""
 
 counterparty {
   string	title
+  string	short
+  string	inn
+  string	kpp
+  string	ogrn
+  string	address
+  string	www
+  dateonly	expiration
 }
 
 nomenclature {

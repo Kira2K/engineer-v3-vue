@@ -10,7 +10,43 @@ module.exports = {
       },
       title: {
         allowNull: false,
+        unique: true,
         type: Sequelize.STRING
+      },
+      short: {
+
+
+        type: Sequelize.STRING
+      },
+      inn: {
+        allowNull: false,
+
+        type: Sequelize.STRING
+      },
+      kpp: {
+        allowNull: false,
+
+        type: Sequelize.STRING
+      },
+      ogrn: {
+        allowNull: false,
+
+        type: Sequelize.STRING
+      },
+      address: {
+
+
+        type: Sequelize.STRING
+      },
+      www: {
+
+
+        type: Sequelize.STRING
+      },
+      expiration: {
+
+
+        type: Sequelize.DATEONLY
       },
 
 
