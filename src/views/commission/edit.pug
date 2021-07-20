@@ -1,0 +1,39 @@
+extends ../layout.pug
+
+block body
+  - var instance = Object.assign({}, instance || {}, query)
+  .card: form(method='post' enctype='application/x-www-form-urlencoded')
+    .card-header
+      h3.card-title Новое закрепление
+    .card-body
+      +dummy_input('id', 'Код')
+      +input('commission_id',  'Номер документа основания')
+      +input('commissioned',  'Дата документа основания')
+      +input('inventory_id',  'Инвентарный номер')
+      +input('ip',  'IP адрес')
+      +input('mac',  'MAC адрес')
+      .form-group
+        label(for="passportId") Паспорт оборудования
+        select#passportId.form-control(name="passportId")
+          option(value='') ___
+          each val in passport
+            if instance.passportId == val.id
+              option(selected value=val.id)= val.factory_id + ' (' + val['nomenclature.title'] + ')'
+            else
+              option(value=val.id)= val.factory_id + ' (' + val['nomenclature.title'] + ')'
+      .form-group
+        label(for="branchId") Подразделение
+        select#branchId.form-control(name="branchId")
+          option(value='') ___
+          each val in branch
+            if instance.branchId == val.id
+              option(selected value=val.id)= val.title
+            else
+              option(value=val.id)= val.title
+
+    .card-footer
+      if instance.id
+        button.btn.btn-primary(type="submit") Сохранить
+        a.float-right.btn.btn-danger(href=`/commission/delete/${instance.id}`) Удалить
+      else
+        button.btn.btn-primary(type="submit") Добавить

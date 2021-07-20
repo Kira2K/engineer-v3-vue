@@ -1,0 +1,59 @@
+extends ../layout.pug
+
+block body
+  .card
+    .card-header
+      h3.card-title Закрепления оборудования
+      a.float-right.btn.btn-success(type="button" href="/toro/edit")
+        i.ion.ion-md-add-circle-outline
+        |  Добавить
+    .card-body
+      #jsGrid
+
+append script
+    script.
+      $(() => {
+        $('#jsGrid').jsGrid({
+          height: "auto",
+          width: "100%",
+          editing: false,
+          filtering: false,
+          autoload: true,
+          sorting: true,
+          paging: false,
+          rowClick: function(args) {
+            window.location.href=`/toro/edit/${args.item.id}`
+          },
+          controller: {
+            loadData: () => {
+              var deferred = $.Deferred();
+              $.ajax({
+                url: `http://${window.location.hostname}:8090/api/toro`,
+                success: function(response) {
+                  deferred.resolve(response.map(el => {
+                    el.factory_id = `${el['passport.factory_id']}`
+                    el.branch = `${el['branch.title']}`
+                    el.malfunction = `${el['malfunction_type.title']}`
+                    el.repair = `${el['repair_type.title']}`
+                    return el
+                  }));
+                }
+              })
+              return deferred.promise();
+            }
+          },
+          fields: [
+            { title: "Код", name: "id" },
+            { title: "Зарегистрирован", name: "registered" },
+            { title: "Описание", name: "description" },
+            { title: "Наработка", name: "runtime" },
+            { title: "Начало ТОРО", name: "toro_start" },
+            { title: "Окончание ТОРО", name: "toro_end" },
+            { title: "Затраты", name: "labor_cost" },
+            { title: "Заводской номер", name: "factory_id" },
+            { title: "Подразделение", name: "branch" },
+            { title: "Неисправность", name: "malfunction" },
+            { title: "Ремонт", name: "repair" },
+          ]
+        })
+      })

@@ -8,7 +8,7 @@ block body
     .card-body
       +dummy_input('id', 'Код')
       .form-group
-        label(for="unitId") Номенклатура
+        label(for="nomenclatureId") Номенклатура
         select#unitId.form-control(name="nomenclatureId")
           option(value='') ___
           each val in nomenclature
@@ -42,9 +42,9 @@ block body
           li.nav-item
             a#value-tab.nav-link(data-toggle="tab" href="#value" role="tab" aria-controls="value" aria-selected="false") Тех. параметры
           li.nav-item
-            a#commission-tab.nav-link(data-toggle="tab" href="#commission" role="tab" aria-controls="commission" aria-selected="false" disabled) Закрепления оборудования
+            a#commission-tab.nav-link(data-toggle="tab" href="#commission" role="tab" aria-controls="commission" aria-selected="false") Закрепления оборудования
           li.nav-item
-            a#toro-tab.nav-link(data-toggle="tab" href="#toro" role="tab" aria-controls="toro" aria-selected="false" disabled) Учет работ и неисправностей
+            a#toro-tab.nav-link(data-toggle="tab" href="#toro" role="tab" aria-controls="toro" aria-selected="false") Учет работ и неисправностей
         #tabsContent.tab-content
           #part.tab-pane.fade.show.active(role="tabpanel" aria-labelledby="part-tab")
             a.float-right.btn.btn-success(type="button" href=`/part/edit?passportId=${instance.id}`)
@@ -58,6 +58,16 @@ block body
               - var _label = param['nomenclature_parameter.title'] + ' (' + param['nomenclature_parameter.unit.short'] + ')'
               - var _id = 'value_' + param.nomenclatureParameterId
               +input(_id, _label)
+          #commission.tab-pane.fade(role="tabpanel" aria-labelledby="commission-tab")
+            a.float-right.btn.btn-success(type="button" href=`/commission/edit?passportId=${instance.id}`)
+              i.ion.ion-md-add-circle-outline
+              |  Добавить
+            #commission-grid
+          #toro.tab-pane.fade(role="tabpanel" aria-labelledby="toro-tab")
+            a.float-right.btn.btn-success(type="button" href=`/toro/edit?passportId=${instance.id}`)
+              i.ion.ion-md-add-circle-outline
+              |  Добавить
+            #toro-grid
 
     .card-footer
       if instance.id
@@ -100,6 +110,95 @@ append script
             { title: "Код", name: "id" },
             { title: "Деталь", name: "nomenclature", type: "text" },
             { title: "Количество", name: "quantity", type: "text" },
+          ]
+        })
+      })
+
+    script.
+      $(() => {
+        $('#commission-grid').jsGrid({
+          height: "auto",
+          width: "100%",
+          editing: false,
+          filtering: false,
+          autoload: true,
+          sorting: true,
+          paging: false,
+          rowClick: function(args) {
+            window.location.href=`/commission/edit/${args.item.id}`
+          },
+          controller: {
+            loadData: () => {
+              var deferred = $.Deferred();
+              $.ajax({
+                url: `http://${window.location.hostname}:8090/api/commission`,
+                success: function(response) {
+                  deferred.resolve(response.map(el => {
+                    el.factory_id = `${el['passport.factory_id']}`
+                    el.branch = `${el['branch.title']}`
+                    return el
+                  }));
+                }
+              })
+              return deferred.promise();
+            }
+          },
+          fields: [
+            { title: "Код", name: "id" },
+            { title: "Номер документа", name: "commission_id" },
+            { title: "Дата закрепления", name: "commissioned" },
+            { title: "Инвентарный номер", name: "inventory_id" },
+            { title: "IP адрес", name: "ip" },
+            { title: "MAC адрес", name: "mac" },
+            { title: "Заводской номер", name: "factory_id" },
+            { title: "Подразделение", name: "branch" },
+          ]
+        })
+      })
+
+    script.
+      $(() => {
+        $('#toro-grid').jsGrid({
+          height: "auto",
+          width: "100%",
+          editing: false,
+          filtering: false,
+          autoload: true,
+          sorting: true,
+          paging: false,
+          rowClick: function(args) {
+            window.location.href=`/toro/edit/${args.item.id}`
+          },
+          controller: {
+            loadData: () => {
+              var deferred = $.Deferred();
+              $.ajax({
+                url: `http://${window.location.hostname}:8090/api/toro`,
+                success: function(response) {
+                  deferred.resolve(response.map(el => {
+                    el.factory_id = `${el['passport.factory_id']}`
+                    el.branch = `${el['branch.title']}`
+                    el.malfunction = `${el['malfunction_type.title']}`
+                    el.repair = `${el['repair_type.title']}`
+                    return el
+                  }));
+                }
+              })
+              return deferred.promise();
+            }
+          },
+          fields: [
+            { title: "Код", name: "id" },
+            { title: "Зарегистрирован", name: "registered" },
+            { title: "Описание", name: "description" },
+            { title: "Наработка", name: "runtime" },
+            { title: "Начало ТОРО", name: "toro_start" },
+            { title: "Окончание ТОРО", name: "toro_end" },
+            { title: "Затраты", name: "labor_cost" },
+            { title: "Заводской номер", name: "factory_id" },
+            { title: "Подразделение", name: "branch" },
+            { title: "Неисправность", name: "malfunction" },
+            { title: "Ремонт", name: "repair" },
           ]
         })
       })

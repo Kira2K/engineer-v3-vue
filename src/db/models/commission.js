@@ -10,6 +10,16 @@ module.exports = (sequelize, DataTypes) => {
       models.branch.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
       this.belongsTo(models.branch);
 
+      this.addScope('defaultScope', {
+        include: [
+          {
+            model: models.passport.unscoped(),
+          },
+          {
+            model: models.branch.unscoped(),
+          },
+        ]
+      })
     }
   };
   commission.init({

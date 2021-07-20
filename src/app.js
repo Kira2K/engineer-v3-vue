@@ -52,7 +52,7 @@ app.use(crud('/api/nomenclature', sequelizeCrud(db.nomenclature)))
 app.use(crud('/api/nomenclatureparameter', sequelizeCrud(db.nomenclature_parameter)))
 app.use(crud('/api/enabledparameter', sequelizeCrud(db.enabled_parameter)))
 app.use(crud('/api/branch', sequelizeCrud(db.branch)))
-app.use(crud('/api/comission', sequelizeCrud(db.comission)))
+app.use(crud('/api/commission', sequelizeCrud(db.commission)))
 app.use(crud('/api/counterparty', sequelizeCrud(db.counterparty)))
 app.use(crud('/api/malfunction_type', sequelizeCrud(db.malfunction_type)))
 app.use(crud('/api/part', sequelizeCrud(db.part)))
@@ -119,6 +119,20 @@ front.get('/value/:action/:id?', async (req, res, next) => {
 
 front.get('/part/:action/:id?', async (req, res, next) => {
   res.locals.nomenclature = await fetch(`http://localhost:${port}/api/nomenclature`).then(res => res.json())
+  res.locals.passport = await fetch(`http://localhost:${port}/api/passport`).then(res => res.json())
+  next()
+})
+
+front.get('/commission/:action/:id?', async (req, res, next) => {
+  res.locals.branch = await fetch(`http://localhost:${port}/api/branch`).then(res => res.json())
+  res.locals.passport = await fetch(`http://localhost:${port}/api/passport`).then(res => res.json())
+  next()
+})
+
+front.get('/toro/:action/:id?', async (req, res, next) => {
+  res.locals.repair_type = await fetch(`http://localhost:${port}/api/repair_type`).then(res => res.json())
+  res.locals.malfunction_type = await fetch(`http://localhost:${port}/api/malfunction_type`).then(res => res.json())
+  res.locals.branch = await fetch(`http://localhost:${port}/api/branch`).then(res => res.json())
   res.locals.passport = await fetch(`http://localhost:${port}/api/passport`).then(res => res.json())
   next()
 })

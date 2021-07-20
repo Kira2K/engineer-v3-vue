@@ -1,0 +1,54 @@
+extends ../layout.pug
+
+block body
+  .card
+    .card-header
+      h3.card-title Закрепления оборудования
+      a.float-right.btn.btn-success(type="button" href="/commission/edit")
+        i.ion.ion-md-add-circle-outline
+        |  Добавить
+    .card-body
+      #jsGrid
+
+append script
+    script.
+      $(() => {
+        $('#jsGrid').jsGrid({
+          height: "auto",
+          width: "100%",
+          editing: false,
+          filtering: false,
+          autoload: true,
+          sorting: true,
+          paging: false,
+          rowClick: function(args) {
+            window.location.href=`/commission/edit/${args.item.id}`
+          },
+          controller: {
+            loadData: () => {
+              var deferred = $.Deferred();
+              $.ajax({
+                url: `http://${window.location.hostname}:8090/api/commission`,
+                success: function(response) {
+                  deferred.resolve(response.map(el => {
+                    el.factory_id = `${el['passport.factory_id']}`
+                    el.branch = `${el['branch.title']}`
+                    return el
+                  }));
+                }
+              })
+              return deferred.promise();
+            }
+          },
+          fields: [
+            { title: "Код", name: "id" },
+            { title: "Номер документа", name: "commission_id" },
+            { title: "Дата закрепления", name: "commissioned" },
+            { title: "Инвентарный номер", name: "inventory_id" },
+            { title: "IP адрес", name: "ip" },
+            { title: "MAC адрес", name: "mac" },
+            { title: "Заводской номер", name: "factory_id" },
+            { title: "Подразделение", name: "branch" },
+          ]
+        })
+      })

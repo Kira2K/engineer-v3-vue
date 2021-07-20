@@ -1,0 +1,58 @@
+extends ../layout.pug
+
+block body
+  - var instance = Object.assign({}, instance || {}, query)
+  .card: form(method='post' enctype='application/x-www-form-urlencoded')
+    .card-header
+      h3.card-title Новая запись о работах и неисправностях
+    .card-body
+      +dummy_input('id', 'Код')
+      +input('registered',  'Номер документа основания')
+      +input('description',  'Описание')
+      +input('runtime',  'Наработка')
+      +input('toro_start',  'Начало ТОРО')
+      +input('toro_end',  'Окончание ТОРО')
+      +input('labor_cost',  'Трудозатраты ТОРО')
+      .form-group
+        label(for="passportId") Паспорт оборудования
+        select#passportId.form-control(name="passportId")
+          option(value='') ___
+          each val in passport
+            if instance.passportId == val.id
+              option(selected value=val.id)= val.factory_id + ' (' + val['nomenclature.title'] + ')'
+            else
+              option(value=val.id)= val.factory_id + ' (' + val['nomenclature.title'] + ')'
+      .form-group
+        label(for="branchId") Подразделение
+        select#branchId.form-control(name="branchId")
+          option(value='') ___
+          each val in branch
+            if instance.branchId == val.id
+              option(selected value=val.id)= val.title
+            else
+              option(value=val.id)= val.title
+      .form-group
+        label(for="malfunctionTypeId") Тип неисправности
+        select#malfunctionTypeId.form-control(name="malfunctionTypeId")
+          option(value='') ___
+          each val in malfunction_type
+            if instance.malfunctionTypeId == val.id
+              option(selected value=val.id)= val.title
+            else
+              option(value=val.id)= val.title
+      .form-group
+        label(for="repairTypeId") Тип ремонтных работ
+        select#repairTypeId.form-control(name="repairTypeId")
+          option(value='') ___
+          each val in repair_type
+            if instance.repairTypeId == val.id
+              option(selected value=val.id)= val.title
+            else
+              option(value=val.id)= val.title
+
+    .card-footer
+      if instance.id
+        button.btn.btn-primary(type="submit") Сохранить
+        a.float-right.btn.btn-danger(href=`/toro/delete/${instance.id}`) Удалить
+      else
+        button.btn.btn-primary(type="submit") Добавить
