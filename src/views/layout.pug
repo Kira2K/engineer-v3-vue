@@ -140,8 +140,8 @@ html(lang='en')
         // Main content
         section.content
           block body
-
-          // pre.debug= JSON.stringify(locals, 0, 2)
+          if env.frontDebug
+            pre.debug= JSON.stringify(locals, 0, 2)
       footer.main-footer
         strong
           | Maximus 

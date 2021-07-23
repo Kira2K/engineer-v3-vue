@@ -27,7 +27,7 @@ append script
           controller: {
             loadData: () =>
               $.ajax({
-                url: `http://${window.location.hostname}:8090/api/counterparty`
+                url: `#{env.backendAddr}/api/counterparty`
               })
           },
           fields: [

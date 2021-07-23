@@ -27,7 +27,7 @@ append script
           controller: {
             loadData: () =>
               $.ajax({
-                url: `http://${window.location.hostname}:8090/api/malfunction_type`
+                url: `#{env.backendAddr}/api/malfunction_type`
               })
           },
           fields: [

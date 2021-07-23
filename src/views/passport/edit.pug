@@ -94,7 +94,7 @@ append script
             loadData: () => {
               var deferred = $.Deferred();
               $.ajax({
-                url: `http://${window.location.hostname}:8090/api/part`,
+                url: `#{env.backendAddr}/api/part`,
                 success: function(response) {
                   deferred.resolve(response.map(el => {
                     el.passport = `${el['passport.factory_id']} (${el['passport.nomenclature.title']})`
@@ -131,7 +131,7 @@ append script
             loadData: () => {
               var deferred = $.Deferred();
               $.ajax({
-                url: `http://${window.location.hostname}:8090/api/commission`,
+                url: `#{env.backendAddr}/api/commission`,
                 success: function(response) {
                   deferred.resolve(response.map(el => {
                     el.factory_id = `${el['passport.factory_id']}`
@@ -173,7 +173,7 @@ append script
             loadData: () => {
               var deferred = $.Deferred();
               $.ajax({
-                url: `http://${window.location.hostname}:8090/api/toro`,
+                url: `#{env.backendAddr}/api/toro`,
                 success: function(response) {
                   deferred.resolve(response.map(el => {
                     el.factory_id = `${el['passport.factory_id']}`

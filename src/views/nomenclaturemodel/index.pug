@@ -25,7 +25,7 @@ append script
             loadData: () => {
               var deferred = $.Deferred();
               $.ajax({
-                url: `http://${window.location.hostname}:8090/api/nomenclaturemodel`,
+                url: `#{env.backendAddr}/api/nomenclaturemodel`,
                 success: function(response) {
                   deferred.resolve(response.map(el => {
                     el.type = `${el['nt.ng.nc.id']}.${el['nt.ng.id']}.${el['nt.id']}.\t` +

@@ -27,7 +27,7 @@ append script
           controller: {
             loadData: () =>
               $.ajax({
-                url: `http://${window.location.hostname}:8090/api/unit`
+                url: `#{env.backendAddr}/api/unit`
               })
           },
           fields: [
