@@ -4,6 +4,8 @@ const express =  require('express')
 const methodOverride = require('method-override')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+const session = require('express-session')
+const Keycloak = require('keycloak-connect')
 const favicon = require('serve-favicon')
 const cors = require('cors')
 const morgan = require('morgan')
@@ -17,12 +19,10 @@ const frontPort = process.env.FRONT_PORT || 8091
 const backendAddr = process.env.BACKEND_ADDR || `http://localhost:${port}`
 const frontDebug = process.env.FRONT_DEBUG
 
+
+const memoryStore = new session.MemoryStore();
 const app = express()
 const front = express()
-
-app.use(cors())
-app.use(bodyParser.json())
-app.use(morgan('dev'))
 
 front.use(favicon('src/views/favicon.ico'))
 
@@ -31,20 +31,57 @@ front.use('/dist/bootstrap.css', express.static('node_modules/bootswatch/dist/su
 front.use('/dist', express.static('node_modules/admin-lte/dist'))
 front.use('/public', express.static('public'))
 
+front.use(session({
+  secret: '46g6TFgAXkuhk',
+  resave: false,
+  saveUninitialized: true,
+  store: memoryStore
+}))
+
+const keycloak = new Keycloak({
+  store: memoryStore
+})
+
+front.use(keycloak.middleware({
+  logout: '/logout',
+  //admin: '/adm',
+  //protected: '/protected/resource'
+}))
+
+app.use(cors())
+app.use(bodyParser.json())
+app.use(morgan('dev'))
+
 front.use(cookieParser())
 front.use(bodyParser.urlencoded({extended: false}))
 
+front.use((req, res, next) => {
+  if (!['/login', '/logout'].includes(req.originalUrl)) {
+    res.cookie('lastvisit', req.originalUrl)
+  }
+  if (!req.kauth.grant) return next()
+  const grant = req.kauth.grant
+  console.log(JSON.stringify({grant}, 0, 2))
+  res.locals.grant = { id: grant.id_token.content, access: grant.access_token.content, refresh: grant.refresh_token.content }
+  next()
+})
+
+front.get('/login', keycloak.protect(), function (req, res) {
+  const cookies = cookieParser.JSONCookies(req.cookies)
+  return res.redirect(302, cookies.lastvisit || '/')
+})
+
 front.set('view engine', 'pug')
 front.set('views', 'src/views')
-
-front.get('/', (req, res) => {
-  res.render('index')
-})
 
 front.use((req, res, next) => {
   res.locals.query = req.query
   res.locals.env = { backendAddr, frontDebug }
   next()
+})
+
+front.get('/', (req, res) => {
+  res.render('index')
 })
 
 app.use(crud('/api/unit', sequelizeCrud(db.unit)))
