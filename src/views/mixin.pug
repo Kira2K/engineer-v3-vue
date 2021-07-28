@@ -15,3 +15,18 @@ mixin dummy_input(key, text)
     .form-group
       label(for=key)= text
       input.form-control(id=key type="text" placeholder="" disabled value=instance[key])
+
+mixin nav-item(id, title)
+  - var auth = 'engi-'+id
+  - var uri = '/'+id
+  li.nav-item
+    if grant && (grant.access.realm_access.roles.includes(auth) || grant.access.realm_access.roles.includes('engi-admin'))
+      if path.startsWith(uri)
+        a.nav-link.active(href=uri)
+          block
+      else
+        a.nav-link(href=uri)
+          block
+    else
+      a.nav-link.disabled(href=uri)
+        block

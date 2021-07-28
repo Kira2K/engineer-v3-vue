@@ -109,118 +109,38 @@ html(lang='en')
           // Sidebar Menu
           nav.mt-2
             ul.nav.nav-pills.nav-sidebar.flex-column(data-widget='treeview', role='menu', data-accordion='false')
-              li.nav-item
-              if grant && grant.access.realm_access.roles.includes('engi-passport')
-                a.nav-link(href='/passport')
-                  p Паспорта
-              else
-                a.nav-link.disabled(href='/passport')
-                  p Паспорта
-              li.nav-item
-              if grant && grant.access.realm_access.roles.includes('engi-value')
-                a.nav-link(href='/value')
-                  p Значения параметров
-              else
-                a.nav-link.disabled(href='/value')
-                  p Значения параметров
-              li.nav-item
-              if grant && grant.access.realm_access.roles.includes('engi-counterparty')
-                a.nav-link(href='/counterparty')
-                  p Контрагенты
-              else
-                a.nav-link.disabled(href='/counterparty')
-                  p Контрагенты
-              li.nav-item
-              if grant && grant.access.realm_access.roles.includes('engi-part')
-                a.nav-link(href='/part')
-                  p Комплектация
-              else
-                a.nav-link.disabled(href='/part')
-                  p Комплектация
-              li.nav-item
-              if grant && grant.access.realm_access.roles.includes('engi-branch')
-                a.nav-link(href='/branch')
-                  p Организационная структура
-              else
-                a.nav-link.disabled(href='/branch')
-                  p Организационная структура
-              li.nav-item
-              if grant && grant.access.realm_access.roles.includes('engi-malfunction_type')
-                a.nav-link(href='/malfunction_type')
-                  p Типы неисправностей
-              else
-                a.nav-link.disabled(href='/malfunction_type')
-                  p Типы неисправностей
-              li.nav-item
-              if grant && grant.access.realm_access.roles.includes('engi-repair_type')
-                a.nav-link(href='/repair_type')
-                  p Типы ремонта
-              else
-                a.nav-link.disabled(href='/repair_type')
-                  p Типы ремонта
-              li.nav-item
-              if grant && grant.access.realm_access.roles.includes('engi-toro')
-                a.nav-link(href='/toro')
-                  p TOPO
-              else
-                a.nav-link.disabled(href='/toro')
-                  p TOPO
-              li.nav-item
-              if grant && grant.access.realm_access.roles.includes('engi-commission')
-                a.nav-link(href='/commission')
-                  p Закрепления оборудования
-              else
-                a.nav-link.disabled(href='/commission')
-                  p Закрепления оборудования
-              li.nav-item
-              if grant && grant.access.realm_access.roles.includes('engi-nomenclature')
-                a.nav-link(href='/nomenclature')
-                  p Номенклатура
-              else
-                a.nav-link.disabled(href='/nomenclature')
-                  p Номенклатура
-              li.nav-item
-              if grant && grant.access.realm_access.roles.includes('engi-nomenclaturemodel')
-                a.nav-link(href='/nomenclaturemodel')
-                  p Модели номенклатуры
-              else
-                a.nav-link.disabled(href='/nomenclaturemodel')
-                  p Модели номенклатуры
-              li.nav-item
-              if grant && grant.access.realm_access.roles.includes('engi-nomenclaturetype')
-                a.nav-link(href='/nomenclaturetype')
-                  p Типы номенклатуры
-              else
-                a.nav-link.disabled(href='/nomenclaturetype')
-                  p Типы номенклатуры
-              li.nav-item
-              if grant && grant.access.realm_access.roles.includes('engi-nomenclaturegroup')
-                a.nav-link(href='/nomenclaturegroup')
-                  p Групы номенклатуры
-              else
-                a.nav-link.disabled(href='/nomenclaturegroup')
-                  p Групы номенклатуры
-              li.nav-item
-              if grant && grant.access.realm_access.roles.includes('engi-nomenclatureclass')
-                a.nav-link(href='/nomenclatureclass')
-                  p Классы номенклатуры
-              else
-                a.nav-link.disabled(href='/nomenclatureclass')
-                  p Классы номенклатуры
-              li.nav-item
-              if grant && grant.access.realm_access.roles.includes('engi-nomenclatureparameter')
-                a.nav-link(href='/nomenclatureparameter')
-                  p Параметры номенклатуры
-              else
-                a.nav-link.disabled(href='/nomenclatureparameter')
-                  p Параметры номенклатуры
-              li.nav-item
-              if grant && grant.access.realm_access.roles.includes('engi-unit')
-                a.nav-link(href='/unit')
-                  p Единицы измерения
-              else
-                a.nav-link.disabled(href='/unit')
-                  p Единицы измерения
+              +nav-item('passport')
+                p Паспорта
+              +nav-item('value')
+                p Значения параметров
+              +nav-item('counterparty')
+                p Контрагенты
+              +nav-item('part')
+                p Комплектация
+              +nav-item('branch')
+                p Организационная структура
+              +nav-item('malfunction_type')
+                p Типы неисправностей
+              +nav-item('repair_type')
+                p Типы ремонта
+              +nav-item('toro')
+                p TOPO
+              +nav-item('commission')
+                p Закрепления
+              +nav-item('nomenclature')
+                p Номенклатура
+              +nav-item('nomenclaturemodel')
+                p Модели номенклатуры
+              +nav-item('nomenclaturetype')
+                p Типы номенклатуры
+              +nav-item('nomenclaturegroup')
+                p Групы номенклатуры
+              +nav-item('nomenclatureclass')
+                p Классы номенклатуры
+              +nav-item('nomenclatureparameter')
+                p Параметры номенклатуры
+              +nav-item('unit')
+                p Единицы измерения
           // /.sidebar-menu
         // /.sidebar
       // Content Wrapper. Contains page content
@@ -233,7 +153,7 @@ html(lang='en')
         section.content
           block body
           if env && env.frontDebug
-            pre.debug= JSON.stringify(locals, 0, 2)
+            pre.debug(style="font-size: .6rem; line-height: .6rem;")= JSON.stringify(locals._locals, 0, 2)
       footer.main-footer
         strong
           | Maximus 

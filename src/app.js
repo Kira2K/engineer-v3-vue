@@ -55,13 +55,15 @@ app.use(morgan('dev'))
 front.use(cookieParser())
 front.use(bodyParser.urlencoded({extended: false}))
 
+front.use(keycloak.protect())
+
 front.use((req, res, next) => {
   if (!['/login', '/logout'].includes(req.originalUrl)) {
     res.cookie('lastvisit', req.originalUrl)
   }
+  res.locals.path = req.path
   if (!req.kauth.grant) return next()
   const grant = req.kauth.grant
-  console.log(JSON.stringify({grant}, 0, 2))
   res.locals.grant = { id: grant.id_token.content, access: grant.access_token.content, refresh: grant.refresh_token.content }
   next()
 })

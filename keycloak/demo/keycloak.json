@@ -1,0 +1,8 @@
+{
+  "realm": "Engineer",
+  "auth-server-url": "https://infra.oziabr.com/auth/",
+  "ssl-required": "external",
+  "resource": "Engineer",
+  "public-client": true,
+  "confidential-port": 0
+}
