@@ -1,46 +1,31 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('commission', {
+    await queryInterface.createTable('consumable', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      commission_id: {
+      quantity: {
         allowNull: false,
-        type: Sequelize.STRING
-      },
-      commissioned: {
-        allowNull: false,
-        type: Sequelize.DATEONLY
-      },
-      inventory_id: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      ip: {
 
-        type: Sequelize.STRING
-      },
-      mac: {
-
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
 
-      passport_id: {
+      labor_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'passport'
+          model: 'labor'
         }
       },
-      branch_id: {
+      nomenclature_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'branch'
+          model: 'nomenclature'
         }
       },
 
@@ -61,6 +46,6 @@ module.exports = {
 
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('commission');
+    await queryInterface.dropTable('consumable');
   }
 };

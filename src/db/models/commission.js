@@ -18,8 +18,9 @@ module.exports = (sequelize, DataTypes) => {
           {
             model: models.branch.unscoped(),
           },
+
         ]
-      })
+      });
     }
   };
   commission.init({

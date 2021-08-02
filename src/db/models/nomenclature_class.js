@@ -6,6 +6,11 @@ module.exports = (sequelize, DataTypes) => {
   class nomenclature_class extends Model {
     static associate(models) {
 
+      this.addScope('defaultScope', {
+        include: [
+
+        ]
+      });
     }
   };
   nomenclature_class.init({

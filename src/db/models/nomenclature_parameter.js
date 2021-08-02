@@ -9,10 +9,13 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.unit);
 
       this.addScope('defaultScope', {
-        include: [{
-          model: models.unit.unscoped()
-        }]
-      })
+        include: [
+          {
+            model: models.unit.unscoped(),
+          },
+
+        ]
+      });
     }
   };
   nomenclature_parameter.init({

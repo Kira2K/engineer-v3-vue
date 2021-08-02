@@ -6,6 +6,11 @@ module.exports = (sequelize, DataTypes) => {
   class malfunction_type extends Model {
     static associate(models) {
 
+      this.addScope('defaultScope', {
+        include: [
+
+        ]
+      });
     }
   };
   malfunction_type.init({

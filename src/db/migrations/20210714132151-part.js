@@ -10,6 +10,7 @@ module.exports = {
       },
       quantity: {
         allowNull: false,
+
         type: Sequelize.INTEGER
       },
 

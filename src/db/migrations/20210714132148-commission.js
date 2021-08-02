@@ -1,36 +1,51 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('nomenclature', {
+    await queryInterface.createTable('commission', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
+      commission_id: {
         allowNull: false,
 
         type: Sequelize.STRING
       },
-      designation: {
+      commissioned: {
+        allowNull: false,
+
+        type: Sequelize.DATEONLY
+      },
+      inventory_id: {
+        allowNull: false,
+
+        type: Sequelize.STRING
+      },
+      ip: {
+
+
+        type: Sequelize.STRING
+      },
+      mac: {
 
 
         type: Sequelize.STRING
       },
 
-      unit_id: {
+      passport_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'unit'
+          model: 'passport'
         }
       },
-      nomenclature_model_id: {
+      branch_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'nomenclature_model'
+          model: 'branch'
         }
       },
 
@@ -48,13 +63,9 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-    await queryInterface.addConstraint('nomenclature', {
-      fields: ["title","nomenclature_model_id"],
-      type: 'unique',
-    });
 
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('nomenclature');
+    await queryInterface.dropTable('commission');
   }
 };

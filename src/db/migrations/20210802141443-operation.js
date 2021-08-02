@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('nomenclature', {
+    await queryInterface.createTable('operation', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,28 +9,28 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
+
+
+        type: Sequelize.STRING
+      },
+      quantity: {
         allowNull: false,
 
-        type: Sequelize.STRING
-      },
-      designation: {
-
-
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
 
-      unit_id: {
+      labor_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'unit'
+          model: 'labor'
         }
       },
-      nomenclature_model_id: {
+      profession_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'nomenclature_model'
+          model: 'profession'
         }
       },
 
@@ -48,13 +48,9 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-    await queryInterface.addConstraint('nomenclature', {
-      fields: ["title","nomenclature_model_id"],
-      type: 'unique',
-    });
 
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('nomenclature');
+    await queryInterface.dropTable('operation');
   }
 };

@@ -3,17 +3,27 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class counterparty extends Model {
+  class phase extends Model {
     static associate(models) {
+      models.techmap.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
+      this.belongsTo(models.techmap);
+      models.branch.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
+      this.belongsTo(models.branch);
 
       this.addScope('defaultScope', {
         include: [
+          {
+            model: models.techmap.unscoped(),
+          },
+          {
+            model: models.branch.unscoped(),
+          },
 
         ]
       });
     }
   };
-  counterparty.init({
+  phase.init({
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
@@ -21,55 +31,32 @@ module.exports = (sequelize, DataTypes) => {
     },
     title: {
       type: DataTypes.STRING,
-      unique: true,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
-    short: {
-      type: DataTypes.STRING,
 
 
     },
-    inn: {
-      type: DataTypes.STRING,
+    priority: {
+      type: DataTypes.INTEGER,
 
       allowNull: false,
       validate: {
         notEmpty: true
       }
     },
-    kpp: {
-      type: DataTypes.STRING,
+    duration: {
+      type: DataTypes.INTEGER,
 
       allowNull: false,
       validate: {
         notEmpty: true
       }
     },
-    ogrn: {
-      type: DataTypes.STRING,
+    labor_cost: {
+      type: DataTypes.INTEGER,
 
       allowNull: false,
       validate: {
         notEmpty: true
       }
-    },
-    address: {
-      type: DataTypes.STRING,
-
-
-    },
-    www: {
-      type: DataTypes.STRING,
-
-
-    },
-    expiration: {
-      type: DataTypes.DATEONLY,
-
-
     },
 
   }, {
@@ -77,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
     paranoid: true,
     underscored: true,
     freezeTableName: true,
-    modelName: 'counterparty',
+    modelName: 'phase',
   });
-  return counterparty;
+  return phase;
 };

@@ -10,25 +10,31 @@ module.exports = {
       },
       registered: {
         allowNull: false,
+
         type: Sequelize.DATE
       },
       description: {
+
 
         type: Sequelize.TEXT
       },
       runtime: {
         allowNull: false,
+
         type: Sequelize.INTEGER
       },
       toro_start: {
+
 
         type: Sequelize.DATEONLY
       },
       toro_end: {
 
+
         type: Sequelize.DATEONLY
       },
       labor_cost: {
+
 
         type: Sequelize.INTEGER
       },

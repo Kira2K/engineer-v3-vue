@@ -13,16 +13,17 @@ module.exports = (sequelize, DataTypes) => {
       this.addScope('defaultScope', {
         include: [
           {
-            model: models.passport.unscoped(),
-          },
-          {
             model: models.enabled_parameter.unscoped(),
             include: [
               {
                 model: models.nomenclature_parameter.unscoped(),
               },
             ]
-          }
+          },
+          {
+            model: models.passport.unscoped(),
+          },
+
         ]
       });
     }

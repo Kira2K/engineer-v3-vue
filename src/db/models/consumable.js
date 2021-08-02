@@ -3,32 +3,27 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class part extends Model {
+  class consumable extends Model {
     static associate(models) {
+      models.labor.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
+      this.belongsTo(models.labor);
       models.nomenclature.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
       this.belongsTo(models.nomenclature);
-      models.passport.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
-      this.belongsTo(models.passport);
 
       this.addScope('defaultScope', {
         include: [
           {
-            model: models.nomenclature.unscoped(),
+            model: models.labor.unscoped(),
           },
           {
-            model: models.passport.unscoped(),
-            include: [
-              {
-                model: models.nomenclature.unscoped(),
-              },
-            ]
+            model: models.nomenclature.unscoped(),
           },
 
         ]
       });
     }
   };
-  part.init({
+  consumable.init({
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
@@ -48,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     paranoid: true,
     underscored: true,
     freezeTableName: true,
-    modelName: 'part',
+    modelName: 'consumable',
   });
-  return part;
+  return consumable;
 };

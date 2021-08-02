@@ -17,19 +17,20 @@ module.exports = (sequelize, DataTypes) => {
       this.addScope('defaultScope', {
         include: [
           {
-            model: models.passport.unscoped(),
-          },
-          {
-            model: models.branch.unscoped(),
-          },
-          {
             model: models.malfunction_type.unscoped(),
           },
           {
             model: models.repair_type.unscoped(),
           },
+          {
+            model: models.passport.unscoped(),
+          },
+          {
+            model: models.branch.unscoped(),
+          },
+
         ]
-      })
+      });
     }
   };
   toro.init({

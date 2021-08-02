@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class branch extends Model {
+  class labor_type extends Model {
     static associate(models) {
 
       this.addScope('defaultScope', {
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   };
-  branch.init({
+  labor_type.init({
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
@@ -21,7 +21,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     title: {
       type: DataTypes.STRING,
-      unique: true,
+
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    category: {
+      type: DataTypes.STRING,
+
       allowNull: false,
       validate: {
         notEmpty: true
@@ -33,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     paranoid: true,
     underscored: true,
     freezeTableName: true,
-    modelName: 'branch',
+    modelName: 'labor_type',
   });
-  return branch;
+  return labor_type;
 };

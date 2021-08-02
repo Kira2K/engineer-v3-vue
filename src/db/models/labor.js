@@ -3,17 +3,27 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class counterparty extends Model {
+  class labor extends Model {
     static associate(models) {
+      models.phase.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
+      this.belongsTo(models.phase);
+      models.labor_type.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
+      this.belongsTo(models.labor_type);
 
       this.addScope('defaultScope', {
         include: [
+          {
+            model: models.phase.unscoped(),
+          },
+          {
+            model: models.labor_type.unscoped(),
+          },
 
         ]
       });
     }
   };
-  counterparty.init({
+  labor.init({
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
@@ -21,55 +31,24 @@ module.exports = (sequelize, DataTypes) => {
     },
     title: {
       type: DataTypes.STRING,
-      unique: true,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
-    short: {
-      type: DataTypes.STRING,
 
 
     },
-    inn: {
-      type: DataTypes.STRING,
+    duration: {
+      type: DataTypes.INTEGER,
 
       allowNull: false,
       validate: {
         notEmpty: true
       }
     },
-    kpp: {
-      type: DataTypes.STRING,
+    labor_cost: {
+      type: DataTypes.INTEGER,
 
       allowNull: false,
       validate: {
         notEmpty: true
       }
-    },
-    ogrn: {
-      type: DataTypes.STRING,
-
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
-    address: {
-      type: DataTypes.STRING,
-
-
-    },
-    www: {
-      type: DataTypes.STRING,
-
-
-    },
-    expiration: {
-      type: DataTypes.DATEONLY,
-
-
     },
 
   }, {
@@ -77,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     paranoid: true,
     underscored: true,
     freezeTableName: true,
-    modelName: 'counterparty',
+    modelName: 'labor',
   });
-  return counterparty;
+  return labor;
 };

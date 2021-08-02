@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('nomenclature_model', {
+    await queryInterface.createTable('techmap_type', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,16 +10,10 @@ module.exports = {
       },
       title: {
         allowNull: false,
+
         type: Sequelize.STRING
       },
 
-      nomenclature_type_id: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'nomenclature_type'
-        }
-      },
 
       created_at: {
         allowNull: false,
@@ -35,13 +29,9 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-    await queryInterface.addConstraint('nomenclature_model', {
-      fields: ["title","nomenclature_type_id"],
-      type: 'unique',
-    });
 
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('nomenclature_model');
+    await queryInterface.dropTable('techmap_type');
   }
 };

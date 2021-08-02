@@ -3,64 +3,43 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class passport extends Model {
+  class techmap extends Model {
     static associate(models) {
       models.nomenclature.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
       this.belongsTo(models.nomenclature);
-      models.counterparty.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
-      this.belongsTo(models.counterparty);
+      models.techmap_type.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
+      this.belongsTo(models.techmap_type);
+      models.techmap_status.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
+      this.belongsTo(models.techmap_status);
+      models.techmap.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
+      this.belongsTo(models.techmap);
 
       this.addScope('defaultScope', {
         include: [
           {
             model: models.nomenclature.unscoped(),
-            include: [
-              {
-                model: models.unit.unscoped(),
-              },
-            ]
           },
           {
-            model: models.counterparty.unscoped(),
+            model: models.techmap_type.unscoped(),
+          },
+          {
+            model: models.techmap_status.unscoped(),
+          },
+          {
+            model: models.techmap.unscoped(),
           },
 
         ]
       });
     }
   };
-  passport.init({
+  techmap.init({
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
       autoIncrement: true
     },
-    factory_id: {
-      type: DataTypes.STRING,
-
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
-    produced: {
-      type: DataTypes.DATEONLY,
-
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
-    commissioned: {
-      type: DataTypes.DATEONLY,
-
-
-    },
-    provisioner: {
-      type: DataTypes.STRING,
-
-
-    },
-    warranty: {
+    version: {
       type: DataTypes.INTEGER,
 
       allowNull: false,
@@ -68,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
-    warranty_expiration: {
+    approved_at: {
       type: DataTypes.DATEONLY,
 
       allowNull: false,
@@ -76,12 +55,15 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
-    extra: {
-      type: DataTypes.TEXT,
+    active: {
+      type: DataTypes.DATEONLY,
 
-
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
     },
-    accepted_runtime: {
+    total_labor_cost: {
       type: DataTypes.INTEGER,
 
       allowNull: false,
@@ -89,7 +71,7 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
-    max_runtime: {
+    total_duration: {
       type: DataTypes.INTEGER,
 
       allowNull: false,
@@ -103,7 +85,7 @@ module.exports = (sequelize, DataTypes) => {
     paranoid: true,
     underscored: true,
     freezeTableName: true,
-    modelName: 'passport',
+    modelName: 'techmap',
   });
-  return passport;
+  return techmap;
 };

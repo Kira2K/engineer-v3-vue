@@ -1,54 +1,34 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('passport', {
+    await queryInterface.createTable('techmap', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      factory_id: {
-        allowNull: false,
-
-        type: Sequelize.STRING
-      },
-      produced: {
-        allowNull: false,
-
-        type: Sequelize.DATEONLY
-      },
-      commissioned: {
-
-
-        type: Sequelize.DATEONLY
-      },
-      provisioner: {
-
-
-        type: Sequelize.STRING
-      },
-      warranty: {
+      version: {
         allowNull: false,
 
         type: Sequelize.INTEGER
       },
-      warranty_expiration: {
+      approved_at: {
         allowNull: false,
 
         type: Sequelize.DATEONLY
       },
-      extra: {
+      active: {
+        allowNull: false,
 
-
-        type: Sequelize.TEXT
+        type: Sequelize.DATEONLY
       },
-      accepted_runtime: {
+      total_labor_cost: {
         allowNull: false,
 
         type: Sequelize.INTEGER
       },
-      max_runtime: {
+      total_duration: {
         allowNull: false,
 
         type: Sequelize.INTEGER
@@ -61,11 +41,25 @@ module.exports = {
           model: 'nomenclature'
         }
       },
-      counterparty_id: {
+      techmap_type_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'counterparty'
+          model: 'techmap_type'
+        }
+      },
+      techmap_status_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'techmap_status'
+        }
+      },
+      techmap_id: {
+
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'techmap'
         }
       },
 
@@ -86,6 +80,6 @@ module.exports = {
 
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('passport');
+    await queryInterface.dropTable('techmap');
   }
 };

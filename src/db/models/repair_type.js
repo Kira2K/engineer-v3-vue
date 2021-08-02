@@ -6,6 +6,11 @@ module.exports = (sequelize, DataTypes) => {
   class repair_type extends Model {
     static associate(models) {
 
+      this.addScope('defaultScope', {
+        include: [
+
+        ]
+      });
     }
   };
   repair_type.init({

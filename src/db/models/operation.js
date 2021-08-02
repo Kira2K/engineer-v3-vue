@@ -3,36 +3,36 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class part extends Model {
+  class operation extends Model {
     static associate(models) {
-      models.nomenclature.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
-      this.belongsTo(models.nomenclature);
-      models.passport.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
-      this.belongsTo(models.passport);
+      models.labor.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
+      this.belongsTo(models.labor);
+      models.profession.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
+      this.belongsTo(models.profession);
 
       this.addScope('defaultScope', {
         include: [
           {
-            model: models.nomenclature.unscoped(),
+            model: models.labor.unscoped(),
           },
           {
-            model: models.passport.unscoped(),
-            include: [
-              {
-                model: models.nomenclature.unscoped(),
-              },
-            ]
+            model: models.profession.unscoped(),
           },
 
         ]
       });
     }
   };
-  part.init({
+  operation.init({
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
       autoIncrement: true
+    },
+    title: {
+      type: DataTypes.STRING,
+
+
     },
     quantity: {
       type: DataTypes.INTEGER,
@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
     paranoid: true,
     underscored: true,
     freezeTableName: true,
-    modelName: 'part',
+    modelName: 'operation',
   });
-  return part;
+  return operation;
 };

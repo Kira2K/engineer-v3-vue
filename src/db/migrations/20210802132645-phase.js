@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('nomenclature', {
+    await queryInterface.createTable('phase', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,28 +9,38 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
+
+
+        type: Sequelize.STRING
+      },
+      priority: {
         allowNull: false,
 
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
-      designation: {
+      duration: {
+        allowNull: false,
 
+        type: Sequelize.INTEGER
+      },
+      labor_cost: {
+        allowNull: false,
 
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
 
-      unit_id: {
+      techmap_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'unit'
+          model: 'techmap'
         }
       },
-      nomenclature_model_id: {
+      branch_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'nomenclature_model'
+          model: 'branch'
         }
       },
 
@@ -48,13 +58,9 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-    await queryInterface.addConstraint('nomenclature', {
-      fields: ["title","nomenclature_model_id"],
-      type: 'unique',
-    });
 
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('nomenclature');
+    await queryInterface.dropTable('phase');
   }
 };

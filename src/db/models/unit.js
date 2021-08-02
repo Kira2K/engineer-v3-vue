@@ -6,6 +6,11 @@ module.exports = (sequelize, DataTypes) => {
   class unit extends Model {
     static associate(models) {
 
+      this.addScope('defaultScope', {
+        include: [
+
+        ]
+      });
     }
   };
   unit.init({
