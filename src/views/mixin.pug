@@ -6,9 +6,8 @@ mixin input(key, text)
     label(for=key)= text
     if errors
       - var err = errors.find(e => e.path == key)
-      if err
-        input.form-control.is-invalid(id=key name=key type="text" placeholder="" value=instance[key])
-        .error.invalid-feedback= err.message
+      input.form-control.is-invalid(id=key name=key type="text" placeholder="" value=instance[key])
+      .error.invalid-feedback= err.message
     else
       input.form-control(id=key name=key type="text" placeholder="" value=instance[key])
 

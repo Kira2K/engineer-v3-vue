@@ -1,33 +1,19 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('value', {
+    await queryInterface.createTable('techmap_status', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      value: {
+      title: {
         allowNull: false,
 
         type: Sequelize.STRING
       },
 
-      enabled_parameter_id: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'enabled_parameter'
-        }
-      },
-      passport_id: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'passport'
-        }
-      },
 
       created_at: {
         allowNull: false,
@@ -43,13 +29,9 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-    await queryInterface.addConstraint('value', {
-      fields: ["enabled_parameter_id","passport_id"],
-      type: 'unique',
-    });
 
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('value');
+    await queryInterface.dropTable('techmap_status');
   }
 };
