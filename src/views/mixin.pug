@@ -4,9 +4,11 @@ mixin label(key, text)
 mixin input(key, text)
   .form-group
     label(for=key)= text
-    if errors && errors[key]
-      input.form-control.is-invalid(id=key name=key type="text" placeholder="" value=instance[key])
-      .error.invalid-feedback= errors[key].message
+    if errors
+      - var err = errors.find(e => e.path == key)
+      if err
+        input.form-control.is-invalid(id=key name=key type="text" placeholder="" value=instance[key])
+        .error.invalid-feedback= err.message
     else
       input.form-control(id=key name=key type="text" placeholder="" value=instance[key])
 
