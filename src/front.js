@@ -162,12 +162,8 @@ front.get('/:module/:action?/:id?', async (req, res, next) => {
   const cookies = cookieParser.JSONCookies(req.cookies)
   const errorPath = Object.keys(cookies).find(el => el.replace(/\/$/, '') == `errors${req.path}`.replace(/\/$/, ''))
   if (!errorPath) return next()
-  if (!Array.isArray(cookies[errorPath])) res.locals.error = cookies[errorPath]
-  else res.locals.errors = cookies[errorPath]
-    .reduce((acc, el) => {
-      acc[el.path] = acc[el.path] || el
-      return acc
-    }, {})
+  res.locals.errors = cookies[errorPath].errors
+  if (!res.locals.errors) res.locals.error = cookies[errorPath]
   res.clearCookie(errorPath)
   next()
 })
