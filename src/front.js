@@ -26,6 +26,8 @@ front.use('/dist/bootstrap.css', express.static('node_modules/bootswatch/dist/su
 front.use('/dist', express.static('node_modules/admin-lte/dist'))
 front.use('/public', express.static('public'))
 
+front.use(morgan('dev'))
+
 front.use(session({
   secret: '46g6TFgAXkuhk',
   resave: false,
