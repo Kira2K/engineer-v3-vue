@@ -74,39 +74,40 @@ html(lang='en')
                     p Номенклатура
                   +nav-item('passport')
                     p Паспорт оборудования
-
-              //+nav-item('passport')
-              //  p Паспорта
-              //+nav-item('value')
-              //  p Значения параметров
-              //+nav-item('counterparty')
-              //  p Контрагенты
-              //+nav-item('part')
-              //  p Комплектация
-              //+nav-item('branch')
-              //  p Организационная структура
-              //+nav-item('malfunction_type')
-              //  p Типы неисправностей
-              //+nav-item('repair_type')
-              //  p Типы ремонта
-              //+nav-item('toro')
-              //  p TOPO
-              //+nav-item('commission')
-              //  p Закрепления
-              //+nav-item('nomenclature')
-              //  p Номенклатура
-              //+nav-item('nomenclaturemodel')
-              //  p Модели номенклатуры
-              //+nav-item('nomenclaturetype')
-              //  p Типы номенклатуры
-              //+nav-item('nomenclaturegroup')
-              //  p Групы номенклатуры
-              //+nav-item('nomenclatureclass')
-              //  p Классы номенклатуры
-              //+nav-item('nomenclatureparameter')
-              //  p Параметры номенклатуры
-              //+nav-item('unit')
-              //  p Единицы измерения
+              li.nav-item
+                a.nav-link
+                  ion-icon(name='reader-outline')
+                  p Служебные
+                  ion-icon(name='chevron-up-outline')
+                ul.nav.nav-treeview
+                  +nav-item('value')
+                    p Значения параметров
+                  +nav-item('counterparty')
+                    p Контрагенты
+                  +nav-item('part')
+                    p Комплектация
+                  +nav-item('branch')
+                    p Организационная структура
+                  +nav-item('malfunction_type')
+                    p Типы неисправностей
+                  +nav-item('repair_type')
+                    p Типы ремонта
+                  +nav-item('toro')
+                    p TOPO
+                  +nav-item('commission')
+                    p Закрепления
+                  +nav-item('nomenclaturemodel')
+                    p Модели номенклатуры
+                  +nav-item('nomenclaturetype')
+                    p Типы номенклатуры
+                  +nav-item('nomenclaturegroup')
+                    p Групы номенклатуры
+                  +nav-item('nomenclatureclass')
+                    p Классы номенклатуры
+                  +nav-item('nomenclatureparameter')
+                    p Параметры номенклатуры
+                  +nav-item('unit')
+                    p Единицы измерения
           // /.sidebar-menu
       .main-content
         // Navbar
