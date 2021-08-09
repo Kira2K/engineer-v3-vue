@@ -22,8 +22,8 @@ mixin nav-item(id, title)
   - var uri = '/'+id
   li.nav-item
     if grant && (grant.access.realm_access.roles.includes(auth) || grant.access.realm_access.roles.includes('engi-admin'))
-      if path.startsWith(uri)
-        a.nav-link.active(href=uri)
+      if path === uri
+        a.nav-link.selected(href=uri)
           block
       else
         a.nav-link(href=uri)
