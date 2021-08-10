@@ -1,7 +1,7 @@
 'use strict';
 
-const src = 'repair_type';
-const fields = 'id, title'
+const src = 'nomenclature';
+const fields = 'unit_id, nomenclature_model_id, id, title'
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

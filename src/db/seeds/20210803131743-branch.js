@@ -1,6 +1,6 @@
 'use strict';
 
-const src = 'repair_type';
+const src = 'branch';
 const fields = 'id, title'
 
 module.exports = {
