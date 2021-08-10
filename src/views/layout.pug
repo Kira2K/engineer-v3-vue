@@ -44,125 +44,144 @@ html(lang='en')
       link(rel='stylesheet', href='/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')
       link(rel='stylesheet', href='/plugins/jquery-ui/jquery-ui.css')
       link(rel='stylesheet', href='/plugins/jquery-ui/jquery-ui.structure.css')
+      link(rel='stylesheet', href='/public/style.css')
   body.hold-transition.sidebar-mini.layout-fixed
-    .wrapper
-      // Preloader
-      //.preloader.flex-column.justify-content-center.align-items-center
-      //  img.animation__shake(src='/dist/img/AdminLTELogo.png', alt='AdminLTELogo', height='60', width='60')
-      // Navbar
-      nav.main-header.navbar.navbar-expand
-        // Left navbar links
-        ul.navbar-nav
-          li.nav-item
-            a.nav-link(data-widget='pushmenu', href='#', role='button')
-              // i.ion.ion-md-menu
-          |       
-          li.nav-item.d-none.d-sm-inline-block
-            a.nav-link(href='/') Home
-        // Right navbar links
-        ul.navbar-nav.ml-auto
-          li.nav-item
-            a.nav-link(data-widget='fullscreen', href='#', role='button')
-              i.fas.fa-expand-arrows-alt
-          |       
-          li.nav-item
-            a.nav-link(data-widget='control-sidebar', data-slide='true', href='#', role='button')
-              i.fas.fa-th-large
-
-        ul.navbar-nav.ml-auto
-          if !grant
-            li.nav-item
-              a.nav-link(href='/login')
-                i.ion.ion-md-log-in
-          else
-            li.nav-item.dropdown
-              a.nav-link(data-toggle='dropdown' href='#' aria-expanded='true')
-                i.ion.ion-md-contact
-                |  
-                = grant.id.preferred_username
-              .dropdown-menu.dropdown-menu-lg.dropdown-menu-right
-                span.dropdown-item.dropdown-header.disabled
-                  i.ion.ion-md-person
-                  |  
-                  = grant.id.name
-                .dropdown-divider
-                span.dropdown-item.disabled
-                  i.ion.ion-md-mail
-                  |  
-                  = grant.id.email
-                .dropdown-divider
-                a.dropdown-item.dropdown-footer(href='/logout')
-                  i.ion.ion-md-logout
-                  |  Выйти
-
-
-      // /.navbar
-      // Main Sidebar Container
-      aside.main-sidebar.elevation-4
-        // Brand Logo
-        a.brand-link(href='/')
-          img.brand-image.img-circle.elevation-3(src='/public/logo.png', alt='Maximus Инженер', style='opacity: .8')
-          |       
-          // span.brand-text.font-weight-light AdminLTE 3
-        // Sidebar
-        .sidebar
+    main
+      .main-sidemenu
+        // Main Sidebar Container
+        .main-sidemenu__container
+          // Brand Logo
+          .main-sidemenu__logo
+            a(href='/')
+              img(src='/public/logo.png', alt='Maximus Инженер', style='opacity: .8')
+              span Инженер
           // Sidebar Menu
-          nav.mt-2
+          nav.mt-4
             ul.nav.nav-pills.nav-sidebar.flex-column(data-widget='treeview', role='menu', data-accordion='false')
-              +nav-item('passport')
-                p Паспорта
-              +nav-item('value')
-                p Значения параметров
-              +nav-item('counterparty')
-                p Контрагенты
-              +nav-item('part')
-                p Комплектация
-              +nav-item('branch')
-                p Организационная структура
-              +nav-item('malfunction_type')
-                p Типы неисправностей
-              +nav-item('repair_type')
-                p Типы ремонта
-              +nav-item('toro')
-                p TOPO
-              +nav-item('commission')
-                p Закрепления
-              +nav-item('nomenclature')
-                p Номенклатура
-              +nav-item('nomenclaturemodel')
-                p Модели номенклатуры
-              +nav-item('nomenclaturetype')
-                p Типы номенклатуры
-              +nav-item('nomenclaturegroup')
-                p Групы номенклатуры
-              +nav-item('nomenclatureclass')
-                p Классы номенклатуры
-              +nav-item('nomenclatureparameter')
-                p Параметры номенклатуры
-              +nav-item('unit')
-                p Единицы измерения
+              li.nav-item
+                a.nav-link(href='/')
+                  ion-icon(name='star')
+                  p Домашняя страница
+              li.nav-item.menu-open
+                a.nav-link
+                  ion-icon(name='reader-outline')
+                  p Номенклатура
+                  ion-icon(name='chevron-up-outline')
+                ul.nav.nav-treeview
+                  //+nav-item('nomenclatureparameter')
+                  //  p Параметры номенклатуры
+                  +nav-item('nomenclature')
+                    p Номенклатура
+                  +nav-item('passport')
+                    p Паспорт оборудования
+              li.nav-item
+                a.nav-link
+                  ion-icon(name='reader-outline')
+                  p Служебные
+                  ion-icon(name='chevron-up-outline')
+                ul.nav.nav-treeview
+                  +nav-item('value')
+                    p Значения параметров
+                  +nav-item('counterparty')
+                    p Контрагенты
+                  +nav-item('part')
+                    p Комплектация
+                  +nav-item('branch')
+                    p Организационная структура
+                  +nav-item('malfunction_type')
+                    p Типы неисправностей
+                  +nav-item('repair_type')
+                    p Типы ремонта
+                  +nav-item('toro')
+                    p TOPO
+                  +nav-item('commission')
+                    p Закрепления
+                  +nav-item('nomenclaturemodel')
+                    p Модели номенклатуры
+                  +nav-item('nomenclaturetype')
+                    p Типы номенклатуры
+                  +nav-item('nomenclaturegroup')
+                    p Групы номенклатуры
+                  +nav-item('nomenclatureclass')
+                    p Классы номенклатуры
+                  +nav-item('nomenclatureparameter')
+                    p Параметры номенклатуры
+                  +nav-item('unit')
+                    p Единицы измерения
           // /.sidebar-menu
-        // /.sidebar
-      // Content Wrapper. Contains page content
+      .main-content
+        // Navbar
+        nav.navbar.navbar-expand
+          // Left navbar links
+          ul.navbar-nav
+            li.nav-item
+              a.nav-link(data-widget='pushmenu', href='#', role='button')
+                // i.ion.ion-md-menu
+            |
+            li.nav-item.d-none.d-sm-inline-block
+              a.nav-link(href='/')
+                ion-icon(name='home-outline')
+            li.nav-item.d-none.d-sm-inline-block
+              a.nav-link
+                ion-icon(name='chevron-forward-outline')
+                p Номенклатура
+          // Right navbar links
+          ul.navbar-nav.ml-auto
+            li.nav-item
+              a.nav-link(data-widget='fullscreen', href='#', role='button')
+                i.fas.fa-expand-arrows-alt
+            |
+            li.nav-item
+              a.nav-link(data-widget='control-sidebar', data-slide='true', href='#', role='button')
+                i.fas.fa-th-large
 
-      .content-wrapper
-        // Content Header (Page header)
-        .content-header
-        // /.content-header
-        // Main content
-        section.content
-          block body
-          if env && env.frontDebug
-            pre.debug(style="font-size: .6rem; line-height: .6rem;")= JSON.stringify(locals._locals, 0, 2)
-      footer.main-footer
-        strong
-          | Maximus 
-          | &copy; 2021 
-        .float-right.d-none.d-sm-inline-block
-          b Version
-          |  3.1.0
-      // Control Sidebar
-      aside.control-sidebar.control-sidebar-dark
+          ul.navbar-nav.ml-auto
+            if !grant
+              li.nav-item
+                a.nav-link(href='/login')
+                  i.ion.ion-md-log-in
+            else
+              li.nav-item.dropdown
+                a.nav-link(data-toggle='dropdown' href='#' aria-expanded='true')
+                  i.ion.ion-md-contact
+                  |
+                  = grant.id.preferred_username
+                .dropdown-menu.dropdown-menu-lg.dropdown-menu-right
+                  span.dropdown-item.dropdown-header.disabled
+                    i.ion.ion-md-person
+                    |
+                    = grant.id.name
+                  .dropdown-divider
+                  span.dropdown-item.disabled
+                    i.ion.ion-md-mail
+                    |
+                    = grant.id.email
+                  .dropdown-divider
+                  a.dropdown-item.dropdown-footer(href='/logout')
+                    i.ion.ion-md-logout
+                    |  Выйти
+
+
+        // /.navbar
+        // Content Wrapper. Contains page content
+        div
+          // Content Header (Page header)
+          .content-header
+          // /.content-header
+          // Main content
+          section.content
+            block body
+            if env && env.frontDebug
+              pre.debug(style="font-size: .6rem; line-height: .6rem;")= JSON.stringify(locals._locals, 0, 2)
+        footer
+          strong
+            | Maximus
+            | &copy; 2021
+          .float-right.d-none.d-sm-inline-block
+            b Version
+            |  3.1.0
+        // Control Sidebar
+        aside.control-sidebar.control-sidebar-dark
     block script
       script(src='https://cdnjs.cloudflare.com/ajax/libs/url-search-params/1.1.0/url-search-params.max.js')
 
@@ -183,3 +202,5 @@ html(lang='en')
       script(src='/plugins/select2/js/select2.full.min.js')
       script(src='/plugins/jsgrid/jsgrid.js')
       script(src='/plugins/jquery-validation/jquery.validate.js')
+
+      script(src='https://unpkg.com/ionicons@5.5.3/dist/ionicons.js')

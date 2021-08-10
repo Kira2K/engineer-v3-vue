@@ -1,0 +1,71 @@
+main {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+}
+
+.main-sidemenu__container {
+  background: #213345;
+  height: 100%;
+  padding-top: 24px;;
+}
+
+.main-sidemenu__logo {
+  width: 180px;
+  height: 63px;
+  margin: 0 auto;
+}
+
+.main-sidemenu__logo a,
+.main-sidemenu__logo a:hover {
+  font-size: 12px;
+  line-height: 12px;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #718EAB;
+}
+
+.main-content {
+  padding: 24px;
+  background-image: url("/public/bg.png");
+  background-color: #0E1721;
+}
+
+.nav-item {
+}
+
+.nav-item a {
+  height: 52px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.nav-treeview {
+  background: #1F2A38;
+}
+
+.nav-link {
+  color: #C9EBFF !important;
+}
+
+.nav-link.selected {
+  border-left: 4px solid #80C5ED;
+  background: #2A445E;
+}
+
+.nav-link p {
+  flex-grow: 1;
+  padding-left: 10px;
+  margin: 0;
+}
+
+.nav-treeview .nav-link p {
+  padding-left: 25px;
+}
+
+.nav-treeview .nav-link.selected p {
+  padding-left: 21px;
+}
