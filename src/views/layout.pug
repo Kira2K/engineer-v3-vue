@@ -45,6 +45,8 @@ html(lang='en')
       link(rel='stylesheet', href='/plugins/jquery-ui/jquery-ui.css')
       link(rel='stylesheet', href='/plugins/jquery-ui/jquery-ui.structure.css')
       link(rel='stylesheet', href='/public/style.css')
+      link(rel='stylesheet', href='/public/css/footable.bootstrap.min.css')
+      //link(rel='stylesheet', href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
   body.hold-transition.sidebar-mini.layout-fixed
     main
       .main-sidemenu
@@ -73,7 +75,7 @@ html(lang='en')
                   +nav-item('nomenclature')
                     p Номенклатура
                   +nav-item('passport')
-                    p Паспорт оборудования
+                    p Оборудование
               li.nav-item
                 a.nav-link
                   ion-icon(name='reader-outline')
@@ -165,9 +167,6 @@ html(lang='en')
         // /.navbar
         // Content Wrapper. Contains page content
         div
-          // Content Header (Page header)
-          .content-header
-          // /.content-header
           // Main content
           section.content
             block body
@@ -206,3 +205,4 @@ html(lang='en')
       script(src='/plugins/jquery-validation/jquery.validate.js')
 
       script(src='https://unpkg.com/ionicons@5.5.3/dist/ionicons.js')
+      script(src='/public/js/footable.min.js')
