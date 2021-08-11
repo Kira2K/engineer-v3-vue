@@ -79,6 +79,13 @@ front.get('/', (req, res) => {
   res.render('index')
 })
 
+front.get('/:module', async (req, res, next) => {
+  const { module } = req.params
+  const rest = await fetch(`${backendAddr}/api/${module}?range=%5b0,100500%5d`).then(res => res.json())
+  res.locals.list = rest
+  next()
+})
+
 front.get('/:module/:action/:id', async (req, res, next) => {
   const { module, action, id } = req.params
   const rest = await fetch(`${backendAddr}/api/${module}/${id}`).then(res => res.json())
