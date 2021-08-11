@@ -3,52 +3,45 @@ extends ../layout.pug
 block body
   .card
     .card-header
-      h3.card-title Паспорта
-      a.float-right.btn.btn-success(type="button" href="/passport/edit")
+      a.float-left.btn.mr-3(type="button")
+        ion-icon(name='location-outline')
+      a.float-left.btn.mr-3(type="button")
+        ion-icon(name='funnel-outline')
+      a.float-right.btn.ml-3(type="button")
+        ion-icon(name='settings-outline')
+      a.float-right.btn.ml-3(type="button")
+        ion-icon(name='reload-outline')
+      a.float-right.btn.ml-3(type="button" href="/passport/edit")
         i.ion.ion-md-add-circle-outline
         |  Добавить
-    .card-body
-      #jsGrid
 
+    table.footable(data-paging='true', data-sorting="true")
+      thead
+        tr
+          th(data-breakpoints='xs', data-name='id', data-type="number") Код
+          th(data-breakpoints='xs', data-name='nomenclature.title') Оборудование
+          th(data-breakpoints='xs', data-name='nomenclature.createdAt', data-format-string="MMMM Do YYYY") Дата изготовления
+          th(data-breakpoints='xs', data-name='factory_id') Заводской номер
+          th(data-breakpoints='xs', data-name='warranty', data-type="number") Срок гарантии (мес.)
+          th(data-breakpoints='xs', data-name='nomenclature.createdAt', data-format-string="MMMM Do YYYY") Дата начала гарантии
+          th(data-breakpoints='xs', data-name='warranty_expiration', data-format-string="MMMM Do YYYY") Дата окончания гарантии
+          th(data-breakpoints='xs', data-name='counterparty.title') Изотовитель
+      tbody
+        each val in list
+          tr(data-href=val.id)
+            td= val['id']
+            td= val['nomenclature.title']
+            td= val['nomenclature.createdAt']
+            td= val['factory_id']
+            td= val['warranty']
+            td= val['nomenclature.createdAt']
+            td= val['warranty_expiration']
+            td= val['counterparty.title']
 append script
-    script.
-      $(() => {
-        $('#jsGrid').jsGrid({
-          height: "auto",
-          width: "100%",
-          editing: false,
-          filtering: false,
-          autoload: true,
-          sorting: true,
-          paging: false,
-          rowClick: function(args) {
-            window.location.href=`/passport/edit/${args.item.id}`
-          },
-          controller: {
-            loadData: () => {
-              var deferred = $.Deferred();
-              $.ajax({
-                url: `#{env.backendAddr}/api/passport`,
-                success: function(response) {
-                  deferred.resolve(response.map(el => {
-                    el.nomenclature = `${el['nomenclature.title']}`
-                    return el
-                  }));
-                }
-              })
-              return deferred.promise();
-            }
-          },
-          fields: [
-            { title: "Код", name: "id" },
-            { title: "Номенклатура", name: "nomenclature", type: "text" },
-            { title: "Заводской номер", name: "factory_id", type: "text" },
-            { title: "Произведён", name: "produced", type: "text" },
-            { title: "Введён в эксплуатацию", name: "commissioned", type: "text" },
-            { title: "Гарантия (мес)", name: "warranty", type: "text" },
-            { title: "Истечение гарантии", name: "warranty_expiration", type: "text" },
-            { title: "Допустимая наработка", name: "accepted_runtime", type: "text" },
-            { title: "Максимальная наработка", name: "max_runtime", type: "text" },
-          ]
-        })
-      })
+  script.
+    $(() => {
+      $('table').footable();
+      $('tr[data-href]').on("click", function () {
+        document.location.href = `/passport/edit/${$(this).data('href')}`;
+      });
+    })

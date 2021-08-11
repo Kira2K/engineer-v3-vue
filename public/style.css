@@ -69,3 +69,30 @@ main {
 .nav-treeview .nav-link.selected p {
   padding-left: 21px;
 }
+
+.card {
+  background: #213345;
+}
+
+.card-header {
+  padding: 16px;
+}
+
+table thead tr {
+  background: #142333;
+}
+
+table thead tr th {
+  padding: 3px 10px 3px 16px;
+  color: #80C5ED;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+table tr {
+  border-bottom: 1px solid #30485C;
+}
+
+table tbody tr td {
+  text-align: center;
+}
