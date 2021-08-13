@@ -81,7 +81,7 @@ front.get('/', (req, res) => {
 
 front.get('/:module', async (req, res, next) => {
   const { module } = req.params
-  const rest = await fetch(`${backendAddr}/api/${module}?range=%5b0,100500%5d`).then(res => res.json())
+  const rest = await fetch(`${backendAddr}/api/${module}?range=%5b0,100%5d`).then(res => res.json())
   res.locals.list = rest
   next()
 })

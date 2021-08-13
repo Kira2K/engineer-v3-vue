@@ -10,9 +10,11 @@ main {
 }
 
 .main-sidemenu__logo {
-  width: 180px;
+  max-width: 190px;
   height: 63px;
   margin: 0 auto;
+  margin-top: 17px;
+  padding: 0 5px;
 }
 
 .main-sidemenu__logo a,
@@ -24,10 +26,21 @@ main {
   color: #718EAB;
 }
 
-.main-content {
-  padding: 24px;
+body {
   background-image: url("/public/bg.png");
   background-color: #0E1721;
+}
+
+.main-header {
+  border: 0;
+}
+
+.content-wrapper {
+  background: none;
+}
+
+.main-footer {
+  background: #213345;
 }
 
 .nav-item {
@@ -95,4 +108,86 @@ table tr {
 
 table tbody tr td {
   text-align: center;
+}
+
+
+.pagination {
+  margin: 0;
+  margin-top: 10px;
+  display: inline-block;
+  padding-left: 0;
+}
+.pagination > li {
+  display: inline;
+}
+.pagination > li > a, .pagination > li > span {
+  position: relative;
+  float: left;
+  margin-left: 8px;
+  line-height: 32px;
+  color: #C9EBFF;
+  text-decoration: none;
+  background: #213345;
+  border: 1px solid #385775;
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+}
+.pagination > li:first-child > a, .pagination > li:first-child > span {
+  margin-left: 0;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.pagination>li:last-child > a, .pagination > li:last-child > span {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+  z-index: 3;
+  color: #73D0F5;
+  cursor: default;
+  border: 1px solid #73D0F5;
+}
+
+aside {
+  background: #213345;
+}
+
+.sidebar {
+  padding: 0;
+}
+
+.sidebar-mini .main-sidebar .nav-link, .sidebar-mini-md .main-sidebar .nav-link, .sidebar-mini-xs .main-sidebar .nav-link {
+  width: 100%;
+}
+
+.main-sidemenu__logo div {
+  background-image: url("/public/logo.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 44px;
+}
+
+.sidebar-collapse .main-sidemenu__logo div {
+  background-image: url("/public/mini-logo.png");
+}
+
+.modal-header {
+  background: #2A445E;
+}
+
+.modal-body,
+.modal-footer {
+  background: #25384E;
+}
+
+.modal-header .modal-title {
+  color: #80C5ED;
+}
+
+.modal-header .close span {
+  color: #80C5ED;
+  text-shadow: none;
 }
