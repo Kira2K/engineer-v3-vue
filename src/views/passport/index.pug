@@ -21,16 +21,16 @@ block body
           th(data-name='id', data-type="number", data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('id') ? 'false' : 'true') Код
           th(data-name='nomenclature.title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('nomenclature.title') ? 'false' : 'true') Оборудование
           th(data-name='nomenclature.createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('nomenclature.createdAt') ? 'false' : 'true', data-format-string="dd") Дата изготовления
-          th(data-name='factory_id', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('factory_id') ? 'false' : 'true') Заводской номер
-          th(data-name='warranty', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty') ? 'false' : 'true', data-type="number") Срок гарантии (мес.)
-          th(data-name='nomenclature.createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty.createdAt') ? 'false' : 'true', data-format-string="dd") Дата начала гарантии
-          th(data-name='warranty_expiration', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty_expiration') ? 'false' : 'true', data-format-string="dd") Дата окончания гарантии
-          th(data-name='counterparty.title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('counterparty.title') ? 'false' : 'true') Изотовитель
-          th(data-name='extra', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('extra') ? 'false' : 'true') Особые отметки
-          th(data-name='beginAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('beginAt') ? 'false' : 'true') Дата ввода в эксплуат.
-          th(data-name='accepted_runtime', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('accepted_runtime') ? 'false' : 'true') Допустим. наработка
-          th(data-name='max_runtime', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('max_runtime') ? 'false' : 'true') Предел. наработка
-          th(data-name='createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('createdAt') ? 'false' : 'true') Дата создания
+          th(data-breakpoints='xs', data-name='factory_id', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('factory_id') ? 'false' : 'true') Заводской номер
+          th(data-breakpoints='xs', data-name='warranty', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty') ? 'false' : 'true', data-type="number") Срок гарантии (мес.)
+          th(data-breakpoints='xs', data-name='nomenclature.createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty.createdAt') ? 'false' : 'true', data-format-string="dd") Дата начала гарантии
+          th(data-breakpoints='xs', data-name='warranty_expiration', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty_expiration') ? 'false' : 'true', data-format-string="dd") Дата окончания гарантии
+          th(data-breakpoints='xs sm md', data-name='counterparty.title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('counterparty.title') ? 'false' : 'true') Изотовитель
+          th(data-breakpoints='xs sm md', data-name='extra', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('extra') ? 'false' : 'true') Особые отметки
+          th(data-breakpoints='xs sm md', data-name='beginAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('beginAt') ? 'false' : 'true') Дата ввода в эксплуат.
+          th(data-breakpoints='xs sm md', data-name='accepted_runtime', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('accepted_runtime') ? 'false' : 'true') Допустим. наработка
+          th(data-breakpoints='xs sm md', data-name='max_runtime', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('max_runtime') ? 'false' : 'true') Предел. наработка
+          th(data-breakpoints='xs sm md', data-name='createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('createdAt') ? 'false' : 'true') Дата создания
       tbody
         each val in list
           tr(data-href=val.id)
@@ -58,7 +58,7 @@ block body
           table.footable(data-paging='true', data-paging-size="20")
             thead
               tr
-                th() Заголовок столюца
+                th() Заголовок столбца
                 th() Видимость
             tbody
               tr
