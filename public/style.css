@@ -191,3 +191,15 @@ aside {
   color: #80C5ED;
   text-shadow: none;
 }
+
+.footable-filtering {
+  display:none;
+}
+
+.dropdown-menu {
+  background: #233851;
+}
+
+input::placeholder {
+  color: #718EAB !important;
+}
