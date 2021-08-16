@@ -15,11 +15,20 @@ block body
         i.ion.ion-md-add-circle-outline
         |  Добавить
 
-    table.footable(data-paging='true', data-sorting="true")
+    table#main.footable(data-paging='true', data-stop-propagation="true", data-filtering="true")
       thead
         tr
           th(data-name='id', data-type="number", data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('id') ? 'false' : 'true') Код
-          th(data-name='nomenclature.title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('nomenclature.title') ? 'false' : 'true') Оборудование
+          th(data-name='title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('nomenclature.title') ? 'false' : 'true')
+            | Оборудование
+            a.filter.dropdown(data-toggle="dropdown")
+              ion-icon.float-right(name='funnel-outline')
+            .dropdown-menu
+              form.px-3.py-3
+                .form-group
+                  input.titleSearch.form-control(placeholder='Поиск по названию...')
+              a.btn.float-left.ml-3.mb-3(type="button", onclick='reset()') Сброс
+              a.btn.float-right.mr-3.mb-3(type="button", onclick='apply()') Применить
           th(data-name='nomenclature.createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('nomenclature.createdAt') ? 'false' : 'true', data-format-string="dd") Дата изготовления
           th(data-breakpoints='xs', data-name='factory_id', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('factory_id') ? 'false' : 'true') Заводской номер
           th(data-breakpoints='xs', data-name='warranty', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty') ? 'false' : 'true', data-type="number") Срок гарантии (мес.)
@@ -121,11 +130,13 @@ append script
   script.
     $(() => {
       $('table').footable();
+
       $('tr[data-href]').on("click", function (e) {
         if (!$(e.target).hasClass('footable-toggle')) {
           document.location.href = `/passport/edit/${$(this).data('href')}`;
         }
       });
+
       $('#settingsModalSave').on("click", function () {
         let arr = [];
         $("input:checkbox[name='visible']").each(function () {
@@ -134,5 +145,24 @@ append script
           }
         });
         document.location.href = `/passport?hide_columns=${arr}`
-      })
+      });
     })
+  script.
+    function apply() {
+      let filtering = FooTable.get('#main').use(FooTable.Filtering), // get the filtering component for the table
+          filter = $('.titleSearch').eq(1).val(); // get the value to filter by
+      console.log(filter);
+      if (!filter) { // if the value is "none" remove the filter
+        filtering.removeFilter('title');
+      } else { // otherwise add/update the filter.
+        filtering.addFilter('title', filter, ['title']);
+      }
+      filtering.filter();
+    }
+  script.
+    function reset() {
+      let filtering = FooTable.get('#main').use(FooTable.Filtering),
+          filter = $('.titleSearch').eq(1)
+      filter.val('');
+      filtering.removeFilter('title');
+    }
