@@ -35,7 +35,19 @@ block body
           th(data-breakpoints='xs', data-name='nomenclature.createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty.createdAt') ? 'false' : 'true', data-format-string="dd") Дата начала гарантии
           th(data-breakpoints='xs', data-name='warranty_expiration', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty_expiration') ? 'false' : 'true', data-format-string="dd") Дата окончания гарантии
           th(data-breakpoints='xs sm md', data-name='counterparty.title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('counterparty.title') ? 'false' : 'true') Изотовитель
-          th(data-breakpoints='xs sm md', data-name='extra', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('extra') ? 'false' : 'true') Особые отметки
+          th(data-breakpoints='xs sm md', data-name='extra', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('extra') ? 'false' : 'true')
+            | Особые отметки
+            a.filter.dropdown(data-toggle="dropdown")
+              ion-icon.float-right(name='funnel-outline')
+            .dropdown-menu
+              form.px-3.py-3
+                .form-group
+                  select.form-control
+                    - var filtered = list.map(el => el.extra).filter((el, n, all) => all.indexOf(el) == n)
+                    each val in filtered
+                      option= val
+              a.btn.float-left.ml-3.mb-3(type="button", onclick='resetSelect()') Сброс
+              a.btn.float-right.mr-3.mb-3(type="button", onclick='applySelect()') Применить
           th(data-breakpoints='xs sm md', data-name='beginAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('beginAt') ? 'false' : 'true') Дата ввода в эксплуат.
           th(data-breakpoints='xs sm md', data-name='accepted_runtime', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('accepted_runtime') ? 'false' : 'true') Допустим. наработка
           th(data-breakpoints='xs sm md', data-name='max_runtime', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('max_runtime') ? 'false' : 'true') Предел. наработка
@@ -126,6 +138,7 @@ block body
         .modal-footer.justify-content-between
           button.btn(type='button' data-dismiss='modal') Отмена
           button#settingsModalSave.btn(type='button') Сохранить
+  #myModal
 append script
   script.
     $(() => {
@@ -146,6 +159,25 @@ append script
         });
         document.location.href = `/passport?hide_columns=${arr}`
       });
+
+      $(document).on('click', '.dropdown-menu', function (e) {
+        e.stopPropagation();
+      });
+
+      $('body').on('shown.bs.dropdown', function () {
+        $(this).find('select').each(function () {
+          let dropdownParent = $(document.body);
+
+          if ($(this).parents('.dropdown.in:first').length !== 0)
+            dropdownParent = $(this).parents('.dropdown.in:first');
+
+          $(this).select2({
+            dropdownParent,
+            placeholder: 'Поиск по названию...',
+            dropdownParent: $(this).parent()
+          });
+        });
+      });
     })
   script.
     function apply() {
@@ -165,4 +197,23 @@ append script
           filter = $('.titleSearch').eq(1)
       filter.val('');
       filtering.removeFilter('title');
+    }
+  script.
+    function applySelect() {
+      let filtering = FooTable.get('#main').use(FooTable.Filtering), // get the filtering component for the table
+          filter = $('select').eq(1).val(); // get the value to filter by
+      console.log(filter);
+      if (!filter) { // if the value is "none" remove the filter
+        filtering.removeFilter('extra');
+      } else { // otherwise add/update the filter.
+        filtering.addFilter('extra', filter, ['extra'], true, false, 'AND');
+      }
+      filtering.filter();
+    }
+  script.
+    function resetSelect() {
+      let filtering = FooTable.get('#main').use(FooTable.Filtering),
+          filter = $('select').eq(1)
+      filter.val('').trigger('change');
+      filtering.removeFilter('extra');
     }
