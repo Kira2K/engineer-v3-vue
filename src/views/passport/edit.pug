@@ -26,7 +26,13 @@ block body
             else
               option(value=val.id)= val.title
       +input('factory_id',  'Заводской номер')
-      +input('produced', 'Произведён')
+      .form-group
+        label(for="produced") Произведён
+        #produced.input-group.date(data-target-input='nearest')
+          input.form-control.datetimepicker-input(type='text' data-target='#produced')
+          .input-group-append(data-target='#produced' data-toggle='datetimepicker')
+            .input-group-text
+              i.ion.ion-md-calendar
       +input('commissioned', 'Введён в эксплуатацию')
       +input('warranty', 'Гарантия (мес)')
       +input('warranty_expiration', 'Истечение гарантии')
@@ -201,4 +207,11 @@ append script
             { title: "Ремонт", name: "repair" },
           ]
         })
+      })
+    script.
+      $(() => {
+        $('#produced').datetimepicker({
+            locale: 'ru',
+            format: 'DD.MM.YYYY'
+          });
       })
