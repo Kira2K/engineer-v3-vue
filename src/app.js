@@ -4,6 +4,7 @@ const express =  require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
+const { Op } = require('sequelize')
 
 const { crud, sequelizeCrud } = require('express-sequelize-crud')
 const db = require('./db/models/')
@@ -17,7 +18,14 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(morgan('dev'))
 
-app.use(crud('/api/unit', sequelizeCrud(db.unit)))
+app.use(crud('/api/unit', sequelizeCrud(db.unit), {
+    filters: {
+      id: value => ({
+        [Op.gt]: value,
+      }),
+    }
+  }
+))
 app.use(crud('/api/nomenclatureclass', sequelizeCrud(db.nomenclature_class)))
 app.use(crud('/api/nomenclaturegroup', sequelizeCrud(db.nomenclature_group)))
 app.use(crud('/api/nomenclaturemodel', sequelizeCrud(db.nomenclature_model)))
@@ -30,7 +38,14 @@ app.use(crud('/api/commission', sequelizeCrud(db.commission)))
 app.use(crud('/api/counterparty', sequelizeCrud(db.counterparty)))
 app.use(crud('/api/malfunction_type', sequelizeCrud(db.malfunction_type)))
 app.use(crud('/api/part', sequelizeCrud(db.part)))
-app.use(crud('/api/passport', sequelizeCrud(db.passport)))
+app.use(crud('/api/passport', sequelizeCrud(db.passport), {
+    filters: {
+      createdAt: value => ({
+        [Op.between]: value,
+      }),
+    }
+  }
+))
 app.use(crud('/api/repair_type', sequelizeCrud(db.repair_type)))
 app.use(crud('/api/toro', sequelizeCrud(db.toro)))
 app.use(crud('/api/value', sequelizeCrud(db.value)))
