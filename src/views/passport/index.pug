@@ -29,7 +29,7 @@ block body
                   input.titleSearch.form-control(placeholder='Поиск по названию...')
               a.btn.float-left.ml-3.mb-3(type="button", onclick='reset()') Сброс
               a.btn.float-right.mr-3.mb-3(type="button", onclick='apply()') Применить
-          th(data-name='nomenclature.createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('nomenclature.createdAt') ? 'false' : 'true', data-format-string="dd") Дата изготовления
+          th(data-name='produced', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('produced') ? 'false' : 'true', data-format-string="dd") Дата изготовления
           th(data-breakpoints='xs', data-name='factory_id', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('factory_id') ? 'false' : 'true') Заводской номер
           th(data-breakpoints='xs', data-name='warranty', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty') ? 'false' : 'true', data-type="number") Срок гарантии (мес.)
           th(data-breakpoints='xs', data-name='nomenclature.createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty.createdAt') ? 'false' : 'true', data-format-string="dd") Дата начала гарантии
@@ -48,7 +48,20 @@ block body
                       option= val
               a.btn.float-left.ml-3.mb-3(type="button", onclick='resetSelect()') Сброс
               a.btn.float-right.mr-3.mb-3(type="button", onclick='applySelect()') Применить
-          th(data-breakpoints='xs sm md', data-name='beginAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('beginAt') ? 'false' : 'true') Дата ввода в эксплуат.
+          th(data-breakpoints='xs sm md', data-name='beginAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('beginAt') ? 'false' : 'true')
+            | Дата ввода в эксплуат.
+            a.filter.dropdown(data-toggle="dropdown")
+              ion-icon.float-right(name='funnel-outline')
+            .dropdown-menu
+              form.px-3.py-3
+                .form-group
+                  #beginAt.input-group.date(data-target-input='nearest')
+                    input.form-control.datetimepicker-input(type='text' data-target='#beginAt')
+                    .input-group-append(data-target='#beginAt' data-toggle='datetimepicker')
+                      .input-group-text
+                        i.ion.ion-md-calendar
+              a.btn.float-left.ml-3.mb-3(type="button", onclick='resetDate()') Сброс
+              a.btn.float-right.mr-3.mb-3(type="button", onclick='applyDate()') Применить
           th(data-breakpoints='xs sm md', data-name='accepted_runtime', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('accepted_runtime') ? 'false' : 'true') Допустим. наработка
           th(data-breakpoints='xs sm md', data-name='max_runtime', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('max_runtime') ? 'false' : 'true') Предел. наработка
           th(data-breakpoints='xs sm md', data-name='createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('createdAt') ? 'false' : 'true') Дата создания
@@ -57,7 +70,7 @@ block body
           tr(data-href=val.id)
             td= val['id']
             td= val['nomenclature.title']
-            td= val['nomenclature.createdAt']
+            td= val['produced']
             td= val['factory_id']
             td= val['warranty']
             td= val['nomenclature.createdAt']
@@ -93,7 +106,7 @@ block body
               tr
                 td.float-left.ml-3 Дата изготовления
                 td
-                  input(type="checkbox", name="visible", value="nomenclature.createdAt", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('nomenclature.createdAt') ? undefined : "checked"))
+                  input(type="checkbox", name="visible", value="produced", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('produced') ? undefined : "checked"))
               tr
                 td.float-left.ml-3 Заводской номер
                 td
@@ -165,6 +178,7 @@ append script
       });
 
       $('body').on('shown.bs.dropdown', function () {
+        $('.footable-filtering-search').html('');
         $(this).find('select').each(function () {
           let dropdownParent = $(document.body);
 
@@ -176,6 +190,12 @@ append script
             placeholder: 'Поиск по названию...',
             dropdownParent: $(this).parent()
           });
+        });
+
+        $('.input-group.date').datetimepicker({
+          locale: 'ru',
+          format: 'DD.MM.YYYY',
+          debug: true
         });
       });
     })
@@ -217,4 +237,26 @@ append script
       filter.val('').trigger('change');
       filtering.removeFilter('extra');
       filtering.filter();
+    }
+  script.
+    function applyDate() {
+      // let filtering = FooTable.get('#main').use(FooTable.Filtering), // get the filtering component for the table
+      //     filter = $('select').eq(1).val(); // get the value to filter by
+      // console.log(filter);
+      // if (!filter) { // if the value is "none" remove the filter
+      //   filtering.removeFilter('extra');
+      // } else { // otherwise add/update the filter.
+      //   filtering.addFilter('extra', filter, ['extra'], true, false, 'AND');
+      // }
+      // filtering.filter();
+      let filter = $('#beginAt input').val();
+      document.location.href = `/passport?filter=%7B"createdAt"%3A%5B"${moment(filter.split('.').reverse()).format('YYYY-MM-DDTHH:mm:ss.SSS')}"%5D%7D`
+    }
+  script.
+    function resetDate() {
+      // let filtering = FooTable.get('#main').use(FooTable.Filtering),
+      //     filter = $('select').eq(1)
+      // filter.val('').trigger('change');
+      // filtering.removeFilter('extra');
+      // filtering.filter();
     }

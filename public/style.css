@@ -91,17 +91,18 @@ body {
   padding: 16px;
 }
 
-table thead tr {
+table thead tr.footable-header {
   background: #142333;
 }
 
-table thead tr th {
+table.footable thead tr.footable-header > th {
   padding: 3px 10px 3px 16px;
   color: #80C5ED;
   font-size: 12px;
   line-height: 16px;
 }
 
+.table > :not(:last-child) > :last-child > *,
 table tr {
   border-bottom: 1px solid #30485C;
 }
@@ -230,4 +231,30 @@ input::placeholder {
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
   color: #718EAB;
+}
+
+.input-group-text {
+  background-color: #142333;
+}
+
+.table thead th {
+  border: 0px;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+  padding: 0;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu ul {
+  margin: 0;
+}
+
+.picker-switch {
+  text-align: center;
+}
+
+.bootstrap-datetimepicker-widget table td span:hover,
+.bootstrap-datetimepicker-widget table thead tr:first-child th:hover,
+.bootstrap-datetimepicker-widget table td.day:hover, .bootstrap-datetimepicker-widget table td.hour:hover, .bootstrap-datetimepicker-widget table td.minute:hover, .bootstrap-datetimepicker-widget table td.second:hover {
+  background: #385775 !important;
 }
