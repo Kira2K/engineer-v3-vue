@@ -258,3 +258,23 @@ input::placeholder {
 .bootstrap-datetimepicker-widget table td.day:hover, .bootstrap-datetimepicker-widget table td.hour:hover, .bootstrap-datetimepicker-widget table td.minute:hover, .bootstrap-datetimepicker-widget table td.second:hover {
   background: #385775 !important;
 }
+
+.daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date,
+.daterangepicker .calendar-table,
+.daterangepicker {
+  background: #25384E;
+  border: 0;
+}
+
+.daterangepicker .calendar-table .next span, .daterangepicker .calendar-table .prev span {
+  border-color: #718EAB;
+}
+
+.daterangepicker td.available:hover, .daterangepicker th.available:hover {
+  background-color: #2A445E;
+}
+
+.daterangepicker td.in-range {
+  background-color: #213345;
+  color: #C9EBFF;
+}

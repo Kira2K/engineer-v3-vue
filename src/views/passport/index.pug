@@ -55,11 +55,11 @@ block body
             .dropdown-menu
               form.px-3.py-3
                 .form-group
-                  #beginAt.input-group.date(data-target-input='nearest')
-                    input.form-control.datetimepicker-input(type='text' data-target='#beginAt')
-                    .input-group-append(data-target='#beginAt' data-toggle='datetimepicker')
-                      .input-group-text
-                        i.ion.ion-md-calendar
+                  .input-group
+                    .input-group-prepend
+                      span.input-group-text
+                        i.far.fa-calendar-alt
+                    input#beginAt.form-control.float-right(type='text')
               a.btn.float-left.ml-3.mb-3(type="button", onclick='resetDate()') Сброс
               a.btn.float-right.mr-3.mb-3(type="button", onclick='applyDate()') Применить
           th(data-breakpoints='xs sm md', data-name='accepted_runtime', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('accepted_runtime') ? 'false' : 'true') Допустим. наработка
@@ -192,10 +192,9 @@ append script
           });
         });
 
-        $('.input-group.date').datetimepicker({
-          locale: 'ru',
-          format: 'DD.MM.YYYY',
-          debug: true
+        $('#beginAt').daterangepicker({
+          autoApply: true,
+          linkedCalendars: false
         });
       });
     })
@@ -240,17 +239,10 @@ append script
     }
   script.
     function applyDate() {
-      // let filtering = FooTable.get('#main').use(FooTable.Filtering), // get the filtering component for the table
-      //     filter = $('select').eq(1).val(); // get the value to filter by
-      // console.log(filter);
-      // if (!filter) { // if the value is "none" remove the filter
-      //   filtering.removeFilter('extra');
-      // } else { // otherwise add/update the filter.
-      //   filtering.addFilter('extra', filter, ['extra'], true, false, 'AND');
-      // }
-      // filtering.filter();
-      let filter = $('#beginAt input').val();
-      document.location.href = `/passport?filter=%7B"createdAt"%3A%5B"${moment(filter.split('.').reverse()).format('YYYY-MM-DDTHH:mm:ss.SSS')}"%5D%7D`
+      let filter = $('#beginAt').data('daterangepicker');
+      let dtStart = filter.startDate.format('YYYY-MM-DDTHH:mm:ss.SSS');
+      let dtEnd = filter.endDate ? filter.endDate.format('YYYY-MM-DDTHH:mm:ss.SSS') : filter.startDate.format('YYYY-MM-DDTHH:mm:ss.SSS');
+      document.location.href = `/passport?filter=%7B"createdAt"%3A%5B"${dtStart}","${dtEnd}"%5D%7D`
     }
   script.
     function resetDate() {
