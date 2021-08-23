@@ -302,3 +302,16 @@ input::placeholder {
 .btn:hover {
 
 }
+
+.small-box,
+.info-box {
+  background: #213345;
+  border-radius: 5px;
+  height: 111px;
+}
+
+.small-box .icon>i.fa, .small-box .icon>i.fab, .small-box .icon>i.fad, .small-box .icon>i.fal, .small-box .icon>i.far, .small-box .icon>i.fas, .small-box .icon>i.ion {
+  font-size: 50px;
+  top: 40px;
+  color: #30485C;
+}

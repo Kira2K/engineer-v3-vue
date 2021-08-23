@@ -13,6 +13,8 @@ block body
       a.float-right.btn.ml-3(type="button", data-toggle="modal", data-target="#tableSettingsModal")
         ion-icon(name='settings-outline')
       a.float-right.btn.ml-3(type="button")
+        i.far.fa-file-excel
+      a.float-right.btn.ml-3(type="button")
         ion-icon(name='reload-outline')
       a.float-right.btn.ml-3(type="button" href="/passport/edit")
         i.ion.ion-md-add-circle-outline
@@ -32,11 +34,15 @@ block body
                     input.titleSearch.form-control(placeholder='Поиск по названию...')
                 a.btn.float-left.ml-3.mb-3(type="button", onclick='reset()') Сброс
                 a.btn.float-right.mr-3.mb-3(type="button", onclick='apply()') Применить
-            th(data-name='produced', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('produced') ? 'false' : 'true', data-format-string="dd") Дата изготовления
+            th(data-name='produced', data-formatter='dateFormat', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('produced') ? 'false' : 'true', data-format-string="dd") Дата изготовления
             th(data-breakpoints='xs', data-name='factory_id', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('factory_id') ? 'false' : 'true') Заводской номер
             th(data-breakpoints='xs', data-name='warranty', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty') ? 'false' : 'true', data-type="number") Срок гарантии (мес.)
-            th(data-breakpoints='xs', data-name='nomenclature.createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty.createdAt') ? 'false' : 'true', data-format-string="dd") Дата начала гарантии
-            th(data-breakpoints='xs', data-name='warranty_expiration', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty_expiration') ? 'false' : 'true', data-format-string="dd") Дата окончания гарантии
+            th(data-breakpoints='xs', data-formatter='dateFormat', data-name='nomenclature.createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty.createdAt') ? 'false' : 'true', data-format-string="dd") Дата начала гарантии
+            th(data-breakpoints='xs', data-formatter='dateFormat', data-name='warranty_expiration', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty_expiration') ? 'false' : 'true', data-format-string="dd") Дата окончания гарантии
+            th(data-breakpoints='xs', data-name='serial_number', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('serial_number') ? 'false' : 'true') Сер. №
+            th(data-breakpoints='xs', data-name='med_org', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('med_org') ? 'false' : 'true') МО
+            th(data-breakpoints='xs', data-name='sub_med_org', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('sub_med_org') ? 'false' : 'true') Подразд. МО
+            th(data-breakpoints='xs', data-name='state', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('state') ? 'false' : 'true') Состаяние
             th(data-breakpoints='xs sm md', data-name='counterparty.title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('counterparty.title') ? 'false' : 'true') Изотовитель
             th(data-breakpoints='xs sm md', data-name='extra', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('extra') ? 'false' : 'true')
               | Особые отметки
@@ -60,7 +66,7 @@ block body
                 //        option= val
                 //a.btn.float-left.ml-3.mb-3(type="button", onclick='resetSelect()') Сброс
                 //a.btn.float-right.mr-3.mb-3(type="button", onclick='applySelect()') Применить
-            th(data-breakpoints='xs sm md', data-name='beginAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('beginAt') ? 'false' : 'true')
+            th(data-breakpoints='xs sm md', data-formatter='dateFormat', data-name='beginAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('beginAt') ? 'false' : 'true')
               | Дата ввода в эксплуат.
               a.filter.dropdown(data-toggle="dropdown")
                 ion-icon.float-right(name='funnel-outline')
@@ -76,7 +82,7 @@ block body
                 a.btn.float-right.mr-3.mb-3(type="button", onclick='applyDate()') Применить
             th(data-breakpoints='xs sm md', data-name='accepted_runtime', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('accepted_runtime') ? 'false' : 'true') Допустим. наработка
             th(data-breakpoints='xs sm md', data-name='max_runtime', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('max_runtime') ? 'false' : 'true') Предел. наработка
-            th(data-breakpoints='xs sm md', data-name='createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('createdAt') ? 'false' : 'true') Дата создания
+            th(data-breakpoints='xs sm md', data-formatter='dateFormat' data-name='createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('createdAt') ? 'false' : 'true') Дата создания
         tbody
           each val in list
             tr(data-href=val.id)
@@ -85,14 +91,19 @@ block body
               td= val['produced']
               td= val['factory_id']
               td= val['warranty']
-              td= val['nomenclature.createdAt']
+              td
               td= val['warranty_expiration']
+              td
+              td
+              td
+              td
               td= val['counterparty.title']
               td= val['extra']
-              td= val['createdAt']
+              td
               td= val['accepted_runtime']
               td= val['max_runtime']
               td= val['createdAt']
+              //td= moment(val['createdAt']).format( 'DD.MM.YYYY')
   #tableSettingsModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='tableSettingsModalTitle' aria-hidden='true')
     .modal-dialog.modal-dialog-centered(role='document')
       .modal-content
@@ -292,4 +303,8 @@ append script
   script.
     function resetCheckbox() {
       document.location.href = `/passport?hide_columns=${params.hide_columns}`
+    }
+  script.
+    function dateFormat(value) {
+      return moment(value).format('DD.MM.YYYY');
     }
