@@ -31,3 +31,6 @@ mixin nav-item(id, title)
     else
       a.nav-link.disabled(href=uri)
         block
+
+mixin format-date(iso)
+  = moment(iso).format('YYYY.MM.DD HH:mm:ss')

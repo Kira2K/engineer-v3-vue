@@ -10,6 +10,7 @@ const favicon = require('serve-favicon')
 const cors = require('cors')
 const morgan = require('morgan')
 const fetch = require('node-fetch')
+const moment = require('moment')
 
 const port = process.env.PORT || 8090
 const frontPort = process.env.FRONT_PORT || 8091
@@ -70,6 +71,7 @@ front.set('view engine', 'pug')
 front.set('views', 'src/views')
 
 front.use((req, res, next) => {
+  res.locals.moment = moment
   res.locals.query = req.query
   res.locals.env = { backendAddr, frontDebug }
   next()
