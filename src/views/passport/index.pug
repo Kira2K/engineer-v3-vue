@@ -91,7 +91,7 @@ block body
               td= val['produced']
               td= val['factory_id']
               td= val['warranty']
-              td
+              td: +format-date(val['nomenclature.createdAt'])
               td= val['warranty_expiration']
               td
               td
