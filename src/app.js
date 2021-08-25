@@ -57,7 +57,7 @@ app.use(crud('/api/log', sequelizeCrud(db.log)))
 app.use('/api/*', (err, req, res, next) => {
   const { errors } = err
   console.log({ err: JSON.stringify(err, 0, 2) })
-  res.status(400).send({ err })
+  res.status(400).send(err)
 })
 
 app.listen(port, () => {
