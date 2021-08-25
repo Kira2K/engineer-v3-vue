@@ -1,3 +1,4 @@
 .env
 keycloak.json
 node_modules
+.idea
