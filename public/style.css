@@ -43,7 +43,26 @@ body {
   background: #213345;
 }
 
-.nav-item {
+.nav-tabs {
+  border-bottom: none;
+}
+
+.nav-tabs .nav-item {
+  margin: 0 4px;
+}
+
+.nav-tabs .nav-item .nav-link {
+  background-color: #25384E;
+  font-size: 14px;
+  line-height: 18px;
+  color: #C9EBFF;
+  font-weight: normal;
+  height: 32px;
+}
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  background: #2A445E;
+  box-shadow: inset 0px -2px 0px #73D0F5;
+  border: none;
 }
 
 .nav-item a {
@@ -108,7 +127,7 @@ table tr {
 }
 
 table tbody tr td {
-  text-align: center;
+  text-align: left;
   padding: 0 10px;
 }
 
@@ -199,7 +218,7 @@ aside {
 }
 
 table.footable, table.footable-details {
-  min-height: 500px;
+
 }
 
 .dropdown-menu {
@@ -303,6 +322,7 @@ input::placeholder {
 .card-body.table-body {
   padding: 0;
   overflow-x: scroll;
+  min-height: calc(100vh - 200px);
 }
 
 .btn:hover {
@@ -328,4 +348,16 @@ input::placeholder {
   width: 100%;
   align-items: center;
   justify-content: space-between;
+}
+
+.table-header .filter {
+  color: #80C5ED;
+}
+
+label:not(.form-check-label):not(.custom-file-label),
+label, .radio label, .checkbox label, .help-block {
+  color: #718EAB;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
 }
