@@ -7,38 +7,68 @@ block body
       h3.card-title Новый паспорт
     .card-body
       +dummy_input('id', 'Код')
-      .form-group
-        label(for="nomenclatureId") Номенклатура
-        select#unitId.form-control(name="nomenclatureId")
-          option(value='') ___
-          each val in nomenclature
-            if instance.nomenclatureId == val.id
-              option(selected value=val.id)= val.title
-            else
-              option(value=val.id)= val.title
-      .form-group
-        label(for="counterpartyId") Производитель
-        select#counterpartyId.form-control(name="counterpartyId")
-          option(value='') ___
-          each val in counterparty
-            if instance.counterpartyId == val.id
-              option(selected value=val.id)= val.title
-            else
-              option(value=val.id)= val.title
-      +input('factory_id',  'Заводской номер')
-      .form-group
-        label(for="produced") Произведён
-        #produced.input-group.date(data-target-input='nearest')
-          input.form-control.datetimepicker-input(type='text' data-target='#produced')
-          .input-group-append(data-target='#produced' data-toggle='datetimepicker')
-            .input-group-text
-              i.ion.ion-md-calendar
-      +input('commissioned', 'Введён в эксплуатацию')
-      +input('warranty', 'Гарантия (мес)')
-      +input('warranty_expiration', 'Истечение гарантии')
-      +input('accepted_runtime', 'Допустимая наработка')
-      +input('max_runtime', 'Максимальная наработка')
-      +input('extra', 'Особые отметки')
+      .row
+        .col
+          .form-group
+            label(for="nomenclatureId") Номенклатура *
+            select#unitId.form-control(name="nomenclatureId")
+              option(value='') ___
+              each val in nomenclature
+                if instance.nomenclatureId == val.id
+                  option(selected value=val.id)= val.title
+                else
+                  option(value=val.id)= val.title
+        .col
+          +input('nomenclature.title',  'Наименование')
+        .col
+          +input('factory_id',  'Серийный номер *')
+        .col
+          +input('factory_id',  'Заводской номер *')
+      .row
+        .col
+          +input('factory_id',  'Номер партии *')
+        .col
+          .form-group
+            label(for="counterpartyId") Изготовитель *
+            select#counterpartyId.form-control(name="counterpartyId")
+              option(value='') ___
+              each val in counterparty
+                if instance.counterpartyId == val.id
+                  option(selected value=val.id)= val.title
+                else
+                  option(value=val.id)= val.title
+        .col
+          .form-group
+            label(for="produced") Дата изготовления *
+            #produced.input-group.date(data-target-input='nearest')
+              input.form-control.datetimepicker-input(type='text' data-target='#produced')
+              .input-group-append(data-target='#produced' data-toggle='datetimepicker')
+                .input-group-text
+                  i.ion.ion-md-calendar
+        .col
+          .form-group
+            label(for="warranty_expiration") Ввод в эксплуатацию *
+            #warranty_expiration.input-group.date(data-target-input='nearest')
+              input.form-control.datetimepicker-input(type='text' data-target='#warranty_expiration')
+              .input-group-append(data-target='#warranty_expiration' data-toggle='datetimepicker')
+                .input-group-text
+                  i.ion.ion-md-calendar
+      .row
+        .col
+          +input('provisioner', 'Медицинская организация *')
+        .col
+          +input('provisioner', 'Подразделение мед. орг. *')
+        .col
+          +input('state', 'Состояние *')
+        .col
+      .row
+        .col
+          +input('mac', 'MAC-адрес')
+        .col
+          +input('ip', 'IP-адрес')
+        .col
+          +input('extra', 'Особые отметки')
+        .col
 
       if instance.id
         hr
@@ -77,10 +107,10 @@ block body
 
     .card-footer
       if instance.id
-        button.btn.btn-primary(type="submit") Сохранить
+        button.btn.btn-primary.float-right.ml-3(type="submit") Сохранить
         a.float-right.btn.btn-danger(href=`/passport/delete/${instance.id}`) Удалить
       else
-        button.btn.btn-primary(type="submit") Добавить
+        button.btn.btn-primary.float-right(type="submit") Добавить
 
 append script
     script.
@@ -213,7 +243,11 @@ append script
         $('#produced').datetimepicker({
             locale: 'ru',
             format: 'DD.MM.YYYY',
-            debug: true,
+            allowInputToggle: true
+          });
+        $('#warranty_expiration').datetimepicker({
+            locale: 'ru',
+            format: 'DD.MM.YYYY',
             allowInputToggle: true
           });
       })

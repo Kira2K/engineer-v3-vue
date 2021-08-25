@@ -4862,7 +4862,7 @@
 						col.$el.addClass('footable-sortable').append($('<span/>', {'class': 'fooicon fooicon-sort'}));
 					}
 				});
-				self.ft.$el.on('click.footable', '.footable-sortable', { self: self }, self._onSortClicked);
+				self.ft.$el.on('click.footable', '.footable-sortable .fooicon', { self: self }, self._onSortClicked);
 			}, function(){
 				self.enabled = false;
 			});
@@ -4883,7 +4883,7 @@
 			 */
 			var self = this;
 			this.ft.raise('destroy.ft.paging').then(function(){
-				self.ft.$el.off('click.footable', '.footable-sortable', self._onSortClicked);
+				self.ft.$el.off('click.footable', '.footable-sortable .fooicon', self._onSortClicked);
 				self.ft.$el.children('thead').children('tr.footable-header')
 					.children('.footable-sortable').removeClass('footable-sortable footable-asc footable-desc')
 					.find('span.fooicon').remove();
@@ -6115,7 +6115,7 @@
 			 * @type {string}
 			 */
 			this.deleteText = table.o.editing.deleteText;
-			
+
 			/**
 			 * The text that appears in the view button. This can contain HTML.
 			 * @type {string}
@@ -6810,7 +6810,7 @@
 	 * can be set to false and then followed by a call to the {@link FooTable.Table#draw} method.
 	 */
 	F.Rows.prototype.update = function(indexOrRow, data, redraw){
-		var len = this.ft.rows.all.length, 
+		var len = this.ft.rows.all.length,
 			row = indexOrRow;
 		if (F.is.number(indexOrRow) && indexOrRow >= 0 && indexOrRow < len){
 			row = this.ft.rows.all[indexOrRow];
@@ -6827,7 +6827,7 @@
 	 * can be set to false and then followed by a call to the {@link FooTable.Table#draw} method.
 	 */
 	F.Rows.prototype.delete = function(indexOrRow, redraw){
-		var len = this.ft.rows.all.length, 
+		var len = this.ft.rows.all.length,
 			row = indexOrRow;
 		if (F.is.number(indexOrRow) && indexOrRow >= 0 && indexOrRow < len){
 			row = this.ft.rows.all[indexOrRow];
