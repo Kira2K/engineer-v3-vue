@@ -15,6 +15,22 @@ passport {
 passport	}o--|| nomenclature : ""
 passport	}o--|| counterparty : ""
 
+warranty {
+  integer	warranty_runtime
+  integer	wararnty
+  dateonly	expiration
+  ref_id	passport_id
+}
+warranty	}o--|| passport : ""
+
+runtime {
+  integer	current
+  integer	accepted
+  integer	max
+  ref_id	passport_id
+}
+runtime	}o--|| passport : ""
+
 counterparty {
   string	title
   string	short
@@ -109,4 +125,11 @@ value {
 }
 value	}o--|| enabled_parameter : ""
 value	}o--|| passport : ""
+
+log {
+  string	person
+  string	module
+  string	action
+  text	extra
+}
 
