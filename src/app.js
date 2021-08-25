@@ -40,9 +40,8 @@ app.use(crud('/api/malfunction_type', sequelizeCrud(db.malfunction_type)))
 app.use(crud('/api/part', sequelizeCrud(db.part)))
 app.use(crud('/api/passport', sequelizeCrud(db.passport), {
     filters: {
-      createdAt: value => ({
-        [Op.between]: value,
-      }),
+      title: value => ({ [Op.iLike]: value }),
+      createdAt: value => ({ [Op.between]: value }),
     }
   }
 ))
