@@ -74,169 +74,136 @@ block body
         hr
         ul#tabs.nav.nav-tabs(role="tablist")
           li.nav-item
-            a#part-tab.nav-link.active(data-toggle="tab" href="#part" role="tab" aria-controls="part" aria-selected="true") Комплектация
+            a#part-tab.nav-link.active(data-toggle="tab" href="#part" role="tab" aria-controls="part" aria-selected="true") Комплектность
           li.nav-item
             a#value-tab.nav-link(data-toggle="tab" href="#value" role="tab" aria-controls="value" aria-selected="false") Тех. параметры
           li.nav-item
-            a#commission-tab.nav-link(data-toggle="tab" href="#commission" role="tab" aria-controls="commission" aria-selected="false") Закрепления оборудования
+            a#commission-tab.nav-link(data-toggle="tab" href="#commission" role="tab" aria-controls="commission" aria-selected="false") Закрепление оборудования
           li.nav-item
-            a#toro-tab.nav-link(data-toggle="tab" href="#toro" role="tab" aria-controls="toro" aria-selected="false") Учет работ и неисправностей
+            a#toro-tab.nav-link(data-toggle="tab" href="#toro" role="tab" aria-controls="toro" aria-selected="false") Учет работ/неисправ.
+          li.nav-item
+            a#warranty-tab.nav-link(data-toggle="tab" href="#warranty" role="tab" aria-controls="warranty" aria-selected="false") Гарантия
+          li.nav-item
+            a#running-tab.nav-link(data-toggle="tab" href="#running" role="tab" aria-controls="toro" aria-selected="false") Наработка
         #tabsContent.tab-content
           #part.tab-pane.fade.show.active(role="tabpanel" aria-labelledby="part-tab")
-            a.float-right.btn.btn-success(type="button" href=`/part/edit?passportId=${instance.id}`)
-              i.ion.ion-md-add-circle-outline
-              |  Добавить
-            #part-grid
+            table#part-grid.footable(data-paging="true", data-empty="Нет данных")
+              thead
+                tr
+                  th(data-name="id") №
+                  th(data-name="nomenclature.title") Номенклатура
+                  th(data-name="quantity") Количество
+                  th(data-name="unit.short") Ед.изм
           #value.tab-pane.fade(role="tabpanel" aria-labelledby="value-tab")
-            each param in value
-              - instance['value_' + param.id] = param.value
-            each param in enabledparameters
-              - var _label = param['nomenclature_parameter.title'] + ' (' + param['nomenclature_parameter.unit.short'] + ')'
-              - var _id = 'value_' + param.nomenclatureParameterId
-              +input(_id, _label)
+            table#params-grid.footable(data-paging="true", data-empty="Нет данных")
+              thead
+                tr
+                  th(data-name="id") №
+                  th(data-name="param") Параметр
+                  th(data-name="value") Значение
+                  th(data-name="unit.short") Единица измерения
+            // each param in value
+            //   - instance['value_' + param.id] = param.value
+            // each param in enabledparameters
+            //   - var _label = param['nomenclature_parameter.title'] + ' (' + param['nomenclature_parameter.unit.short'] + ')'
+            //   - var _id = 'value_' + param.nomenclatureParameterId
+            //   +input(_id, _label)
           #commission.tab-pane.fade(role="tabpanel" aria-labelledby="commission-tab")
-            a.float-right.btn.btn-success(type="button" href=`/commission/edit?passportId=${instance.id}`)
+            table#commission-grid.footable(data-paging="true", data-empty="Нет данных")
+              thead
+                tr
+                  th(data-name="id") №
+                  th(data-name="branch.title") МО
+                  th(data-name="branch.title") Подразделение
+                  th(data-name="commission_id") № документа основания
+                  th(data-name="commissioned") Дата документа основания
+                  th(data-name="inventory_id") Инв. №
+                  th(data-name="ip") IP адрес
+                  th(data-name="mac") MAC адрес
+            a.float-left.btn.mt-3(type="button" href=`/commission/edit?passportId=${instance.id}`)
               i.ion.ion-md-add-circle-outline
-              |  Добавить
-            #commission-grid
+              |  Создать новое закрепление
           #toro.tab-pane.fade(role="tabpanel" aria-labelledby="toro-tab")
-            a.float-right.btn.btn-success(type="button" href=`/toro/edit?passportId=${instance.id}`)
+            table#toro-grid.footable(data-paging="true", data-empty="Нет данных")
+              thead
+                tr
+                  th(data-name="id") №
+                  th(data-name="registered") Дата и время работ
+                  th(data-name="description") Характер работ
+                  th(data-name="runtime") Кол-во наработки (час)
+                  th(data-name="toro_start") Дата начала работ (факт)
+                  th(data-name="toro_end") Дата оконч. работ (факт)
+                  th(data-name="branch.title") Ответств. подразделение
+          #warranty.tab-pane.fade(role="tabpanel" aria-labelledby="warranty-tab")
+            table#warranty-grid.footable(data-paging="true", data-empty="Нет данных")
+              thead
+                tr
+                  th Гарантийная наработка
+                  th Срок гарантии (мес)
+                  th Окончание гарантии
+            a.float-left.btn.mt-3(type="button" href=`/toro/edit?passportId=${instance.id}`)
               i.ion.ion-md-add-circle-outline
-              |  Добавить
-            #toro-grid
+              |  Создать гарантию
+          #running.tab-pane.fade(role="tabpanel" aria-labelledby="running-tab")
+            table#running-grid.footable(data-paging="true", data-empty="Нет данных")
+              thead
+                tr
+                  th Дата фиксации текущей наработки
+                  th Текущая наработка
+                  th Предельная наработка
+                  th Допустимая наработка
+            a.float-left.btn.mt-3(type="button" href=`/toro/edit?passportId=${instance.id}`)
+              i.ion.ion-md-add-circle-outline
+              |  Создать наработку
+
 
     .card-footer
       if instance.id
-        button.btn.btn-primary.float-right.ml-3(type="submit") Сохранить
-        a.float-right.btn.btn-danger(href=`/passport/delete/${instance.id}`) Удалить
+        button.btn.float-right.ml-3(type="submit") Сохранить
+        button.btn.float-right.ml-3(href="/passport") Отмена
+        a.float-left.btn(href=`/passport/delete/${instance.id}`) Удалить
       else
-        button.btn.btn-primary.float-right(type="submit") Добавить
+        button.btn.float-right(type="submit") Добавить
 
 append script
     script.
       $(() => {
-        $('#part-grid').jsGrid({
-          height: "auto",
-          width: "100%",
-          editing: false,
-          filtering: false,
-          autoload: true,
-          sorting: true,
-          paging: false,
-          rowClick: function(args) {
-            window.location.href=`/part/edit/${args.item.id}`
-          },
-          controller: {
-            loadData: () => {
-              var deferred = $.Deferred();
-              $.ajax({
-                url: `#{env.backendAddr}/api/part`,
-                success: function(response) {
-                  deferred.resolve(response.map(el => {
-                    el.passport = `${el['passport.factory_id']} (${el['passport.nomenclature.title']})`
-                    el.nomenclature = `${el['nomenclature.title']}`
-                    return el
-                  }));
-                }
-              })
-              return deferred.promise();
-            }
-          },
-          fields: [
-            { title: "Код", name: "id" },
-            { title: "Деталь", name: "nomenclature", type: "text" },
-            { title: "Количество", name: "quantity", type: "text" },
-          ]
-        })
+        $('#part-grid').footable({
+          "rows": $.get(`#{env.backendAddr}/api/part`)
+        });
       })
 
     script.
       $(() => {
-        $('#commission-grid').jsGrid({
-          height: "auto",
-          width: "100%",
-          editing: false,
-          filtering: false,
-          autoload: true,
-          sorting: true,
-          paging: false,
-          rowClick: function(args) {
-            window.location.href=`/commission/edit/${args.item.id}`
-          },
-          controller: {
-            loadData: () => {
-              var deferred = $.Deferred();
-              $.ajax({
-                url: `#{env.backendAddr}/api/commission`,
-                success: function(response) {
-                  deferred.resolve(response.map(el => {
-                    el.factory_id = `${el['passport.factory_id']}`
-                    el.branch = `${el['branch.title']}`
-                    return el
-                  }));
-                }
-              })
-              return deferred.promise();
-            }
-          },
-          fields: [
-            { title: "Код", name: "id" },
-            { title: "Номер документа", name: "commission_id" },
-            { title: "Дата закрепления", name: "commissioned" },
-            { title: "Инвентарный номер", name: "inventory_id" },
-            { title: "IP адрес", name: "ip" },
-            { title: "MAC адрес", name: "mac" },
-            { title: "Заводской номер", name: "factory_id" },
-            { title: "Подразделение", name: "branch" },
-          ]
-        })
+        $('#params-grid').footable({
+          // "rows": $.get(`#{env.backendAddr}/api/part`)
+        });
       })
 
     script.
       $(() => {
-        $('#toro-grid').jsGrid({
-          height: "auto",
-          width: "100%",
-          editing: false,
-          filtering: false,
-          autoload: true,
-          sorting: true,
-          paging: false,
-          rowClick: function(args) {
-            window.location.href=`/toro/edit/${args.item.id}`
-          },
-          controller: {
-            loadData: () => {
-              var deferred = $.Deferred();
-              $.ajax({
-                url: `#{env.backendAddr}/api/toro`,
-                success: function(response) {
-                  deferred.resolve(response.map(el => {
-                    el.factory_id = `${el['passport.factory_id']}`
-                    el.branch = `${el['branch.title']}`
-                    el.malfunction = `${el['malfunction_type.title']}`
-                    el.repair = `${el['repair_type.title']}`
-                    return el
-                  }));
-                }
-              })
-              return deferred.promise();
-            }
-          },
-          fields: [
-            { title: "Код", name: "id" },
-            { title: "Зарегистрирован", name: "registered" },
-            { title: "Описание", name: "description" },
-            { title: "Наработка", name: "runtime" },
-            { title: "Начало ТОРО", name: "toro_start" },
-            { title: "Окончание ТОРО", name: "toro_end" },
-            { title: "Затраты", name: "labor_cost" },
-            { title: "Заводской номер", name: "factory_id" },
-            { title: "Подразделение", name: "branch" },
-            { title: "Неисправность", name: "malfunction" },
-            { title: "Ремонт", name: "repair" },
-          ]
-        })
+        $('#commission-grid').footable({
+          "rows": $.get(`#{env.backendAddr}/api/commission`)
+        });
+      })
+
+    script.
+      $(() => {
+        $('#toro-grid').footable({
+          "rows": $.get(`#{env.backendAddr}/api/toro`)
+        });
+      })
+    script.
+      $(() => {
+        $('#warranty-grid').footable({
+          "rows": $.get(`#{env.backendAddr}/api/warranty`)
+        });
+      })
+    script.
+      $(() => {
+        $('#running-grid').footable({
+          "rows": $.get(`#{env.backendAddr}/api/runtime`)
+        });
       })
     script.
       $(() => {

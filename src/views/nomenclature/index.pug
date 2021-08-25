@@ -4,10 +4,10 @@ block body
   - var filterParams = query && query.filter ? JSON.parse(query.filter) : {};
   .card
     .card-header
-      a.float-left.btn.mr-3(type="button")
-        ion-icon(name='location-outline')
+      //a.float-left.btn.mr-3(type="button")
+      //  ion-icon(name='location-outline')
       a.float-left.btn.mr-3(data-toggle="dropdown")
-        ion-icon(name='funnel-outline')
+        i.far.fa-filter
       .dropdown-menu
         a.btn.float-left.ml-3.mb-3.mr-3.mt-3(type="button", onclick='resetAll()') Сбросисть все фильтры
       a.float-right.btn.ml-3(type="button", data-toggle="modal", data-target="#tableSettingsModal")
@@ -20,7 +20,7 @@ block body
         i.ion.ion-md-add-circle-outline
         |  Добавить
     .card-body.table-body
-      table#main.footable(data-paging='true', data-stop-propagation="true", data-filtering="true", data-sorting="true")
+      table#main.footable(data-paging='true', data-stop-propagation="true", data-filtering="true", data-sorting="true", data-empty="Нет данных")
         thead
           tr
             th(data-name='id', data-type="number", data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('id') ? 'false' : 'true')
@@ -176,9 +176,37 @@ append script
         });
 
         $('.daterange').daterangepicker({
+          locale: {
+            "format": "DD.MM.YYYY",
+            "applyLabel": "Применить",
+            "cancelLabel": "Сбросить",
+            "daysOfWeek": [
+              "Пн",
+              "Вт",
+              "Ср",
+              "Чт",
+              "Пт",
+              "Сб",
+              "Вс"
+            ],
+            "monthNames": [
+              "Январь",
+              "Февраль",
+              "Март",
+              "Апрель",
+              "Май",
+              "Июнь",
+              "Июль",
+              "Август",
+              "Сентябрь",
+              "Октябрь",
+              "Ноябрь",
+              "Декабрь"
+            ],
+          },
           linkedCalendars: false,
-          startDate: "08/13/2021",
-          endDate: "08/19/2021"
+          // startDate: "08/13/2021",
+          // endDate: "08/19/2021"
         });
       });
     })

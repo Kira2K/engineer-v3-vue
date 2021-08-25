@@ -4,31 +4,31 @@ block body
   - var filterParams = query && query.filter ? JSON.parse(query.filter) : {};
   .card
     .card-header
-      a.float-left.btn.mr-3(type="button")
-        ion-icon(name='location-outline')
+      //a.float-left.btn.mr-3(type="button")
+      //  ion-icon(name='location-outline')
       a.float-left.btn.mr-3(data-toggle="dropdown")
-        ion-icon(name='funnel-outline')
+        i.far.fa-filter
       .dropdown-menu
         a.btn.float-left.ml-3.mb-3.mr-3.mt-3(type="button", onclick='resetAll()') Сбросисть все фильтры
       a.float-right.btn.ml-3(type="button", data-toggle="modal", data-target="#tableSettingsModal")
-        ion-icon(name='settings-outline')
+        i.far.fa-cog
       a.float-right.btn.ml-3(type="button")
         i.far.fa-file-excel
       a.float-right.btn.ml-3(type="button")
-        ion-icon(name='reload-outline')
+        i.far.fa-redo
       a.float-right.btn.ml-3(type="button" href="/passport/edit")
         i.ion.ion-md-add-circle-outline
         |  Добавить
     .card-body.table-body
-      table#main.footable(data-paging='true', data-stop-propagation="true", data-filtering="true", data-sorting="true")
+      table#main.footable(data-paging='true', data-stop-propagation="true", data-filtering="true", data-sorting="true", data-empty="Нет данных")
         thead
           tr
-            th(data-name='id', data-type="number", data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('id') ? 'false' : 'true')
-              .table-header Код
+            th(width="100px", data-name='id', data-type="number", data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('id') ? 'false' : 'true')
+              .table-header Номер
             th(data-name='title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('nomenclature.title') ? 'false' : 'true')
               .table-header Оборудование
                 a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  ion-icon.float-right(name='funnel-outline')
+                  i.far.fa-filter.float-right
                 .dropdown-menu
                   form.px-3.py-3
                     .form-group
@@ -38,7 +38,7 @@ block body
             th(data-name='produced', data-formatter='dateFormat', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('produced') ? 'false' : 'true', data-format-string="dd")
               .table-header Дата изготовления
                 a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  ion-icon.float-right(name='funnel-outline')
+                  i.far.fa-filter.float-right
                 .dropdown-menu
                   form.px-3.py-3
                     .form-group
@@ -49,14 +49,14 @@ block body
                         input#produced.daterange.form-control.float-right(type='text')
                   a.btn.float-left.ml-3.mb-3(type="button", onclick='resetDate("produced")') Сброс
                   a.btn.float-right.mr-3.mb-3(type="button", onclick='applyDate("produced")') Применить
-            th(data-breakpoints='xs', data-name='factory_id', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('factory_id') ? 'false' : 'true')
+            th(style="min-width: 200px;", data-breakpoints='xs', data-name='factory_id', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('factory_id') ? 'false' : 'true')
               .table-header Заводской номер
             th(data-breakpoints='xs', data-name='warranty', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty') ? 'false' : 'true', data-type="number")
               .table-header Срок гарантии (мес.)
             th(data-breakpoints='xs', data-formatter='dateFormat', data-name='nomenclature.createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty.createdAt') ? 'false' : 'true', data-format-string="dd")
               .table-header Дата начала гарантии
                 //a.filter.dropdown.ml-2(data-toggle="dropdown")
-                //  ion-icon.float-right(name='funnel-outline')
+                //  i.far.fa-filter.float-right
                 //.dropdown-menu
                 //  form.px-3.py-3
                 //    .form-group
@@ -70,7 +70,7 @@ block body
             th(data-breakpoints='xs', data-formatter='dateFormat', data-name='warranty_expiration', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty_expiration') ? 'false' : 'true', data-format-string="dd")
               .table-header Дата окончания гарантии
                 a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  ion-icon.float-right(name='funnel-outline')
+                  i.far.fa-filter.float-right
                 .dropdown-menu
                   form.px-3.py-3
                     .form-group
@@ -92,7 +92,7 @@ block body
             th(data-breakpoints='xs sm md', data-name='counterparty.title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('counterparty.title') ? 'false' : 'true')
               .table-header Изотовитель
                 //a.filter.dropdown.ml-2(data-toggle="dropdown")
-                //  ion-icon.float-right(name='funnel-outline')
+                //  i.far.fa-filter.float-right
                 //.dropdown-menu
                 //  form.px-3.py-3
                 //    .form-group.scroll
@@ -106,7 +106,7 @@ block body
             th(data-breakpoints='xs sm md', data-name='extra', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('extra') ? 'false' : 'true')
               .table-header Особые отметки
                 a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  ion-icon.float-right(name='funnel-outline')
+                  i.far.fa-filter.float-right
                 .dropdown-menu
                   form.px-3.py-3
                     .form-group
@@ -119,7 +119,7 @@ block body
             th(data-breakpoints='xs sm md', data-formatter='dateFormat', data-name='beginAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('beginAt') ? 'false' : 'true')
               .table-header Дата ввода в эксплуат.
                 a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  ion-icon.float-right(name='funnel-outline')
+                  i.far.fa-filter.float-right
                 .dropdown-menu
                   form.px-3.py-3
                     .form-group
@@ -137,7 +137,7 @@ block body
             th(data-breakpoints='xs sm md', data-formatter='dateFormat' data-name='createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('createdAt') ? 'false' : 'true')
               .table-header Дата создания
                 a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  ion-icon.float-right(name='funnel-outline')
+                  i.far.fa-filter.float-right
                 .dropdown-menu
                   form.px-3.py-3
                     .form-group
@@ -151,7 +151,7 @@ block body
         tbody
           each val in list
             tr(data-href=val.id)
-              td= val['id']
+              td(width="100px")= val['id']
               td= val['nomenclature.title']
               td= val['produced']
               td= val['factory_id']
@@ -303,30 +303,51 @@ append script
         });
 
         $('.daterange').daterangepicker({
+          locale: {
+            "format": "DD.MM.YYYY",
+            "applyLabel": "Применить",
+            "cancelLabel": "Сбросить",
+            "daysOfWeek": [
+              "Пн",
+              "Вт",
+              "Ср",
+              "Чт",
+              "Пт",
+              "Сб",
+              "Вс"
+            ],
+            "monthNames": [
+              "Январь",
+              "Февраль",
+              "Март",
+              "Апрель",
+              "Май",
+              "Июнь",
+              "Июль",
+              "Август",
+              "Сентябрь",
+              "Октябрь",
+              "Ноябрь",
+              "Декабрь"
+            ],
+          },
           linkedCalendars: false,
-          startDate: "08/13/2021",
-          endDate: "08/19/2021"
+          // startDate: "08/13/2021",
+          // endDate: "08/19/2021"
         });
       });
     })
   script.
     function apply() {
-      let filtering = FooTable.get('#main').use(FooTable.Filtering), // get the filtering component for the table
-          filter = $('.titleSearch').val(); // get the value to filter by
-      console.log(filter);
-      if (!filter) { // if the value is "none" remove the filter
-        filtering.removeFilter('title');
-      } else { // otherwise add/update the filter.
-        filtering.addFilter('title', filter, ['title']);
-      }
-      filtering.filter();
+      let filter = $('.titleSearch').val();
+      let currentFilter = params && params.filter ? JSON.parse(params.filter) : {};
+      let searchParams = new URLSearchParams();
+      searchParams.set("filter", JSON.stringify({ 'nomenclature.title': filter, ...currentFilter }));
+      document.location.href = `/passport?${searchParams}&hide_columns=${params.hide_columns}`
     }
   script.
     function reset() {
-      let filtering = FooTable.get('#main').use(FooTable.Filtering),
-          filter = $('.titleSearch')
-      filter.val('');
-      filtering.removeFilter('title');
+      document.location.href = `/passport?hide_columns=${params.hide_columns}`
     }
   script.
     function applySelect() {
