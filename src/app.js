@@ -49,13 +49,15 @@ app.use(crud('/api/passport', sequelizeCrud(db.passport), {
 app.use(crud('/api/repair_type', sequelizeCrud(db.repair_type)))
 app.use(crud('/api/toro', sequelizeCrud(db.toro)))
 app.use(crud('/api/value', sequelizeCrud(db.value)))
+app.use(crud('/api/warranty', sequelizeCrud(db.warranty)))
+app.use(crud('/api/runtime', sequelizeCrud(db.runtime)))
+
+app.use(crud('/api/log', sequelizeCrud(db.log)))
 
 app.use('/api/*', (err, req, res, next) => {
   const { errors } = err
-  console.log({ src: JSON.stringify(err, 0, 2) })
-  if (errors) return res.status(400).send({ errors })
-  if (err.original) return res.status(400).send(err.original)
-  res.status(400).send(err)
+  console.log({ err: JSON.stringify(err, 0, 2) })
+  res.status(400).send({ err })
 })
 
 app.listen(port, () => {
