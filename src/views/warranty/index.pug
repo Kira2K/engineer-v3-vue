@@ -1,0 +1,102 @@
+extends ../layout.pug
+
+block body
+  - var filterParams = query && query.filter ? JSON.parse(query.filter) : {};
+  .card
+    .card-header
+      //a.float-left.btn.mr-3(type="button")
+      //  ion-icon(name='location-outline')
+      //a.float-left.btn.mr-3(data-toggle="dropdown")
+      //  i.far.fa-filter
+      //.dropdown-menu
+      //  a.btn.float-left.ml-3.mb-3.mr-3.mt-3(type="button", onclick='resetAll()') Сбросисть все фильтры
+      a.float-right.btn.ml-3(type="button", data-toggle="modal", data-target="#tableSettingsModal")
+        i.far.fa-cog
+      a.float-right.btn.ml-3(type="button")
+        i.far.fa-file-excel
+      a.float-right.btn.ml-3(type="button")
+        i.far.fa-redo
+      a.float-right.btn.ml-3(type="button" href="/warranty/edit")
+        i.ion.ion-md-add-circle-outline
+        |  Добавить
+    .card-body.table-body
+      table#main.footable(data-paging='true', data-stop-propagation="true", data-filtering="true", data-sorting="true", data-empty="Нет данных")
+        thead
+          tr
+            //th(data-name='id', data-type="number", data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('id') ? 'false' : 'true')
+            //  .table-header Номер
+            th(data-name='warranty_runtime', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty_runtime') ? 'false' : 'true')
+              .table-header Гарантийная наработка
+            th(data-name='warranty', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty') ? 'false' : 'true', data-format-string="dd")
+              .table-header Срок гарантии (мес)
+            th(data-name='expiration', data-formatter='dateFormat', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('expiration') ? 'false' : 'true')
+              .table-header Окончание гарантии
+        tbody
+          each val in list
+            tr(data-href=val.id)
+              //td= val['id']
+              td= val['warranty_runtime']
+              td= val['warranty']
+              td= val['expiration']
+  #tableSettingsModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='tableSettingsModalTitle' aria-hidden='true')
+    .modal-dialog.modal-dialog-centered(role='document')
+      .modal-content
+        .modal-header
+          h6#tableSettingsModalTitle.modal-title Настройка таблицы
+          button.close(type='button' data-dismiss='modal' aria-label='Close')
+            span(aria-hidden='true') ×
+        .modal-body
+          table.footable(data-paging='true', data-paging-size="20")
+            thead
+              tr
+                th() Заголовок столбца
+                th() Видимость
+            tbody
+              //tr
+              //  td.float-left.ml-3 Код
+              //  td
+              //    input(type="checkbox", name="visible", value="id", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('id') ? undefined : "checked"))
+              tr
+                td.float-left.ml-3 Гарантийная наработка
+                td
+                  input(type="checkbox", name="visible", value="warranty_runtime", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('warranty_runtime') ? undefined : "checked"))
+              tr
+                td.float-left.ml-3 Срок гарантии (мес)
+                td
+                  input(type="checkbox", name="visible", value="warranty", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('warranty') ? undefined : "checked"))
+              tr
+                td.float-left.ml-3 Окончание гарантии
+                td
+                  input(type="checkbox", name="visible", value="expiration", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('expiration') ? undefined : "checked"))
+        .modal-footer.justify-content-between
+          button.btn(type='button' data-dismiss='modal') Отмена
+          button#settingsModalSave.btn(type='button') Сохранить
+  #myModal
+append script
+  script.
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+  script.
+    $(() => {
+      $('table').footable();
+
+      $('tr[data-href]').on("click", function (e) {
+        if (!$(e.target).hasClass('footable-toggle')) {
+          document.location.href = `/warranty/edit/${$(this).data('href')}`;
+        }
+      });
+
+      $('#settingsModalSave').on("click", function () {
+        let arr = [];
+        $("input:checkbox[name='visible']").each(function () {
+          if (!this.checked) {
+            arr.push($(this).val());
+          }
+        });
+        document.location.href = `/warranty?hide_columns=${arr}`
+      });
+    })
+  script.
+    function dateFormat(value) {
+      return value ? moment(value).format('DD.MM.YYYY') : '';
+    }

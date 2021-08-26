@@ -1,0 +1,23 @@
+extends ../layout.pug
+
+block body
+  - var instance = instance || {}
+  .card: form(method='post' enctype='application/x-www-form-urlencoded')
+    .card-header
+      h3.card-title Новая наработка
+    .card-body
+      //+dummy_input('id', 'Код')
+      .row
+        .col
+          +input('current',  'Текущая наработка')
+        .col
+          +input('accepted',  'Предельная наработка')
+        .col
+          +input('max',  'Допустимая наработка')
+    .card-footer
+      if instance.id
+        button.btn.float-right.ml-3(type="submit") Сохранить
+        button.btn.float-right.ml-3(href="/runtime") Отмена
+        a.float-left.btn(href=`/runtime/delete/${instance.id}`) Удалить
+      else
+        button.btn.float-right(type="submit") Добавить

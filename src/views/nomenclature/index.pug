@@ -27,14 +27,6 @@ block body
               .table-header Код
             th(data-name='designation', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('designation') ? 'false' : 'true')
               .table-header Обозначение
-                a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  ion-icon.float-right(name='funnel-outline')
-                .dropdown-menu
-                  form.px-3.py-3
-                    .form-group
-                      input.titleSearch.form-control(placeholder='Поиск по названию...')
-                  a.btn.float-left.ml-3.mb-3(type="button", onclick='reset()') Сброс
-                  a.btn.float-right.mr-3.mb-3(type="button", onclick='apply()') Применить
             th(data-name='title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('title') ? 'false' : 'true')
               .table-header Наименование
             th(data-breakpoints='xs', data-name='unit.short', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('unit.short') ? 'false' : 'true')
