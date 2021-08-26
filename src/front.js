@@ -19,6 +19,7 @@ const frontDebug = process.env.FRONT_DEBUG
 
 const memoryStore = new session.MemoryStore();
 const front = express()
+const customLists = ['passport']
 
 front.use(favicon('src/views/favicon.ico'))
 
@@ -84,7 +85,8 @@ front.get('/', (req, res) => {
 front.get('/:module', async (req, res, next) => {
   const { module } = req.params
   const { filter, sort, range } = req.query
-  const rest = await fetch(`${backendAddr}/api/${module}?range=${range || ''}&sort=${sort || ''}&filter=${filter || ''}`).then(res => res.json())
+  const custom = customLists.includes(module) ? 's' : ''
+  const rest = await fetch(`${backendAddr}/api/${module}${custom}?range=${range || ''}&sort=${sort || ''}&filter=${filter || ''}`).then(res => res.json())
   res.locals.list = rest
   next()
 })
