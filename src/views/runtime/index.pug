@@ -1,0 +1,98 @@
+extends ../layout.pug
+
+block body
+  - var filterParams = query && query.filter ? JSON.parse(query.filter) : {};
+  .card
+    .card-header
+      //a.float-left.btn.mr-3(type="button")
+      //  ion-icon(name='location-outline')
+      //a.float-left.btn.mr-3(data-toggle="dropdown")
+      //  i.far.fa-filter
+      //.dropdown-menu
+      //  a.btn.float-left.ml-3.mb-3.mr-3.mt-3(type="button", onclick='resetAll()') Сбросисть все фильтры
+      a.float-right.btn.ml-3(type="button", data-toggle="modal", data-target="#tableSettingsModal")
+        i.far.fa-cog
+      a.float-right.btn.ml-3(type="button")
+        i.far.fa-file-excel
+      a.float-right.btn.ml-3(type="button")
+        i.far.fa-redo
+      a.float-right.btn.ml-3(type="button" href="/runtime/edit")
+        i.ion.ion-md-add-circle-outline
+        |  Добавить
+    .card-body.table-body
+      table#main.footable(data-paging='true', data-stop-propagation="true", data-filtering="true", data-sorting="true", data-empty="Нет данных")
+        thead
+          tr
+            //th(data-name='id', data-type="number", data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('id') ? 'false' : 'true')
+            //  .table-header Номер
+            th(data-name='current', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('current') ? 'false' : 'true')
+              .table-header Текущая наработка
+            th(data-name='accepted', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('accepted') ? 'false' : 'true', data-format-string="dd")
+              .table-header Предельная наработка
+            th(data-name='max', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('max') ? 'false' : 'true')
+              .table-header Допустимая наработка
+        tbody
+          each val in list
+            tr(data-href=val.id)
+              //td= val['id']
+              td= val['current']
+              td= val['accepted']
+              td= val['max']
+  #tableSettingsModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='tableSettingsModalTitle' aria-hidden='true')
+    .modal-dialog.modal-dialog-centered(role='document')
+      .modal-content
+        .modal-header
+          h6#tableSettingsModalTitle.modal-title Настройка таблицы
+          button.close(type='button' data-dismiss='modal' aria-label='Close')
+            span(aria-hidden='true') ×
+        .modal-body
+          table.footable(data-paging='true', data-paging-size="20")
+            thead
+              tr
+                th() Заголовок столбца
+                th() Видимость
+            tbody
+              //tr
+              //  td.float-left.ml-3 Код
+              //  td
+              //    input(type="checkbox", name="visible", value="id", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('id') ? undefined : "checked"))
+              tr
+                td.float-left.ml-3 Текущая наработка
+                td
+                  input(type="checkbox", name="visible", value="current", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('current') ? undefined : "checked"))
+              tr
+                td.float-left.ml-3 Предельная наработка
+                td
+                  input(type="checkbox", name="visible", value="accepted", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('accepted') ? undefined : "checked"))
+              tr
+                td.float-left.ml-3 Допустимая наработка
+                td
+                  input(type="checkbox", name="visible", value="max", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('max') ? undefined : "checked"))
+        .modal-footer.justify-content-between
+          button.btn(type='button' data-dismiss='modal') Отмена
+          button#settingsModalSave.btn(type='button') Сохранить
+  #myModal
+append script
+  script.
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+  script.
+    $(() => {
+      $('table').footable();
+
+      $('tr[data-href]').on("click", function (e) {
+        if (!$(e.target).hasClass('footable-toggle')) {
+          document.location.href = `/runtime/edit/${$(this).data('href')}`;
+        }
+      });
+
+      $('#settingsModalSave').on("click", function () {
+        let arr = [];
+        $("input:checkbox[name='visible']").each(function () {
+          if (!this.checked) {
+            arr.push($(this).val());
+          }
+        });
+        document.location.href = `/runtime?hide_columns=${arr}`
+      });
+    })

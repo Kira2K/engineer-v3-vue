@@ -19,14 +19,14 @@ block body
                 else
                   option(value=val.id)= val.title
         .col
-          +input('nomenclature.title',  'Наименование')
+          +input('title',  'Наименование')
         .col
-          +input('factory_id',  'Серийный номер *')
+          +input('serial_id',  'Серийный номер *')
         .col
           +input('factory_id',  'Заводской номер *')
       .row
         .col
-          +input('factory_id',  'Номер партии *')
+          +input('part_id',  'Номер партии')
         .col
           .form-group
             label(for="counterpartyId") Изготовитель *
@@ -57,7 +57,7 @@ block body
         .col
           +input('provisioner', 'Медицинская организация *')
         .col
-          +input('provisioner', 'Подразделение мед. орг. *')
+          +input('sub_provisioner', 'Подразделение мед. орг. *')
         .col
           +input('state', 'Состояние *')
         .col
@@ -141,7 +141,7 @@ block body
                   th Гарантийная наработка
                   th Срок гарантии (мес)
                   th Окончание гарантии
-            a.float-left.btn.mt-3(type="button" href=`/toro/edit?passportId=${instance.id}`)
+            a.float-left.btn.mt-3(type="button" href=`/warranty/edit?passportId=${instance.id}`)
               i.ion.ion-md-add-circle-outline
               |  Создать гарантию
           #running.tab-pane.fade(role="tabpanel" aria-labelledby="running-tab")
@@ -152,7 +152,7 @@ block body
                   th Текущая наработка
                   th Предельная наработка
                   th Допустимая наработка
-            a.float-left.btn.mt-3(type="button" href=`/toro/edit?passportId=${instance.id}`)
+            a.float-left.btn.mt-3(type="button" href=`/runtime/edit?passportId=${instance.id}`)
               i.ion.ion-md-add-circle-outline
               |  Создать наработку
 

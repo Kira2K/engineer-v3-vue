@@ -23,7 +23,7 @@ block body
       table#main.footable(data-paging='true', data-stop-propagation="true", data-filtering="true", data-sorting="true", data-empty="Нет данных")
         thead
           tr
-            th(width="100px", data-name='id', data-type="number", data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('id') ? 'false' : 'true')
+            th(data-name='id', data-type="number", data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('id') ? 'false' : 'true')
               .table-header Номер
             th(data-name='title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('nomenclature.title') ? 'false' : 'true')
               .table-header Оборудование
@@ -32,9 +32,13 @@ block body
                 .dropdown-menu
                   form.px-3.py-3
                     .form-group
-                      input.titleSearch.form-control(placeholder='Поиск по названию...')
-                  a.btn.float-left.ml-3.mb-3(type="button", onclick='reset()') Сброс
-                  a.btn.float-right.mr-3.mb-3(type="button", onclick='apply()') Применить
+                      select#title.form-control
+                        - var newList = list.map(el => { return {id: el['nomenclatureId'], name: el['nomenclature.title']} })
+                        - var filteredTitle = newList.reduce((acc, cur) => { if (!acc.some((el) => cur['id'] == el['id'])) acc.push(cur); return acc; }, [])
+                        each val in filteredTitle
+                          option(value=val['id'])= val['name']
+                  a.btn.float-left.ml-3.mb-3(type="button", onclick='resetSelect()') Сброс
+                  a.btn.float-right.mr-3.mb-3(type="button", onclick='applySelect("nomenclatureId", "title")') Применить
             th(data-name='produced', data-formatter='dateFormat', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('produced') ? 'false' : 'true', data-format-string="dd")
               .table-header Дата изготовления
                 a.filter.dropdown.ml-2(data-toggle="dropdown")
@@ -110,12 +114,12 @@ block body
                 .dropdown-menu
                   form.px-3.py-3
                     .form-group
-                      select.form-control
+                      select#extra.form-control
                         - var filtered = list.map(el => el.extra).filter((el, n, all) => all.indexOf(el) == n)
                         each val in filtered
                           option= val
                   a.btn.float-left.ml-3.mb-3(type="button", onclick='resetSelect()') Сброс
-                  a.btn.float-right.mr-3.mb-3(type="button", onclick='applySelect()') Применить
+                  a.btn.float-right.mr-3.mb-3(type="button", onclick='applySelect("extra")') Применить
             th(data-breakpoints='xs sm md', data-formatter='dateFormat', data-name='beginAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('beginAt') ? 'false' : 'true')
               .table-header Дата ввода в эксплуат.
                 a.filter.dropdown.ml-2(data-toggle="dropdown")
@@ -350,11 +354,13 @@ append script
       document.location.href = `/passport?hide_columns=${params.hide_columns}`
     }
   script.
-    function applySelect() {
-      let filter = $('select').val();
+    function applySelect(key, id) {
+      let filter = $('body').find(`#${id ? id : key}`).val();
       let currentFilter = params && params.filter ? JSON.parse(params.filter) : {};
       let searchParams = new URLSearchParams();
-      searchParams.set("filter", JSON.stringify({ extra: filter, ...currentFilter }));
+      let filterParams = {};
+      filterParams[key] = filter;
+      searchParams.set("filter", JSON.stringify({ ...filterParams, ...currentFilter }));
       document.location.href = `/passport?${searchParams}&hide_columns=${params.hide_columns}`
     }
   script.
