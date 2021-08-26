@@ -20,7 +20,7 @@ block body
         i.ion.ion-md-add-circle-outline
         |  Добавить
     .card-body.table-body
-      table#main.footable(data-paging='true', data-stop-propagation="true", data-filtering="true", data-sorting="true", data-empty="Нет данных")
+      table#main.footable(data-paging='true', data-stop-propagation="true", data-filtering="true", data-sorting="true", data-empty="Нет данных", data-paging-size="50")
         thead
           tr
             th(data-name='id', data-type="number", data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('id') ? 'false' : 'true')
