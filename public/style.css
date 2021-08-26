@@ -361,3 +361,7 @@ label, .radio label, .checkbox label, .help-block {
   font-size: 14px;
   line-height: 22px;
 }
+
+td.footable-sortable > span.fooicon, th.footable-sortable > span.fooicon {
+  opacity: 1 !important;
+}
