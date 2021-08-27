@@ -11,12 +11,12 @@ block body
       .dropdown-menu
         a.btn.float-left.ml-3.mb-3.mr-3.mt-3(type="button", onclick='resetAll()') Сбросисть все фильтры
       a.float-right.btn.ml-3(type="button", data-toggle="modal", data-target="#tableSettingsModal")
-        ion-icon(name='settings-outline')
+        i.far.fa-cog
       a.float-right.btn.ml-3(type="button")
         i.far.fa-file-excel
       a.float-right.btn.ml-3(type="button")
-        ion-icon(name='reload-outline')
-      a.float-right.btn.ml-3(type="button" href="/passport/edit")
+        i.far.fa-redo
+      a.float-right.btn.ml-3(type="button" href="/nomenclature/edit")
         i.ion.ion-md-add-circle-outline
         |  Добавить
     .card-body.table-body
@@ -42,7 +42,7 @@ block body
             th(data-breakpoints='xs sm md', data-formatter='dateFormat' data-name='createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('createdAt') ? 'false' : 'true')
               .table-header Дата создания
                 a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  ion-icon.float-right(name='funnel-outline')
+                  i.far.fa-filter.float-right
                 .dropdown-menu
                   form.px-3.py-3
                     .form-group
@@ -130,7 +130,7 @@ append script
 
       $('tr[data-href]').on("click", function (e) {
         if (!$(e.target).hasClass('footable-toggle')) {
-          document.location.href = `/passport/edit/${$(this).data('href')}`;
+          document.location.href = `/nomenclature/edit/${$(this).data('href')}`;
         }
       });
 
