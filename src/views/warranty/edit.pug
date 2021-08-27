@@ -1,12 +1,21 @@
 extends ../layout.pug
 
 block body
-  - var instance = instance || {}
+  - var instance = Object.assign({}, instance || {}, query)
   .card: form(method='post' enctype='application/x-www-form-urlencoded')
     .card-header
       h3.card-title Новая гарантия
     .card-body
-      //+dummy_input('id', 'Код')
+      +dummy_input('id', 'Код')
+      .form-group
+        label(for="passportId") Паспорт оборудования
+        select#passportId.form-control(name="passportId")
+          option(value='') ___
+          each val in passport
+            if instance.passportId == val.id
+              option(selected value=val.id)= val.factory_id + ' (' + val['nomenclature.title'] + ')'
+            else
+              option(value=val.id)= val.factory_id + ' (' + val['nomenclature.title'] + ')'
       .row
         .col
           +input('warranty_runtime',  'Гарантийная наработка')
@@ -16,7 +25,7 @@ block body
           .form-group
             label(for="expiration") Окончание гарантии
             #expiration.input-group.date(data-target-input='nearest')
-              input.form-control.datetimepicker-input(type='text' data-target='#expiration')
+              input.form-control.datetimepicker-input(type='text' name='expiration' data-target='#expiration')
               .input-group-append(data-target='#expiration' data-toggle='datetimepicker')
                 .input-group-text
                   i.ion.ion-md-calendar

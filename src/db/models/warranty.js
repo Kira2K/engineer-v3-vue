@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
-    wararnty: {
+    warranty: {
       type: DataTypes.INTEGER,
 
       allowNull: false,

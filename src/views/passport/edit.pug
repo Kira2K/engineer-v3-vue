@@ -138,9 +138,10 @@ block body
             table#warranty-grid.footable(data-paging="true", data-empty="Нет данных")
               thead
                 tr
-                  th Гарантийная наработка
-                  th Срок гарантии (мес)
-                  th Окончание гарантии
+                  th(data-name="id") №
+                  th(data-name="warranty_runtime") Гарантийная наработка
+                  th(data-name="warranty") Срок гарантии (мес)
+                  th(data-name="expiration") Окончание гарантии
             a.float-left.btn.mt-3(type="button" href=`/warranty/edit?passportId=${instance.id}`)
               i.ion.ion-md-add-circle-outline
               |  Создать гарантию
@@ -148,10 +149,11 @@ block body
             table#running-grid.footable(data-paging="true", data-empty="Нет данных")
               thead
                 tr
-                  th Дата фиксации текущей наработки
-                  th Текущая наработка
-                  th Предельная наработка
-                  th Допустимая наработка
+                  th(data-name="id") №
+                  th(data-name="createdAt") Дата фиксации текущей наработки
+                  th(data-name="current") Текущая наработка
+                  th(data-name="accepted") Допустимая наработка
+                  th(data-name="max") Предельная наработка
             a.float-left.btn.mt-3(type="button" href=`/runtime/edit?passportId=${instance.id}`)
               i.ion.ion-md-add-circle-outline
               |  Создать наработку
@@ -169,40 +171,40 @@ append script
     script.
       $(() => {
         $('#part-grid').footable({
-          "rows": $.get(`#{env.backendAddr}/api/part`)
+          "rows": $.get(`#{env.backendAddr}/api/part?filter=%7b"passportId":#{instance.id}%7d`)
         });
       })
 
     script.
       $(() => {
         $('#params-grid').footable({
-          // "rows": $.get(`#{env.backendAddr}/api/part`)
+          "rows": $.get(`#{env.backendAddr}/api/value?filter=%7b"passportId":#{instance.id}%7d`)
         });
       })
 
     script.
       $(() => {
         $('#commission-grid').footable({
-          "rows": $.get(`#{env.backendAddr}/api/commission`)
+          "rows": $.get(`#{env.backendAddr}/api/commission?filter=%7b"passportId":#{instance.id}%7d`)
         });
       })
 
     script.
       $(() => {
         $('#toro-grid').footable({
-          "rows": $.get(`#{env.backendAddr}/api/toro`)
+          "rows": $.get(`#{env.backendAddr}/api/toro?filter=%7b"passportId":#{instance.id}%7d`)
         });
       })
     script.
       $(() => {
         $('#warranty-grid').footable({
-          "rows": $.get(`#{env.backendAddr}/api/warranty`)
+          "rows": $.get(`#{env.backendAddr}/api/warranty?filter=%7b"passportId":#{instance.id}%7d`)
         });
       })
     script.
       $(() => {
         $('#running-grid').footable({
-          "rows": $.get(`#{env.backendAddr}/api/runtime`)
+          "rows": $.get(`#{env.backendAddr}/api/runtime?filter=%7b"passportId":#{instance.id}%7d`)
         });
       })
     script.

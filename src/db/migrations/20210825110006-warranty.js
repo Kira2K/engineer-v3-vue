@@ -13,7 +13,7 @@ module.exports = {
 
         type: Sequelize.INTEGER
       },
-      wararnty: {
+      warranty: {
         allowNull: false,
 
         type: Sequelize.INTEGER

@@ -17,7 +17,7 @@ passport	}o--|| counterparty : ""
 
 warranty {
   integer	warranty_runtime
-  integer	wararnty
+  integer	warranty
   dateonly	expiration
   ref_id	passport_id
 }

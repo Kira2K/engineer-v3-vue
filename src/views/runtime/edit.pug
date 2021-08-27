@@ -1,19 +1,24 @@
 extends ../layout.pug
 
 block body
-  - var instance = instance || {}
+  - var instance = Object.assign({}, instance || {}, query)
   .card: form(method='post' enctype='application/x-www-form-urlencoded')
     .card-header
       h3.card-title Новая наработка
     .card-body
-      //+dummy_input('id', 'Код')
-      .row
-        .col
-          +input('current',  'Текущая наработка')
-        .col
-          +input('accepted',  'Предельная наработка')
-        .col
-          +input('max',  'Допустимая наработка')
+      +dummy_input('id', 'Код')
+      .form-group
+        label(for="passportId") Паспорт оборудования
+        select#passportId.form-control(name="passportId")
+          option(value='') ___
+          each val in passport
+            if instance.passportId == val.id
+              option(selected value=val.id)= val.factory_id + ' (' + val['nomenclature.title'] + ')'
+            else
+              option(value=val.id)= val.factory_id + ' (' + val['nomenclature.title'] + ')'
+      +input('current', 'Текущая наработка')
+      +input('accepted', 'Допустимая наработка')
+      +input('max', 'Предельная наработка')
     .card-footer
       if instance.id
         button.btn.float-right.ml-3(type="submit") Сохранить
