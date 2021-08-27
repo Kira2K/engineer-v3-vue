@@ -159,6 +159,16 @@ front.get('/toro/:action/:id?', async (req, res, next) => {
   next()
 })
 
+front.get('/warranty/:action/:id?', async (req, res, next) => {
+  res.locals.passport = await fetch(`${backendAddr}/api/passport`).then(res => res.json())
+  next()
+})
+
+front.get('/runtime/:action/:id?', async (req, res, next) => {
+  res.locals.passport = await fetch(`${backendAddr}/api/passport`).then(res => res.json())
+  next()
+})
+
 front.get('/passport/:action/:id?', async (req, res, next) => {
   const { module, action, id } = req.params
   res.locals.nomenclature = await fetch(`${backendAddr}/api/nomenclature`).then(res => res.json())
