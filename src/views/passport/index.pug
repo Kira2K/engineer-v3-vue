@@ -32,13 +32,9 @@ block body
                 .dropdown-menu
                   form.px-3.py-3
                     .form-group
-                      select#title.form-control
-                        - var newList = list.map(el => { return {id: el['nomenclatureId'], name: el['nomenclature.title']} })
-                        - var filteredTitle = newList.reduce((acc, cur) => { if (!acc.some((el) => cur['id'] == el['id'])) acc.push(cur); return acc; }, [])
-                        each val in filteredTitle
-                          option(value=val['id'])= val['name']
-                  a.btn.float-left.ml-3.mb-3(type="button", onclick='resetSelect()') Сброс
-                  a.btn.float-right.mr-3.mb-3(type="button", onclick='applySelect("nomenclatureId", "title")') Применить
+                      input.titleSearch.form-control(placeholder='Поиск по названию...')
+                  a.btn.float-left.ml-3.mb-3(type="button", onclick='reset()') Сброс
+                  a.btn.float-right.mr-3.mb-3(type="button", onclick='apply()') Применить
             th(data-name='produced', data-formatter='dateFormat', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('produced') ? 'false' : 'true', data-format-string="dd")
               .table-header Дата изготовления
                 a.filter.dropdown.ml-2(data-toggle="dropdown")
@@ -156,7 +152,7 @@ block body
           each val in list
             tr(data-href=val.id)
               td(width="100px")= val['id']
-              td= val['nomenclature.title']
+              td= val['nomenclature']['title']
               td= val['produced']
               td= val['factory_id']
               td= val['warranty']

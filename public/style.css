@@ -365,3 +365,7 @@ label, .radio label, .checkbox label, .help-block {
 td.footable-sortable > span.fooicon, th.footable-sortable > span.fooicon {
   opacity: 1 !important;
 }
+
+.h5 {
+  color: #80C5ED;
+}
