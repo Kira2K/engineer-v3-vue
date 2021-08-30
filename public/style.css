@@ -369,3 +369,31 @@ td.footable-sortable > span.fooicon, th.footable-sortable > span.fooicon {
 .h5 {
   color: #80C5ED;
 }
+
+.select2-container--default .select2-selection--multiple {
+  background-color: #142333;
+  color: #c9ebff;
+  border: none;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background: none;
+  border: none;
+  color: #C9EBFF;
+}
+
+.select2-container--default .select2-results__option[aria-selected=true] {
+  background: #2A445E;
+  color: #C9EBFF;
+}
+
+span.required {
+  color: #C9EBFF;
+  font-size: 18px;
+  padding-left: 3px;
+}
+
+table tbody tr:hover {
+  background: #2A445E;
+  cursor: pointer;
+}
