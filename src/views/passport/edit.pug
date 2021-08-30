@@ -10,7 +10,8 @@ block body
       .row
         .col
           .form-group
-            label(for="nomenclatureId") Номенклатура *
+            label(for="nomenclatureId") Номенклатура
+              span.required *
             select#unitId.form-control(name="nomenclatureId")
               option(value='') ___
               each val in nomenclature
@@ -21,15 +22,16 @@ block body
         .col
           +input('title',  'Наименование')
         .col
-          +input('serial_id',  'Серийный номер *')
+          +input('serial_id',  'Серийный номер', { required: true })
         .col
-          +input('factory_id',  'Заводской номер *')
+          +input('factory_id',  'Заводской номер', { required: true })
       .row
         .col
           +input('part_id',  'Номер партии')
         .col
           .form-group
-            label(for="counterpartyId") Изготовитель *
+            label(for="counterpartyId") Изготовитель
+              span.required *
             select#counterpartyId.form-control(name="counterpartyId")
               option(value='') ___
               each val in counterparty
@@ -39,33 +41,35 @@ block body
                   option(value=val.id)= val.title
         .col
           .form-group
-            label(for="produced") Дата изготовления *
+            label(for="produced") Дата изготовления
+              span.required *
             #produced.input-group.date(data-target-input='nearest')
-              input.form-control.datetimepicker-input(type='text' data-target='#produced')
+              input.form-control.datetimepicker-input(type='text' data-target='#produced' name='produced')
               .input-group-append(data-target='#produced' data-toggle='datetimepicker')
                 .input-group-text
                   i.ion.ion-md-calendar
         .col
           .form-group
-            label(for="warranty_expiration") Ввод в эксплуатацию *
-            #warranty_expiration.input-group.date(data-target-input='nearest')
-              input.form-control.datetimepicker-input(type='text' data-target='#warranty_expiration')
-              .input-group-append(data-target='#warranty_expiration' data-toggle='datetimepicker')
+            label(for="commissioned") Ввод в эксплуатацию
+              span.required *
+            #commissioned.input-group.date(data-target-input='nearest')
+              input.form-control.datetimepicker-input(type='text' data-target='#commissioned' name='commissioned')
+              .input-group-append(data-target='#commissioned' data-toggle='datetimepicker')
                 .input-group-text
                   i.ion.ion-md-calendar
       .row
         .col
-          +input('provisioner', 'Медицинская организация *')
+          +input('provisioner', 'Медицинская организация', { required: true })
         .col
-          +input('sub_provisioner', 'Подразделение мед. орг. *')
+          +input('sub_provisioner', 'Подразделение мед. орг.', { required: true })
         .col
-          +input('state', 'Состояние *')
+          +input('state', 'Состояние', { required: true })
         .col
       .row
         .col
-          +input('mac', 'MAC-адрес')
+          +input('mac', 'MAC-адрес', {disabled: true})
         .col
-          +input('ip', 'IP-адрес')
+          +input('ip', 'IP-адрес', {disabled: true})
         .col
           +input('extra', 'Особые отметки')
         .col
@@ -208,13 +212,13 @@ append script
     script.
       $(() => {
         $('#produced').datetimepicker({
-            locale: 'ru',
-            format: 'DD.MM.YYYY',
-            allowInputToggle: true
-          });
-        $('#warranty_expiration').datetimepicker({
-            locale: 'ru',
-            format: 'DD.MM.YYYY',
-            allowInputToggle: true
-          });
+          locale: 'ru',
+          format: 'DD.MM.YYYY',
+          allowInputToggle: true
+        });
+        $('#commissioned').datetimepicker({
+          locale: 'ru',
+          format: 'DD.MM.YYYY',
+          allowInputToggle: true
+        });
       })

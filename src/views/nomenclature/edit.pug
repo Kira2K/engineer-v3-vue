@@ -6,79 +6,78 @@ block body
     .card-header
       h3.card-title Новая номенклатура
     .card-body
-      if instance.id
-        .form-group
-          label(for="id") Код
-          input#id.form-control(type="text" placeholder="" disabled value=instance.id)
-        .row
-          .col
-            .form-group
-              label(for="nomenclatureModelId") Классификация номенклатуры
-              select#nomenclatureModelId.form-control(name="nomenclatureModelId")
-                option(value='') Класс > Группа > Тип > Модель
-                each val in parent
-                  if instance.nomenclatureModelId == val.id
-                    option(selected value=val.id)= val['nt.ng.nc.title'] + ' > ' + val['nt.ng.title'] + ' > ' + val['nt.title'] + ' > ' + val.title
+      +dummy_input('id', 'Код')
+      .row
+        .col
+          .form-group
+            label(for="nomenclatureModelId") Классификация номенклатуры
+            select#nomenclatureModelId.form-control(name="nomenclatureModelId")
+              option(value='') Класс > Группа > Тип > Модель
+              each val in parent
+                if instance.nomenclatureModelId == val.id
+                  option(selected value=val.id)= val['nt.ng.nc.title'] + ' > ' + val['nt.ng.title'] + ' > ' + val['nt.title'] + ' > ' + val.title
 
-                  else
-                    option(value=val.id)= val['nt.ng.nc.title'] + ' > ' + val['nt.ng.title'] + ' > ' + val['nt.title'] + ' > ' + val.title
-        .row
-          .col
-            .form-group
-              label(for="unitId") Единица измерения
-              select#unitId.form-control(name="unitId")
-                option(value='') ___
-                each val in unit
-                  if instance.unitId == val.id
-                    option(selected value=val.id)= val.title + ' (' + val.short + ')'
-                  else
-                    option(value=val.id)= val.title + ' (' + val.short + ')'
-          .col
-            .form-group
-              label(for="title") Наименование
-              input#title.form-control(name="title" type="text" placeholder="" value=instance.title)
-          .col
-            .form-group
-              label(for="designation") Обозначение
-              input#short.form-control(name="designation" type="text" placeholder="" value=instance.designation)
-        h5 Технические параметры
-        .row
-          .col-8
-            .form-group
-              label(for="nomenclatureParameterId") Наименования параметров *
-              select#nomenclatureParameterId.form-control(name="nomenclatureParameterId")
-                option(value='') ___
-                each val in nomenclatureparameter
-                  if instance.nomenclatureParameterId == val.id
-                    option(selected value=val.id)= val.title
-                  else
-                    option(value=val.id)= val.title
-        h5 Комплектность
-        .row
-          .col
-            +input('title',  'Наименование *')
-          .col-4
-            .form-group
-              label(for="nomenclatureId") Единица измерения *
-              select#unitId.form-control(name="unitId")
-                option(value='') ___
-                each val in unit
-                  if instance.unitId == val.id
-                    option(selected value=val.id)= val.title + ' (' + val.short + ')'
-                  else
-                    option(value=val.id)= val.title + ' (' + val.short + ')'
-            // each val in nomenclatureparameter
-            //   - var id = `nomenclatureparameter_${val.id}`
-            //   .form-group
-            //     .custom-control.custom-switch
-            //       if enabledparameters.find(el => el.nomenclatureParameterId == val.id)
-            //         input.custom-control-input(id=id name=id type="checkbox" checked)
-            //       else
-            //         input.custom-control-input(id=id name=id type="checkbox")
-            //       label.custom-control-label(for=id)= `${val.title} (${val['unit.short']})`
-        a.float-left.btn.mt-3(type="button" href=`/part/edit?passportId=${instance.id}`)
-          i.ion.ion-md-add-circle-outline
-          |  Добавить позицию
+                else
+                  option(value=val.id)= val['nt.ng.nc.title'] + ' > ' + val['nt.ng.title'] + ' > ' + val['nt.title'] + ' > ' + val.title
+      .row
+        .col
+          .form-group
+            label(for="unitId") Единица измерения
+            select#unitId.form-control(name="unitId")
+              option(value='') ___
+              each val in unit
+                if instance.unitId == val.id
+                  option(selected value=val.id)= val.title + ' (' + val.short + ')'
+                else
+                  option(value=val.id)= val.title + ' (' + val.short + ')'
+        .col
+          .form-group
+            label(for="title") Наименование
+            input#title.form-control(name="title" type="text" placeholder="" value=instance.title)
+        .col
+          .form-group
+            label(for="designation") Обозначение
+            input#short.form-control(name="designation" type="text" placeholder="" value=instance.designation)
+      h5 Технические параметры
+      .row
+        .col-8
+          .form-group
+            label(for="nomenclatureParameterId")
+              | Наименования параметров
+              span.required *
+            select#nomenclatureParameterId.form-control(name="nomenclatureParameterId")
+              each val in nomenclatureparameter
+                if instance.nomenclatureParameterId == val.id
+                  option(selected value=val.id)= val.title
+                else
+                  option(value=val.id)= val.title
+      h5 Комплектность
+      .row
+        .col
+          +input('title',  'Наименование', { required: true })
+        .col-4
+          .form-group
+            label(for="nomenclatureId") Единица измерения
+              span.required *
+            select#unitId.form-control(name="unitId")
+              option(value='') ___
+              each val in unit
+                if instance.unitId == val.id
+                  option(selected value=val.id)= val.title + ' (' + val.short + ')'
+                else
+                  option(value=val.id)= val.title + ' (' + val.short + ')'
+          // each val in nomenclatureparameter
+          //   - var id = `nomenclatureparameter_${val.id}`
+          //   .form-group
+          //     .custom-control.custom-switch
+          //       if enabledparameters.find(el => el.nomenclatureParameterId == val.id)
+          //         input.custom-control-input(id=id name=id type="checkbox" checked)
+          //       else
+          //         input.custom-control-input(id=id name=id type="checkbox")
+          //       label.custom-control-label(for=id)= `${val.title} (${val['unit.short']})`
+      a.float-left.btn.mt-3(type="button" href=`/part/edit?passportId=${instance.id}`)
+        i.ion.ion-md-add-circle-outline
+        |  Добавить позицию
     .card-footer
       if instance.id
         button.btn.float-right.ml-3(type="submit") Сохранить
@@ -86,3 +85,11 @@ block body
         a.float-left.btn(href=`/nomenclature/delete/${instance.id}`) Удалить
       else
         button.btn.btn-primary(type="submit") Добавить
+append script
+  script.
+    $(() => {
+      $('#nomenclatureParameterId').select2({
+        placeholder: 'Поиск по названию...',
+        multiple: true
+      });
+    })
