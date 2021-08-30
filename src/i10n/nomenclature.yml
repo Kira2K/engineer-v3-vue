@@ -1,0 +1,10 @@
+fields:
+  id: №
+  designation: Обозначение
+  title: Наименование
+  "unit.short": Единицы измерения
+  "nm.nt.ng.nc.title": Класс номенклатуры
+  "nm.nt.ng.title": Группа номенклатуры
+  "nm.nt.title": Тип номенклатуры
+  "nm.title": Модель номенклатуры
+  createdAt: Дата создания

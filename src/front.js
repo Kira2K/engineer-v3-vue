@@ -11,6 +11,8 @@ const cors = require('cors')
 const morgan = require('morgan')
 const fetch = require('node-fetch')
 const moment = require('moment')
+const { Parser } = require('json2csv')
+const i10n = require('require-yml')('./src/i10n/')
 
 const port = process.env.PORT || 8090
 const frontPort = process.env.FRONT_PORT || 8091
@@ -66,6 +68,18 @@ front.use((req, res, next) => {
 front.get('/login', keycloak.protect(), function (req, res) {
   const cookies = cookieParser.JSONCookies(req.cookies)
   return res.redirect(302, cookies.lastvisit || '/')
+})
+
+front.get('/download/:module', async (req, res, next) => {
+  const { module } = req.params
+  if (!i10n[module] || !i10n[module].fields) return res.status(501).send()
+  const fields = Object.keys(i10n[module].fields).map(key => ({label: i10n[module].fields[key], value: key}))
+  const rest = await fetch(`${backendAddr}/api/${module}?range=[0,1000000]`).then(res => res.json())
+  const json2csv = new Parser({ fields });
+  const csv = json2csv.parse(rest);
+  res.header('Content-Type', 'text/csv');
+  res.attachment(`engineer-${module}.csv`);
+  return res.send(csv);
 })
 
 front.set('view engine', 'pug')
@@ -194,6 +208,7 @@ front.get('/:module/:action?/:id?', async (req, res) => {
   const { module, action } = req.params
   res.render(`${module}/${action || 'index'}`)
 })
+
 
 front.post('/:module/edit/:id?', async (req, res, next) => {
   const { module, id } = req.params
