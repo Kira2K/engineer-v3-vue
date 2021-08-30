@@ -1,4 +1,5 @@
 require('dotenv').config()
+const fs = require('fs').promises
 const debug = require('debug')
 const express =  require('express')
 const methodOverride = require('method-override')
@@ -12,6 +13,8 @@ const morgan = require('morgan')
 const fetch = require('node-fetch')
 const moment = require('moment')
 const { Parser } = require('json2csv')
+const Excel = require('exceljs')
+
 const i10n = require('require-yml')('./src/i10n/')
 
 const port = process.env.PORT || 8090
@@ -73,13 +76,18 @@ front.get('/login', keycloak.protect(), function (req, res) {
 front.get('/download/:module', async (req, res, next) => {
   const { module } = req.params
   if (!i10n[module] || !i10n[module].fields) return res.status(501).send()
+  const filename = `/tmp/engineer-${module}`
   const fields = Object.keys(i10n[module].fields).map(key => ({label: i10n[module].fields[key], value: key}))
   const rest = await fetch(`${backendAddr}/api/${module}?range=[0,1000000]`).then(res => res.json())
   const json2csv = new Parser({ fields });
   const csv = json2csv.parse(rest);
-  res.header('Content-Type', 'text/csv');
-  res.attachment(`engineer-${module}.csv`);
-  return res.send(csv);
+  await fs.writeFile(`${filename}.csv`, csv);
+  const workbook = new Excel.Workbook();
+  const worksheet = await workbook.csv.readFile(`${filename}.csv`);
+  await workbook.xlsx.writeFile(`${filename}.xlsx`);
+  res.header('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  res.attachment(`${filename}.xlsx`);
+  return res.sendFile(`${filename}.xlsx`);
 })
 
 front.set('view engine', 'pug')
