@@ -1,15 +1,9 @@
 mixin label(key, text)
   label(for=key)= text
 
-mixin input(key, text, params)
-  -var required = params?.required;
-  -var disabled = params?.disabled;
+mixin input(key, text)
   .form-group
-    if required
-      label(for=key)= text
-        span.required *
-    else
-      label(for=key)= text
+    label(for=key)= text
     if errors
       - var err = errors.find(e => e.path == key)
       if err
@@ -18,20 +12,53 @@ mixin input(key, text, params)
       else
         input.form-control(id=key name=key type="text" placeholder="" value=instance[key])
     else
-      input.form-control(id=key name=key type="text" placeholder="" value=instance[key] disabled=disabled)
+      input.form-control(id=key name=key type="text" placeholder="" value=instance[key])
 
 mixin dummy_input(key, text)
-  if instance[key]
-    .form-group
-      label(for=key)= text
-      input.form-control(id=key type="text" placeholder="" disabled value=instance[key])
+  .form-group
+    label(for=key)= text
+    input.form-control(id=key type="text" placeholder="" disabled value=instance[key])
+
+mixin required_input(key, text)
+  .form-group
+    label(for=key)= text
+      span.required *
+    if errors
+      - var err = errors.find(e => e.path == key)
+      if err
+        input.form-control.is-invalid(id=key name=key type="text" placeholder="" value=instance[key])
+        .error.invalid-feedback= err.message
+      else
+        input.form-control(id=key name=key type="text" placeholder="" value=instance[key])
+    else
+      input.form-control(id=key name=key type="text" placeholder="" value=instance[key])
+
+mixin date_input(key, text)
+  .form-group
+    label(for=key)= text
+    .input-group.date(data-target-input='nearest')
+      input.form-control.datetimepicker-input(id=key type='text' data-target=`#${key}` name=key value=instance[key] data-value=instance[key] default-date=instance[key] data-default-date=instance[key])
+      .input-group-append(data-target=`#${key}` data-toggle='datetimepicker')
+        .input-group-text
+          i.ion.ion-md-calendar
+
+mixin required_date_input(key, text)
+  .form-group
+    label(for=key)= text
+      span.required *
+    .input-group.date(data-target-input='nearest')
+      input.hide-input(type='text' name=key value= instance[key])
+      input.form-control.datetimepicker-input(id=key type='text' data-target=`#${key}`)
+      .input-group-append(data-target=`#${key}` data-toggle='datetimepicker')
+        .input-group-text
+          i.ion.ion-md-calendar
 
 mixin nav-item(id, title)
   - var auth = 'engi-'+id
   - var uri = '/'+id
   li.nav-item
     if grant && (grant.access.realm_access.roles.includes(auth) || grant.access.realm_access.roles.includes('engi-admin'))
-      if path === uri
+      if path.includes(uri)
         a.nav-link.selected(href=uri)
           block
       else
