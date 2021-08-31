@@ -28,17 +28,23 @@ block body
             th(data-name='title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('nomenclature.title') ? 'false' : 'true')
               .table-header Оборудование
                 a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  i.far.fa-filter.float-right
+                  if filterParams['nomenclature.title']
+                    i.fa.fa-filter.float-right
+                  else
+                    i.far.fa-filter.float-right
                 .dropdown-menu
                   form.px-3.py-3
                     .form-group
-                      input.titleSearch.form-control(placeholder='Поиск по названию...')
+                      input.titleSearch.form-control(placeholder='Поиск по названию...', value=filterParams['nomenclature.title'])
                   a.btn.float-left.ml-3.mb-3(type="button", onclick='reset()') Сброс
                   a.btn.float-right.mr-3.mb-3(type="button", onclick='apply()') Применить
             th(data-name='produced', data-formatter='dateFormat', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('produced') ? 'false' : 'true', data-format-string="dd")
               .table-header Дата изготовления
                 a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  i.far.fa-filter.float-right
+                  if filterParams['produced']
+                    i.fa.fa-filter.float-right
+                  else
+                    i.far.fa-filter.float-right
                 .dropdown-menu
                   form.px-3.py-3
                     .form-group
@@ -70,7 +76,10 @@ block body
             th(data-breakpoints='xs', data-formatter='dateFormat', data-name='warranty_expiration', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty_expiration') ? 'false' : 'true', data-format-string="dd")
               .table-header Дата окончания гарантии
                 a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  i.far.fa-filter.float-right
+                  if filterParams['warranty_expiration']
+                    i.fa.fa-filter.float-right
+                  else
+                    i.far.fa-filter.float-right
                 .dropdown-menu
                   form.px-3.py-3
                     .form-group
@@ -106,7 +115,10 @@ block body
             th(data-breakpoints='xs sm md', data-name='extra', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('extra') ? 'false' : 'true')
               .table-header Особые отметки
                 a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  i.far.fa-filter.float-right
+                  if filterParams['extra']
+                    i.fa.fa-filter.float-right
+                  else
+                    i.far.fa-filter.float-right
                 .dropdown-menu
                   form.px-3.py-3
                     .form-group
@@ -119,7 +131,10 @@ block body
             th(data-breakpoints='xs sm md', data-formatter='dateFormat', data-name='beginAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('beginAt') ? 'false' : 'true')
               .table-header Дата ввода в эксплуат.
                 a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  i.far.fa-filter.float-right
+                  if filterParams['beginAt']
+                    i.fa.fa-filter.float-right
+                  else
+                    i.far.fa-filter.float-right
                 .dropdown-menu
                   form.px-3.py-3
                     .form-group
@@ -137,7 +152,10 @@ block body
             th(data-breakpoints='xs sm md', data-formatter='dateFormat' data-name='createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('createdAt') ? 'false' : 'true')
               .table-header Дата создания
                 a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  i.far.fa-filter.float-right
+                  if filterParams['createdAt']
+                    i.fa.fa-filter.float-right
+                  else
+                    i.far.fa-filter.float-right
                 .dropdown-menu
                   form.px-3.py-3
                     .form-group
