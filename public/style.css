@@ -126,9 +126,10 @@ table tr {
   border-bottom: 1px solid #30485C;
 }
 
-table tbody tr td {
+table tbody tr td, table thead tr th {
   text-align: left;
   padding: 0 10px;
+  border-right: 1px solid #30485C;
 }
 
 
@@ -396,4 +397,8 @@ span.required {
 table tbody tr:hover {
   background: #2A445E;
   cursor: pointer;
+}
+
+input.hide-input {
+  display: none !important;
 }
