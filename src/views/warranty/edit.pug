@@ -22,13 +22,7 @@ block body
         .col
           +input('warranty',  'Срок гарантии (мес)')
         .col
-          .form-group
-            label(for="expiration") Окончание гарантии
-            #expiration.input-group.date(data-target-input='nearest')
-              input.form-control.datetimepicker-input(type='text' name='expiration' data-target='#expiration')
-              .input-group-append(data-target='#expiration' data-toggle='datetimepicker')
-                .input-group-text
-                  i.ion.ion-md-calendar
+          +date_input('expiration', 'Окончание гарантии')
     .card-footer
       if instance.id
         button.btn.float-right.ml-3(type="submit") Сохранить
@@ -40,9 +34,16 @@ block body
 append script
     script.
       $(() => {
-        $('#expiration').datetimepicker({
+        $('.datetimepicker-input').each(function () {
+          const val = $(this).siblings('.hide-input').val();
+          $(this).datetimepicker({
             locale: 'ru',
             format: 'DD.MM.YYYY',
-            allowInputToggle: true
+            allowInputToggle: true,
+            defaultDate: val
           });
+        })
+        $('body').on('change.datetimepicker', (e) => {
+          $(e.target).siblings('.hide-input').val(e.date.format('YYYY-MM-DD'));
+        })
       })

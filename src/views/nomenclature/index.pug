@@ -42,7 +42,10 @@ block body
             th(data-breakpoints='xs sm md', data-formatter='dateFormat' data-name='createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('createdAt') ? 'false' : 'true')
               .table-header Дата создания
                 a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  i.far.fa-filter.float-right
+                  if filterParams['createdAt']
+                    i.fa.fa-filter.float-right
+                  else
+                    i.far.fa-filter.float-right
                 .dropdown-menu
                   form.px-3.py-3
                     .form-group
