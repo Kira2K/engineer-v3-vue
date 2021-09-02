@@ -33,7 +33,6 @@ module.exports = (sequelize, DataTypes) => {
 
   }, {
     sequelize,
-    paranoid: true,
     underscored: true,
     freezeTableName: true,
     modelName: 'enabled_parameter',

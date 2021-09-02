@@ -241,8 +241,8 @@ front.post('/:module/edit/:id?', async (req, res, next) => {
   const instanceId = (await result.json()).id
   if (module == 'nomenclature') {
     const enabledparameters = !id ? [] : (await fetch(`${backendAddr}/api/enabledparameter?filter=%7b"nomenclatureId":${id}%7d`).then(res => res.json()))
-    const requested = Object.keys(req.body).filter(el => el.startsWith('nomenclatureparameter_')).map(el => parseInt(el.replace(/^nomenclatureparameter_/, '')))
-    const deleted = enabledparameters.filter(el => !requested.includes(el.nomenclatureParameterId))
+    const requested = req.body.enabledparameters
+    const deleted = enabledparameters.filter(el => !requested.find(rel => rel == el.nomenclatureParameterId))
     const added = requested.filter(el => !enabledparameters.find(ep => ep.nomenclatureParameterId == el))
     await Promise.all(added.map(id => fetch(`${backendAddr}/api/enabledparameter`, {
       method: 'post',
