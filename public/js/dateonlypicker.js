@@ -2,9 +2,7 @@ $(() => {
   $('.dateonlypicker_help').hide()
   const init_dataonlypicker = (el) => {
     const required = $(el).attr('required')
-    console.log({required})
     const local_value = $(el).val() ? $(el).val().includes('-') ? moment($(el).val()).format('DD.MM.YYYY') : $(el).val() : ''
-    console.log({required, local_value}, $(el).val())
     const hidden_input = $(el.outerHTML.replace(/dateonlypicker/, 'dateonlypicker_value').replace(/type=.text./, 'type="hidden"'))
     $(el).attr('name', '')
     $(el).after(hidden_input)
