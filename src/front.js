@@ -14,6 +14,8 @@ const fetch = require('node-fetch')
 const moment = require('moment')
 const { Parser } = require('json2csv')
 const Excel = require('exceljs')
+const lzma = require('lzma')
+const base64 = require('base64-js')
 
 const i10n = require('require-yml')('./src/i10n/')
 
@@ -206,8 +208,9 @@ front.get('/:module/:action?/:id?', async (req, res, next) => {
   const cookies = cookieParser.JSONCookies(req.cookies)
   const errorPath = Object.keys(cookies).find(el => el.replace(/\/$/, '') == `errors${req.path}`.replace(/\/$/, ''))
   if (!errorPath) return next()
-  res.locals.errors = cookies[errorPath].errors
-  if (!res.locals.errors) res.locals.error = cookies[errorPath]
+  const err = JSON.parse(lzma.decompress(base64.toByteArray(cookies[errorPath])))
+  res.locals.errors = err.errors
+  if (!res.locals.errors) res.locals.error = err
   res.clearCookie(errorPath)
   next()
 })
@@ -228,7 +231,7 @@ front.post('/:module/edit/:id?', async (req, res, next) => {
   })
   if (!result.ok) {
     const err = await result.json()
-    res.cookie(`errors${req.path}`, err)
+    res.cookie(`errors${req.path}`, base64.fromByteArray(lzma.compress(JSON.stringify(err))))
     return res.redirect(302, `/${module}/edit/${id ? id : ''}`)
   }
   const instanceId = (await result.json()).id
@@ -257,7 +260,7 @@ front.post('/:module/delete/:id', async (req, res, next) => {
     return res.redirect(302, `/${module}`)
   }
   const err = await result.json()
-  res.cookie(`errors${req.path}`, err)
+  res.cookie(`errors${req.path}`, base64.fromByteArray(lzma.compress(JSON.stringify(err))))
   return res.redirect(302, `/${module}/delete/${id ? id : ''}`)
 })
 
