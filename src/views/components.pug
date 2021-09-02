@@ -1,0 +1,18 @@
+extends layout.pug
+
+block body
+  - var instance = Object.assign({}, instance || {}, query)
+  - instance.ds_req_none = ''
+  - instance.ds_none = undefined
+  - instance.ds_req = '1212-12-12'
+  - instance.ds = '1991-11-19'
+  .card
+    .card-header
+      h3.card-title Датапикеры одиночные
+    .card-body
+      +dateonly_single_required('ds_req_none', 'Без стартового значения, обязательный')
+        small.form-text.text-muted Когда заполнен браузер держит значение. Ctrl+F5 чтобы сбросить
+      +dateonly_single('ds_none', 'Без стартового значения, не обязательный')
+        small.form-text.text-muted Когда заполнен браузер держит значение. Ctrl+F5 чтобы сбросить
+      +dateonly_single_required('ds_req', 'Обязательный')
+      +dateonly_single('ds', 'Не обязательный')

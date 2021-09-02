@@ -53,6 +53,25 @@ mixin required_date_input(key, text)
         .input-group-text
           i.ion.ion-md-calendar
 
+mixin dateonly_single(key, text)
+  .form-group
+    label(for="daterange")= text
+    .input-group
+      input.form-control.dateonlypicker(id=key type='text' name=key value=instance[key])
+      .input-group-append: .input-group-text: i.fa.fa-calendar
+    small.form-text.text-muted.dateonlypicker_help Please specify data in the form of YYYY-MM-DD
+    block
+
+mixin dateonly_single_required(key, text)
+  .form-group
+    label(for="daterange")= text
+      span.required *
+    .input-group
+      input.form-control.dateonlypicker(id=key type='text' name=key value=instance[key] required)
+      .input-group-append: .input-group-text: i.fa.fa-calendar
+    small.form-text.text-muted.dateonlypicker_help Please specify data in the form of YYYY-MM-DD
+    block
+
 mixin nav-item(id, title)
   - var auth = 'engi-'+id
   - var uri = '/'+id

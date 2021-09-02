@@ -106,6 +106,10 @@ front.get('/', (req, res) => {
   res.render('index')
 })
 
+front.get('/components', (req, res) => {
+  res.render('components')
+})
+
 front.get('/:module', async (req, res, next) => {
   const { module } = req.params
   const { filter, sort, range } = req.query

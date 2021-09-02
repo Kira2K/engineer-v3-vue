@@ -9,7 +9,6 @@ html(lang='en')
     block css
       link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback')
       //link(rel='stylesheet', href='/plugins/fontawesome-free/css/all.css')
-      link(href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet")
       link(rel='stylesheet', href='/dist/css/adminlte.min.css')
       link(rel='stylesheet', href='/dist/bootstrap.css')
       link(rel='stylesheet', href='/plugins/jsgrid/jsgrid.css')
@@ -160,6 +159,8 @@ html(lang='en')
                     p Гарантия
                   +nav-item('runtime')
                     p Наработка
+                  +nav-item('components')
+                    p Компоненты
             // /.sidebar-menu
       .content-wrapper
         // Main content
@@ -196,8 +197,7 @@ html(lang='en')
       script(src='/plugins/select2/js/select2.full.min.js')
       script(src='/plugins/jsgrid/jsgrid.js')
       script(src='/plugins/jquery-validation/jquery.validate.js')
+      script(src='/plugins/moment/moment-with-locales.js')
 
-      script(src='https://unpkg.com/ionicons@5.5.3/dist/ionicons.js')
       script(src='/public/js/footable.min.js')
-      script(src='/public/js/ru.js')
-<script type="text/javascript" src="https://cdnjs.com/libraries/[fill-in].js"></script>
+      script(src='/public/js/dateonlypicker.js')
