@@ -22,7 +22,7 @@ block body
         .col
           +input('warranty',  'Срок гарантии (мес)')
         .col
-          +date_input('expiration', 'Окончание гарантии')
+          +dateonly_single_required('expiration', 'Окончание гарантии')
     .card-footer
       if instance.id
         button.btn.float-right.ml-3(type="submit") Сохранить
@@ -30,20 +30,3 @@ block body
         a.float-left.btn(href=`/runtime/delete/${instance.id}`) Удалить
       else
         button.btn.float-right(type="submit") Добавить
-
-append script
-    script.
-      $(() => {
-        $('.datetimepicker-input').each(function () {
-          const val = $(this).siblings('.hide-input').val();
-          $(this).datetimepicker({
-            locale: 'ru',
-            format: 'DD.MM.YYYY',
-            allowInputToggle: true,
-            defaultDate: val
-          });
-        })
-        $('body').on('change.datetimepicker', (e) => {
-          $(e.target).siblings('.hide-input').val(e.date.format('YYYY-MM-DD'));
-        })
-      })

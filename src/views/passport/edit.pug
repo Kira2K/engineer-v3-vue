@@ -5,162 +5,134 @@ block body
   .card: form(method='post' enctype='application/x-www-form-urlencoded')
     .card-header
       if instance.id
-        h3.card-title Редактирование паспорта
+        h3.card-title Редактирование оборудования
       else
-        h3.card-title Новый паспорт
+        h3.card-title Новое оборудование
     .card-body
       if instance.id
         +dummy_input('id', 'Код')
       .row
-        .col
-          .form-group
-            label(for="nomenclatureId") Номенклатура
-              span.required *
-            select#unitId.form-control(name="nomenclatureId")
-              option(value='') ___
-              each val in nomenclature
-                if instance.nomenclatureId == val.id
-                  option(selected value=val.id)= val.title
-                else
-                  option(value=val.id)= val.title
-        .col
-          +input('title',  'Наименование')
-        .col
-          +required_input('serial_id',  'Серийный номер')
-        .col
-          +required_input('factory_id',  'Заводской номер')
-      .row
-        .col
-          +input('part_id',  'Номер партии')
-        .col
-          .form-group
-            label(for="counterpartyId") Изготовитель
-              span.required *
-            select#counterpartyId.form-control(name="counterpartyId")
-              option(value='') ___
-              each val in counterparty
-                if instance.counterpartyId == val.id
-                  option(selected value=val.id)= val.title
-                else
-                  option(value=val.id)= val.title
-        .col
-          +required_date_input('produced', 'Дата изготовления')
-        .col
-          +required_date_input('commissioned', 'Ввод в эксплуатацию')
-      .row
-        .col
-          +required_input('provisioner', 'Медицинская организация')
-        .col
-          +required_input('sub_provisioner', 'Подразделение мед. орг.')
-        .col
-          +required_input('state', 'Состояние')
-        .col
-      .row
-        .col
-          +dummy_input('mac', 'MAC-адрес')
-        .col
-          +dummy_input('ip', 'IP-адрес')
-        .col
+        .col-xl-3.col-lg-6
+          - nomenclature.map(el => el['__title'] = el.title)
+          +select_required('nomenclatureId', 'Номенклатура', nomenclature)
+        .col-xl-3.col-lg-6
+          +dummy_input('title',  'Наименование')
+        .col-xl-3.col-lg-6
+          +dummy_input('serial_id',  'Серийный номер')
+        .col-xl-3.col-lg-6
+          +input_required('factory_id',  'Заводской номер')
+        .col-xl-3.col-lg-6
+          +dummy_input('part_id',  'Номер партии')
+        .col-xl-3.col-lg-6
+          - counterparty.map(el => el['__title'] = el.title)
+          +select_required('counterpartyId', 'Изготовитель', counterparty)
+        .col-xl-3.col-lg-6
+          +dateonly_single_required('produced', 'Дата изготовления')
+        .col-xl-3.col-lg-6
+          +dateonly_single_required('commissioned', 'Ввод в эксплуатацию')
+        .col-xl-3.col-lg-6
+          +dummy_input('provisioner', 'Медицинская организация')
+        .col-xl-3.col-lg-6
+          +dummy_input('sub_provisioner', 'Подразделение мед. орг.')
+        .col-xl-3.col-lg-6
+          +input_required('state', 'Состояние')
+        .col-xl-3.col-lg-6
           +input('extra', 'Особые отметки')
-        .col
       hr
       .row
-        .col
-          +required_input('warranty', 'Гарантия (мес)')
-        .col
-          +required_date_input('warranty_expiration', 'Истечение гарантии')
-        .col
-          +required_input('accepted_runtime', 'Допустимая наработка')
-        .col
-          +required_input('max_runtime', 'Максимальная наработка')
-      if instance.id
-        hr
-        ul#tabs.nav.nav-tabs(role="tablist")
-          li.nav-item
-            a#part-tab.nav-link.active(data-toggle="tab" href="#part" role="tab" aria-controls="part" aria-selected="true") Комплектность
-          li.nav-item
-            a#value-tab.nav-link(data-toggle="tab" href="#value" role="tab" aria-controls="value" aria-selected="false") Тех. параметры
-          li.nav-item
-            a#commission-tab.nav-link(data-toggle="tab" href="#commission" role="tab" aria-controls="commission" aria-selected="false") Закрепление оборудования
-          li.nav-item
-            a#toro-tab.nav-link(data-toggle="tab" href="#toro" role="tab" aria-controls="toro" aria-selected="false") Учет работ/неисправ.
-          li.nav-item
-            a#warranty-tab.nav-link(data-toggle="tab" href="#warranty" role="tab" aria-controls="warranty" aria-selected="false") Гарантия
-          li.nav-item
-            a#running-tab.nav-link(data-toggle="tab" href="#running" role="tab" aria-controls="toro" aria-selected="false") Наработка
-        #tabsContent.tab-content
-          #part.tab-pane.fade.show.active(role="tabpanel" aria-labelledby="part-tab")
-            table#part-grid.footable(data-paging="true", data-empty="Нет данных")
-              thead
-                tr
-                  th(data-name="id") №
-                  th(data-name="nomenclature.title") Номенклатура
-                  th(data-name="quantity") Количество
-                  th(data-name="unit.short") Ед.изм
-          #value.tab-pane.fade(role="tabpanel" aria-labelledby="value-tab")
-            table#params-grid.footable(data-paging="true", data-empty="Нет данных")
-              thead
-                tr
-                  th(data-name="id") №
-                  th(data-name="param") Параметр
-                  th(data-name="value") Значение
-                  th(data-name="unit.short") Единица измерения
-            // each param in value
-            //   - instance['value_' + param.id] = param.value
-            // each param in enabledparameters
-            //   - var _label = param['nomenclature_parameter.title'] + ' (' + param['nomenclature_parameter.unit.short'] + ')'
-            //   - var _id = 'value_' + param.nomenclatureParameterId
-            //   +input(_id, _label)
-          #commission.tab-pane.fade(role="tabpanel" aria-labelledby="commission-tab")
-            table#commission-grid.footable(data-paging="true", data-empty="Нет данных")
-              thead
-                tr
-                  th(data-name="id") №
-                  th(data-name="branch.title") МО
-                  th(data-name="branch.title") Подразделение
-                  th(data-name="commission_id") № документа основания
-                  th(data-name="commissioned") Дата документа основания
-                  th(data-name="inventory_id") Инв. №
-                  th(data-name="ip") IP адрес
-                  th(data-name="mac") MAC адрес
-            a.float-left.btn.mt-3(type="button" href=`/commission/edit?passportId=${instance.id}`)
-              i.ion.ion-md-add-circle-outline
-              |  Создать новое закрепление
-          #toro.tab-pane.fade(role="tabpanel" aria-labelledby="toro-tab")
-            table#toro-grid.footable(data-paging="true", data-empty="Нет данных")
-              thead
-                tr
-                  th(data-name="id") №
-                  th(data-name="registered") Дата и время работ
-                  th(data-name="description") Характер работ
-                  th(data-name="runtime") Кол-во наработки (час)
-                  th(data-name="toro_start") Дата начала работ (факт)
-                  th(data-name="toro_end") Дата оконч. работ (факт)
-                  th(data-name="branch.title") Ответств. подразделение
-          #warranty.tab-pane.fade(role="tabpanel" aria-labelledby="warranty-tab")
-            table#warranty-grid.footable(data-paging="true", data-empty="Нет данных")
-              thead
-                tr
-                  th(data-name="id") №
-                  th(data-name="warranty_runtime") Гарантийная наработка
-                  th(data-name="warranty") Срок гарантии (мес)
-                  th(data-name="expiration") Окончание гарантии
-            a.float-left.btn.mt-3(type="button" href=`/warranty/edit?passportId=${instance.id}`)
-              i.ion.ion-md-add-circle-outline
-              |  Создать гарантию
-          #running.tab-pane.fade(role="tabpanel" aria-labelledby="running-tab")
-            table#running-grid.footable(data-paging="true", data-empty="Нет данных")
-              thead
-                tr
-                  th(data-name="id") №
-                  th(data-name="createdAt") Дата фиксации текущей наработки
-                  th(data-name="current") Текущая наработка
-                  th(data-name="accepted") Допустимая наработка
-                  th(data-name="max") Предельная наработка
-            a.float-left.btn.mt-3(type="button" href=`/runtime/edit?passportId=${instance.id}`)
-              i.ion.ion-md-add-circle-outline
-              |  Создать наработку
+        .col-xl-3.col-lg-6
+          +dummy_input('mac', 'MAC-адрес')
+        .col-xl-3.col-lg-6
+          +dummy_input('ip', 'IP-адрес')
+        .col-xl-3.col-lg-6
+          +dummy_input('warranty', 'Гарантия (мес)')
+        .col-xl-3.col-lg-6
+          +dummy_input('warranty_expiration', 'Истечение гарантии')
+        .col-xl-3.col-lg-6
+          +dummy_input('accepted_runtime', 'Допустимая наработка')
+        .col-xl-3.col-lg-6
+          +dummy_input('max_runtime', 'Максимальная наработка')
 
+      hr
+      ul#tabs.nav.nav-tabs(role="tablist")
+        li.nav-item
+          a#part-tab.nav-link.active(data-toggle="tab" href="#part" role="tab" aria-controls="part" aria-selected="true") Комплектность
+        li.nav-item
+          a#value-tab.nav-link(data-toggle="tab" href="#value" role="tab" aria-controls="value" aria-selected="false") Тех. параметры
+        li.nav-item
+          a#commission-tab.nav-link(data-toggle="tab" href="#commission" role="tab" aria-controls="commission" aria-selected="false") Закрепление оборудования
+        li.nav-item
+          a#toro-tab.nav-link(data-toggle="tab" href="#toro" role="tab" aria-controls="toro" aria-selected="false") Учет работ/неисправ.
+        li.nav-item
+          a#warranty-tab.nav-link(data-toggle="tab" href="#warranty-content" role="tab" aria-controls="warranty-content" aria-selected="false") Гарантия
+        li.nav-item
+          a#runtime-tab.nav-link(data-toggle="tab" href="#runtime" role="tab" aria-controls="runtime" aria-selected="false") Наработка
+      #tabsContent.tab-content
+        #part.tab-pane.fade.show.active(role="tabpanel" aria-labelledby="part-tab")
+          table#part-grid.footable(data-paging="true", data-empty="Нет данных")
+            thead
+              tr
+                th(data-name="id") №
+                th(data-name="nomenclature.title") Номенклатура
+                th(data-name="quantity") Количество
+                th(data-name="unit.short") Ед.изм
+        #value.tab-pane.fade(role="tabpanel" aria-labelledby="value-tab")
+          table#params-grid.footable(data-paging="true", data-empty="Нет данных")
+            thead
+              tr
+                th(data-name="id") №
+                th(data-name="param") Параметр
+                th(data-name="value") Значение
+                th(data-name="unit.short") Единица измерения
+        #commission.tab-pane.fade(role="tabpanel" aria-labelledby="commission-tab")
+          table#commission-grid.footable(data-paging="true", data-empty="Нет данных")
+            thead
+              tr
+                th(data-name="id") №
+                th(data-name="branch.title") МО
+                th(data-name="branch.title") Подразделение
+                th(data-name="commission_id") № документа основания
+                th(data-name="commissioned") Дата документа основания
+                th(data-name="inventory_id") Инв. №
+                th(data-name="ip") IP адрес
+                th(data-name="mac") MAC адрес
+          a.float-left.btn.mt-3(type="button" href=`/commission/edit?passportId=${instance.id}`)
+            i.ion.ion-md-add-circle-outline
+            |  Создать новое закрепление
+        #toro.tab-pane.fade(role="tabpanel" aria-labelledby="toro-tab")
+          table#toro-grid.footable(data-paging="true", data-empty="Нет данных")
+            thead
+              tr
+                th(data-name="id") №
+                th(data-name="registered") Дата и время работ
+                th(data-name="description") Характер работ
+                th(data-name="runtime") Кол-во наработки (час)
+                th(data-name="toro_start") Дата начала работ (факт)
+                th(data-name="toro_end") Дата оконч. работ (факт)
+                th(data-name="branch.title") Ответств. подразделение
+        #warranty-content.tab-pane.fade(role="tabpanel" aria-labelledby="warranty-tab")
+          table#warranty-grid.footable(data-paging="true", data-empty="Нет данных")
+            thead
+              tr
+                th(data-name="id") №
+                th(data-name="warranty_runtime") Гарантийная наработка
+                th(data-name="warranty") Срок гарантии (мес)
+                th(data-name="expiration") Окончание гарантии
+          a.float-left.btn.mt-3(type="button" href=`/warranty/edit?passportId=${instance.id}`)
+            i.ion.ion-md-add-circle-outline
+            |  Создать гарантию
+        #runtime.tab-pane.fade(role="tabpanel" aria-labelledby="runtime-tab")
+          table#runtime-grid.footable(data-paging="true", data-empty="Нет данных")
+            thead
+              tr
+                th(data-name="id") №
+                th(data-name="createdAt") Дата фиксации текущей наработки
+                th(data-name="current") Текущая наработка
+                th(data-name="accepted") Допустимая наработка
+                th(data-name="max") Предельная наработка
+          a.float-left.btn.mt-3(type="button" href=`/runtime/edit?passportId=${instance.id}`)
+            i.ion.ion-md-add-circle-outline
+            |  Создать наработку
 
     .card-footer
       if instance.id
@@ -171,57 +143,45 @@ block body
         button.btn.float-right(type="submit") Добавить
 
 append script
-  script.
-    $(() => {
-      $('#part-grid').footable({
-        "rows": $.get(`#{env.backendAddr}/api/part?filter=%7b"passportId":#{instance.id}%7d`)
-      });
-    })
-
-  script.
-    $(() => {
-      $('#params-grid').footable({
-        "rows": $.get(`#{env.backendAddr}/api/value?filter=%7b"passportId":#{instance.id}%7d`)
-      });
-    })
-
-  script.
-    $(() => {
-      $('#commission-grid').footable({
-        "rows": $.get(`#{env.backendAddr}/api/commission?filter=%7b"passportId":#{instance.id}%7d`)
-      });
-    })
-
-  script.
-    $(() => {
-      $('#toro-grid').footable({
-        "rows": $.get(`#{env.backendAddr}/api/toro?filter=%7b"passportId":#{instance.id}%7d`)
-      });
-    })
-  script.
-    $(() => {
-      $('#warranty-grid').footable({
-        "rows": $.get(`#{env.backendAddr}/api/warranty?filter=%7b"passportId":#{instance.id}%7d`)
-      });
-    })
-  script.
-    $(() => {
-      $('#running-grid').footable({
-        "rows": $.get(`#{env.backendAddr}/api/runtime?filter=%7b"passportId":#{instance.id}%7d`)
-      });
-    })
-  script.
-    $(() => {
-      $('.datetimepicker-input').each(function () {
-        const val = $(this).siblings('.hide-input').val();
-        $(this).datetimepicker({
-            locale: 'ru',
-            format: 'DD.MM.YYYY',
-            allowInputToggle: true,
-            defaultDate: val
-          });
+  if instance.id
+    script.
+      $(() => {
+        $('#part-grid').footable({
+          "rows": $.get(`#{env.backendAddr}/api/part?filter=%7b"passportId":#{instance.id}%7d`)
+        });
       })
-      $('body').on('change.datetimepicker', (e) => {
-        $(e.target).siblings('.hide-input').val(e.date.format('YYYY-MM-DD'));
+
+    script.
+      $(() => {
+        $('#params-grid').footable({
+          "rows": $.get(`#{env.backendAddr}/api/value?filter=%7b"passportId":#{instance.id}%7d`)
+        });
       })
-    })
+
+    script.
+      $(() => {
+        $('#commission-grid').footable({
+          "rows": $.get(`#{env.backendAddr}/api/commission?filter=%7b"passportId":#{instance.id}%7d`)
+        });
+      })
+
+    script.
+      $(() => {
+        $('#toro-grid').footable({
+          "rows": $.get(`#{env.backendAddr}/api/toro?filter=%7b"passportId":#{instance.id}%7d`)
+        });
+      })
+
+    script.
+      $(() => {
+        $('#warranty-grid').footable({
+          "rows": $.get(`#{env.backendAddr}/api/warranty?filter=%7b"passportId":#{instance.id}%7d`)
+        });
+      })
+
+    script.
+      $(() => {
+        $('#runtime-grid').footable({
+          "rows": $.get(`#{env.backendAddr}/api/runtime?filter=%7b"passportId":#{instance.id}%7d`)
+        });
+      })

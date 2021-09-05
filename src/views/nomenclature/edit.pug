@@ -7,52 +7,24 @@ block body
       h3.card-title Новая номенклатурная позиция
     .card-body
       if instance.id
-        .form-group
-          label(for="id") Код
-          input#id.form-control(type="text" placeholder="" disabled value=instance.id)
-      .form-group
-        label(for="nomenclatureModelId") Классификация номенклатуры
-        select#nomenclatureModelId.form-control(name="nomenclatureModelId")
-          option(value='') Класс > Группа > Тип > Модель
-          each val in parent
-            if instance.nomenclatureModelId == val.id
-              option(selected value=val.id)= val['nt.ng.nc.title'] + ' > ' + val['nt.ng.title'] + ' > ' + val['nt.title'] + ' > ' + val.title
+        +dummy_input('id', 'Код')
 
-            else
-              option(value=val.id)= val['nt.ng.nc.title'] + ' > ' + val['nt.ng.title'] + ' > ' + val['nt.title'] + ' > ' + val.title
-      .form-group
-        label(for="unitId") Единица измерения
-        select#unitId.form-control(name="unitId")
-          option(value='') ___
-          each val in unit
-            if instance.unitId == val.id
-              option(selected value=val.id)= val.title + ' (' + val.short + ')'
-            else
-              option(value=val.id)= val.title + ' (' + val.short + ')'
-      .form-group
-        label(for="title") Наименование
-        input#title.form-control(name="title" type="text" placeholder="" value=instance.title)
-      .form-group
-        label(for="designation") Обозначение
-        input#short.form-control(name="designation" type="text" placeholder="" value=instance.designation)
-      //each val in nomenclatureparameter
-        - var id = `nomenclatureparameter_${val.id}`
-        .form-group
-          .custom-control.custom-switch
-            if enabledparameters.find(el => el.nomenclatureParameterId == val.id)
-              input.custom-control-input(id=id name=id type="checkbox" checked)
-            else
-              input.custom-control-input(id=id name=id type="checkbox")
-            label.custom-control-label(for=id)= `${val.title} (${val['unit.short']})`
-      .form-group
-        label(for="enabledparameters") Параметры
-        select#enabledparameters.form-control.select2(name="enabledparameters" multiple data-placeholder="Укажите параметры" style='height: 450px')
-          option(value='') ___
-          each val in nomenclatureparameter
-            if enabledparameters.find(el => el.nomenclatureParameterId == val.id)
-              option(selected value=val.id)= val.title + ' (' + val['unit.short'] + ')'
-            else
-              option(value=val.id)= val.title + ' (' + val['unit.short'] + ')'
+      .row
+        .col-12
+          - parent.map(el => el['__title'] = el['nt.ng.nc.title'] + ' > ' + el['nt.ng.title'] + ' > ' + el['nt.title'] + ' > ' + el.title)
+          +select_required('nomenclatureModelId', 'Классификация номенклатуры', parent)
+        .col-xl-4
+          - unit.map(el => el['__title'] = el.title + ' (' + el.short + ')')
+          +select_required('unitId', 'Единица измерения', unit)
+        .col-xl-4
+          +input_required('title', 'Наименование')
+        .col-xl-4
+          +input('designation', 'Обозначение')
+      .row
+        h6 Технические параметры
+        - nomenclatureparameter.map(el => el['__title'] = el.title + ' (' + el['unit.short'] + ')')
+        +multiselect('enabledparameters', 'Параметры', nomenclatureparameter, 'nomenclatureParameterId')
+
     .card-footer
       if instance.id
         button.btn.btn-primary(type="submit") Сохранить

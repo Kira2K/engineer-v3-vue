@@ -1,64 +1,44 @@
 mixin label(key, text)
   label(for=key)= text
 
-mixin input(key, text)
-  .form-group
-    label(for=key)= text
-    if errors
-      - var err = errors.find(e => e.path == key)
-      if err
-        input.form-control.is-invalid(id=key name=key type="text" placeholder="" value=instance[key])
-        .error.invalid-feedback= err.message
-      else
-        input.form-control(id=key name=key type="text" placeholder="" value=instance[key])
-    else
-      input.form-control(id=key name=key type="text" placeholder="" value=instance[key])
-
 mixin dummy_input(key, text)
   .form-group
     label(for=key)= text
     input.form-control(id=key type="text" placeholder="" disabled value=instance[key])
 
-mixin required_input(key, text)
+mixin input(key, text)
   .form-group
     label(for=key)= text
-      span.required *
-    if errors
-      - var err = errors.find(e => e.path == key)
-      if err
-        input.form-control.is-invalid(id=key name=key type="text" placeholder="" value=instance[key])
-        .error.invalid-feedback= err.message
-      else
-        input.form-control(id=key name=key type="text" placeholder="" value=instance[key])
+    - var err = errors && errors.find(e => e.path == key)
+    if err
+      input.form-control.is-invalid(id=key name=key type="text" placeholder="" value=instance[key])
+      .error.invalid-feedback= err.message
     else
       input.form-control(id=key name=key type="text" placeholder="" value=instance[key])
 
-mixin date_input(key, text)
-  .form-group
-    label(for=key)= text
-    .input-group.date(data-target-input='nearest')
-      input.form-control.datetimepicker-input(id=key type='text' data-target=`#${key}` name=key value=instance[key] data-value=instance[key] default-date=instance[key] data-default-date=instance[key])
-      .input-group-append(data-target=`#${key}` data-toggle='datetimepicker')
-        .input-group-text
-          i.ion.ion-md-calendar
-
-mixin required_date_input(key, text)
+mixin input_required(key, text)
   .form-group
     label(for=key)= text
       span.required *
-    .input-group.date(data-target-input='nearest')
-      input.hide-input(type='text' name=key value= instance[key])
-      input.form-control.datetimepicker-input(id=key type='text' data-target=`#${key}`)
-      .input-group-append(data-target=`#${key}` data-toggle='datetimepicker')
-        .input-group-text
-          i.ion.ion-md-calendar
+    - var err = errors && errors.find(e => e.path == key)
+    if err
+      input.form-control.is-invalid(id=key name=key type="text" placeholder="" value=instance[key])
+      .error.invalid-feedback= err.message
+    else
+      input.form-control(id=key name=key type="text" placeholder="" value=instance[key])
 
 mixin dateonly_single(key, text)
   .form-group
     label(for="daterange")= text
     .input-group
-      input.form-control.dateonlypicker(id=key type='text' name=key value=instance[key])
-      .input-group-append: .input-group-text: i.fa.fa-calendar
+      - var err = errors && errors.find(e => e.path == key)
+      if err
+        input.form-control.is-invalid.dateonlypicker(id=key type='text' name=key value=instance[key])
+        .input-group-append: .input-group-text: i.fa.fa-calendar
+        .error.invalid-feedback= err.message
+      else
+        input.form-control.dateonlypicker(id=key type='text' name=key value=instance[key])
+        .input-group-append: .input-group-text: i.fa.fa-calendar
     small.form-text.text-muted.dateonlypicker_help Please specify data in the form of YYYY-MM-DD
     block
 
@@ -67,10 +47,75 @@ mixin dateonly_single_required(key, text)
     label(for="daterange")= text
       span.required *
     .input-group
-      input.form-control.dateonlypicker(id=key type='text' name=key value=instance[key] required)
-      .input-group-append: .input-group-text: i.fa.fa-calendar
+      - var err = errors && errors.find(e => e.path == key)
+      if err
+        input.form-control.is-invalid.dateonlypicker(id=key type='text' name=key value=instance[key] required)
+        .input-group-append: .input-group-text: i.fa.fa-calendar
+        .error.invalid-feedback= err.message
+      else
+        input.form-control.dateonlypicker(id=key type='text' name=key value=instance[key] required)
+        .input-group-append: .input-group-text: i.fa.fa-calendar
     small.form-text.text-muted.dateonlypicker_help Please specify data in the form of YYYY-MM-DD
     block
+
+mixin select(key, text, options)
+  .form-group
+    label(for=key)= text
+    - var err = errors && errors.find(e => e.path == key)
+    if err
+      select.select2.form-control.is-invalid(id=key name=key)
+        option(value='') ___
+        each val in options
+          if instance[key] == val.id
+            option(selected value=val.id)= val.__title
+          else
+            option(value=val.id)= val.__title
+      .error.invalid-feedback= err.message
+    else
+      select.select2.form-control(id=key name=key)
+        option(value='') ___
+        each val in options
+          if instance[key] == val.id
+            option(selected value=val.id)= val.__title
+          else
+            option(value=val.id)= val.__title
+
+mixin select_required(key, text, options)
+  .form-group
+    label(for=key)= text
+      span.required *
+    - var err = errors && errors.find(e => e.path == key)
+    if err
+      select.select2.form-control.is-invalid(id=key name=key required)
+        option(value='') ___
+        each val in options
+          if instance[key] == val.id
+            option(selected value=val.id)= val.__title
+          else
+            option(value=val.id)= val.__title
+      .error.invalid-feedback= err.message
+    else
+      select.select2.form-control(id=key name=key required)
+        option(value='') ___
+        each val in options
+          if instance[key] == val.id
+            option(selected value=val.id)= val.__title
+          else
+            option(value=val.id)= val.__title
+
+mixin multiselect(key, text, options, fkey)
+  .form-group
+    label(for=key)= text
+    select.form-control.select2(id=key name=key multiple)
+      each val in options
+        if locals[key].find(el => el[fkey] == val.id)
+          option(selected value=val.id)= val.__title
+        else
+          option(value=val.id)= val.__title
+    - var err = errors && errors.find(e => e.path == key)
+    if err
+      .error.invalid-feedback= err.message
+
 
 mixin nav-item(id, title)
   - var auth = 'engi-'+id
