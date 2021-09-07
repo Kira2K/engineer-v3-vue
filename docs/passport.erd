@@ -2,7 +2,10 @@ erDiagram
 passport {
   string	title
   string	factory_id
+  string	serial
+  string	partnumber
   dateonly	produced
+  string	state
   dateonly	commissioned
   string	provisioner
   text	extra

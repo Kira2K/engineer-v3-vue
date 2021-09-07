@@ -34,7 +34,7 @@ module.exports = {
         type: Sequelize.DATEONLY
       },
       state: {
-        allowNull: false,
+
 
         type: Sequelize.STRING
       },
