@@ -34,6 +34,11 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
+    title: {
+      type: DataTypes.STRING,
+
+
+    },
     factory_id: {
       type: DataTypes.STRING,
 
@@ -42,8 +47,26 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
+    serial: {
+      type: DataTypes.STRING,
+
+
+    },
+    partnumber: {
+      type: DataTypes.STRING,
+
+
+    },
     produced: {
       type: DataTypes.DATEONLY,
+
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    state: {
+      type: DataTypes.STRING,
 
       allowNull: false,
       validate: {
@@ -60,42 +83,10 @@ module.exports = (sequelize, DataTypes) => {
 
 
     },
-    warranty: {
-      type: DataTypes.INTEGER,
-
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
-    warranty_expiration: {
-      type: DataTypes.DATEONLY,
-
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
     extra: {
       type: DataTypes.TEXT,
 
 
-    },
-    accepted_runtime: {
-      type: DataTypes.INTEGER,
-
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
-    max_runtime: {
-      type: DataTypes.INTEGER,
-
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
     },
 
   }, {

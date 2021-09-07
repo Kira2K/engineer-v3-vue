@@ -41,12 +41,16 @@ app.use(crud('/api/enabledparameter', sequelizeCrud(db.enabled_parameter)))
 app.use(crud('/api/branch', sequelizeCrud(db.branch)))
 app.use(crud('/api/commission', sequelizeCrud(db.commission)))
 app.use(crud('/api/counterparty', sequelizeCrud(db.counterparty)))
+app.use(crud('/api/complectation', sequelizeCrud(db.complectation)))
 app.use(crud('/api/malfunction_type', sequelizeCrud(db.malfunction_type)))
 app.use(crud('/api/part', sequelizeCrud(db.part)))
 app.use(crud('/api/passports', {
   getList: async ({ filter, limit, offset, order }) => {
+    const where = {}
+    if (filter.produced) where.produced = { [Op.between]: [filter.produced[0], filter.produced[1]] }
+
     return await db.passport.findAndCountAll({ limit, offset, order,
-      where: { },
+      where,
       include: [
         {
           model: db.nomenclature.unscoped(),

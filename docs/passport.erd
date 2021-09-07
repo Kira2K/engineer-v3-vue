@@ -1,14 +1,11 @@
 erDiagram
 passport {
+  string	title
   string	factory_id
   dateonly	produced
   dateonly	commissioned
   string	provisioner
-  integer	warranty
-  dateonly	warranty_expiration
   text	extra
-  integer	accepted_runtime
-  integer	max_runtime
   ref_id	nomenclature_id
   ref_id	counterparty_id
 }
@@ -56,13 +53,19 @@ unit {
   string	short
 }
 
-part {
+complectation {
   integer	quantity
   ref_id	nomenclature_id
-  ref_id	passport_id
+  ref_id	part_id
+}
+complectation	}o--|| nomenclature : ""
+complectation	}o--|| part : ""
+
+part {
+  string	designation
+  ref_id	nomenclature_id
 }
 part	}o--|| nomenclature : ""
-part	}o--|| passport : ""
 
 commission {
   string	commission_id

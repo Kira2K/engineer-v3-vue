@@ -1,278 +1,89 @@
 extends ../layout.pug
 
+block breadcrumbs
+  li.breadcrumb-item.active(aria-current="page") Номенклатура
+
 block body
-  - var filterParams = query && query.filter ? JSON.parse(query.filter) : {};
   .card
     .card-header
-      //a.float-left.btn.mr-3(type="button")
-      //  ion-icon(name='location-outline')
-      a.float-left.btn.mr-3(data-toggle="dropdown")
-        i.far.fa-filter
-      .dropdown-menu
-        a.btn.float-left.ml-3.mb-3.mr-3.mt-3(type="button", onclick='resetAll()') Сбросисть все фильтры
-      a.float-right.btn.ml-3(type="button", data-toggle="modal", data-target="#tableSettingsModal")
-        i.far.fa-cog
-      a.float-right.btn.ml-3(type="button", href="/download/nomenclature")
-        i.far.fa-file-excel
-      a.float-right.btn.ml-3(type="button")
-        i.far.fa-redo
-      a.float-right.btn.ml-3(type="button" href="/nomenclature/edit")
-        i.ion.ion-md-add-circle-outline
-        |  Добавить
-    .card-body.table-body
-      table#main.footable(data-paging='true', data-stop-propagation="true", data-filtering="true", data-sorting="true", data-empty="Нет данных", data-paging-size="50")
-        thead
-          tr
-            th(data-name='id', data-type="number", data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('id') ? 'false' : 'true')
-              .table-header Код
-            th(data-name='designation', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('designation') ? 'false' : 'true')
-              .table-header Обозначение
-            th(data-name='title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('title') ? 'false' : 'true')
-              .table-header Наименование
-            th(data-breakpoints='xs', data-name='unit.short', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('unit.short') ? 'false' : 'true')
-              .table-header Ед. изм.
-            th(data-breakpoints='xs', data-name='nm.nt.ng.nc.title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('nm.nt.ng.nc.title') ? 'false' : 'true')
-              .table-header Класс номенклатуры
-            th(data-breakpoints='xs', data-name='nm.nt.ng.title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('nm.nt.ng.title') ? 'false' : 'true')
-              .table-header Группа номенклатуры
-            th(data-breakpoints='xs', data-name='nm.nt.title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('nm.nt.title') ? 'false' : 'true')
-              .table-header Тип номенклатуры
-            th(data-breakpoints='xs', data-name='nm.title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('nm.title') ? 'false' : 'true')
-              .table-header Модель номенклатуры
-            th(data-breakpoints='xs sm md', data-formatter='dateFormat' data-name='createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('createdAt') ? 'false' : 'true')
-              .table-header Дата создания
-                a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  if filterParams['createdAt']
-                    i.fa.fa-filter.float-right
-                  else
-                    i.far.fa-filter.float-right
-                .dropdown-menu
-                  form.px-3.py-3
-                    .form-group
-                      .input-group
-                        .input-group-prepend
-                          span.input-group-text
-                            i.far.fa-calendar-alt
-                        input#createdAt.daterange.form-control.float-right(type='text')
-                  a.btn.float-left.ml-3.mb-3(type="button", onclick='resetDate("createdAt")') Сброс
-                  a.btn.float-right.mr-3.mb-3(type="button", onclick='applyDate("createdAt")') Применить
-        tbody
-          each val in list
-            tr(data-href=val.id)
-              td= val['id']
-              td= val['designation']
-              td= val['title']
-              td= val['unit.short']
-              td= val['nm.nt.ng.nc.title']
-              td= val['nm.nt.ng.title']
-              td= val['nm.nt.title']
-              td= val['nm.title']
-              td= val['createdAt']
-  #tableSettingsModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='tableSettingsModalTitle' aria-hidden='true')
-    .modal-dialog.modal-dialog-centered(role='document')
-      .modal-content
-        .modal-header
-          h6#tableSettingsModalTitle.modal-title Настройка таблицы
-          button.close(type='button' data-dismiss='modal' aria-label='Close')
-            span(aria-hidden='true') ×
-        .modal-body
-          table.footable(data-paging='true', data-paging-size="20")
-            thead
-              tr
-                th() Заголовок столбца
-                th() Видимость
-            tbody
-              tr
-                td.float-left.ml-3 Код
-                td
-                  input(type="checkbox", name="visible", value="id", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('id') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Обозначение
-                td
-                  input(type="checkbox", name="visible", value="designation", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('designation') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Наименование
-                td
-                  input(type="checkbox", name="visible", value="title", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('title') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Ед. изм.
-                td
-                  input(type="checkbox", name="visible", value="unit.short", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('unit.short') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Класс номенклатуры
-                td
-                  input(type="checkbox", name="visible", value="nm.nt.ng.nc.title", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('nm.nt.ng.nc.title') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Группа номенклатуры
-                td
-                  input(type="checkbox", name="visible", value="nm.nt.ng.title", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('nm.nt.ng.title') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Тип номенклатуры
-                td
-                  input(type="checkbox", name="visible", value="nm.nt.title", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('nm.nt.title') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Модель номенклатуры
-                td
-                  input(type="checkbox", name="visible", value="nm.title", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('nm.title') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Дата создания
-                td
-                  input(type="checkbox", name="visible", value="createdAt", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('createdAt') ? undefined : "checked"))
+      h3.card-title Номенклатура
+      .float-right
+        a.btn.btn-success(type="button" href="/nomenclature/edit")
+          i.far.fa-plus-circle
+          |  Добавить
+        | &nbsp;
+        a.btn.btn-primary(type="button" href="/download/nomenclature")
+          i.fa.fa-file-excel
+    .card-body
+      #jsGrid
 
-        .modal-footer.justify-content-between
-          button.btn(type='button' data-dismiss='modal') Отмена
-          button#settingsModalSave.btn(type='button') Сохранить
-  #myModal
 append script
-  script.
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    const params = Object.fromEntries(urlSearchParams.entries());
-  script.
-    $(() => {
-      $('table').footable();
-
-      $('tr[data-href]').on("click", function (e) {
-        if (!$(e.target).hasClass('footable-toggle')) {
-          document.location.href = `/nomenclature/edit/${$(this).data('href')}`;
-        }
-      });
-
-      $('#settingsModalSave').on("click", function () {
-        let arr = [];
-        $("input:checkbox[name='visible']").each(function () {
-          if (!this.checked) {
-            arr.push($(this).val());
-          }
-        });
-        document.location.href = `/passport?hide_columns=${arr}`
-      });
-
-      $(document).on('click', '.dropdown-menu', function (e) {
-        e.stopPropagation();
-      });
-
-      $(document).on('click', 'span.month, th.next, th.prev, th.switch, span.year, .applyBtn, .cancelBtn, .daterangepicker', function (e) {
-        e.stopPropagation();
-      });
-
-      $('body').on('shown.bs.dropdown', function () {
-        $('.footable-filtering-search').html('');
-        $(this).find('select').each(function () {
-          let dropdownParent = $(document.body);
-
-          if ($(this).parents('.dropdown.in:first').length !== 0)
-            dropdownParent = $(this).parents('.dropdown.in:first');
-
-          $(this).select2({
-            dropdownParent,
-            placeholder: 'Поиск по названию...',
-            dropdownParent: $(this).parent()
-          });
-        });
-
-        $('.daterange').daterangepicker({
-          locale: {
-            "format": "DD.MM.YYYY",
-            "applyLabel": "Применить",
-            "cancelLabel": "Сбросить",
-            "daysOfWeek": [
-              "Пн",
-              "Вт",
-              "Ср",
-              "Чт",
-              "Пт",
-              "Сб",
-              "Вс"
-            ],
-            "monthNames": [
-              "Январь",
-              "Февраль",
-              "Март",
-              "Апрель",
-              "Май",
-              "Июнь",
-              "Июль",
-              "Август",
-              "Сентябрь",
-              "Октябрь",
-              "Ноябрь",
-              "Декабрь"
-            ],
+    script.
+      $(() => {
+        var data
+        $('#jsGrid').jsGrid({
+          height: "auto",
+          width: "auto",
+          editing: false,
+          filtering: true,
+          autoload: true,
+          sorting: true,
+          paging: true,
+          loadMessage: 'Загрузка...',
+          noDataContent: 'Нет данных',
+          pageSize: 20,
+          pageButtonCount: 15,
+          pagerFormat: "Страницы: {first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} из {pageCount}",
+          pagePrevText: "&#x23F4",
+          pageNextText: "&#x23F5",
+          pageFirstText: "&#x23EE",
+          pageLastText: "&#x23ED",
+          rowClick: function(args) {
+            window.location.href=`/nomenclature/edit/${args.item.id}`
           },
-          linkedCalendars: false,
-          // startDate: "08/13/2021",
-          // endDate: "08/19/2021"
-        });
-      });
-    })
-  script.
-    function apply() {
-      let filtering = FooTable.get('#main').use(FooTable.Filtering), // get the filtering component for the table
-              filter = $('.titleSearch').val(); // get the value to filter by
-      console.log(filter);
-      if (!filter) { // if the value is "none" remove the filter
-        filtering.removeFilter('title');
-      } else { // otherwise add/update the filter.
-        filtering.addFilter('title', filter, ['title']);
-      }
-      filtering.filter();
-    }
-  script.
-    function reset() {
-      let filtering = FooTable.get('#main').use(FooTable.Filtering),
-              filter = $('.titleSearch')
-      filter.val('');
-      filtering.removeFilter('title');
-    }
-  script.
-    function applySelect() {
-      let filter = $('select').val();
-      let currentFilter = params && params.filter ? JSON.parse(params.filter) : {};
-      let searchParams = new URLSearchParams();
-      searchParams.set("filter", JSON.stringify({ extra: filter, ...currentFilter }));
-      document.location.href = `/passport?${searchParams}&hide_columns=${params.hide_columns}`
-    }
-  script.
-    function resetSelect() {
-      document.location.href = `/passport?hide_columns=${params.hide_columns}`
-    }
-  script.
-    function applyDate(key, id) {
-      let currentFilter = params && params.filter ? JSON.parse(params.filter) : {};
-      let filter = $('body').find(`#${id ? id : key}`).data('daterangepicker');
-      let dtStart = filter.startDate.format('YYYY-MM-DDTHH:mm:ss.SSS');
-      let dtEnd = filter.endDate ? filter.endDate.format('YYYY-MM-DDTHH:mm:ss.SSS') : filter.startDate.format('YYYY-MM-DDTHH:mm:ss.SSS');
-      let searchParams = new URLSearchParams();
-      let filterParams = {};
-      filterParams[key] = [ dtStart, dtEnd ]
-      searchParams.set("filter", JSON.stringify({ ...filterParams, ...currentFilter }));
-      document.location.href = `/passport?${searchParams}&hide_columns=${params.hide_columns}`
-    }
-  script.
-    function resetDate(key) {
-      document.location.href = `/passport?hide_columns=${params.hide_columns}`
-    }
-  script.
-    function resetAll() {
-      document.location.href = `/passport?hide_columns=${params.hide_columns}`;
-    }
-  script.
-    function applyCheckbox() {
-      let filter = [];
-      let currentFilter = params && params.filter ? JSON.parse(params.filter) : {};
-
-      $("input:checkbox[name='counterpartyTitle']:checked").each(function () {
-        filter.push($(this).val());
-      });
-      let searchParams = new URLSearchParams();
-      searchParams.set("filter", JSON.stringify({ 'counterparty.title': filter, ...currentFilter }));
-      document.location.href = `/passport?${searchParams}&hide_columns=${params.hide_columns}`
-    }
-  script.
-    function resetCheckbox() {
-      document.location.href = `/passport?hide_columns=${params.hide_columns}`
-    }
-  script.
-    function dateFormat(value) {
-      return value ? moment(value).format('DD.MM.YYYY') : '';
-    }
+          controller: {
+            loadData: (filter) => {
+              var deferred = $.Deferred();
+              if (data) {
+                console.log(filter)
+                return $.grep(data, el =>
+                     (!filter.designation       || el.designation.toLowerCase().includes(filter.designation.toLowerCase()))
+                  && (!filter.title             || el.title.toLowerCase().includes(filter.title.toLowerCase()))
+                  && (!filter.unitId            || el.unitId.toLowerCase().includes(filter.unitId.toLowerCase()))
+                  && (!filter.nomenclatureClass || el.nomenclatureClass.toLowerCase().includes(filter.nomenclatureClass.toLowerCase()))
+                  && (!filter.nomenclatureGroup || el.nomenclatureGroup.toLowerCase().includes(filter.nomenclatureGroup.toLowerCase()))
+                  && (!filter.nomenclatureType  || el.nomenclatureType.toLowerCase().includes(filter.nomenclatureType.toLowerCase()))
+                  && (!filter.nomenclatureModel || el.nomenclatureModel.toLowerCase().includes(filter.nomenclatureModel.toLowerCase()))
+                )
+              } else
+              $.ajax({
+                url: `#{env.backendAddr}/api/nomenclature?range=%5B0%2C1000000%5D`,
+                success: function(response) {
+                  deferred.resolve(data = response.map(el => {
+                    el.unitId = `${el['unit.short']}`
+                    el.nomenclatureClass = `${el['nm.nt.ng.nc.title']}`
+                    el.nomenclatureGroup = `${el['nm.nt.ng.title']}`
+                    el.nomenclatureType  = `${el['nm.nt.title']}`
+                    el.nomenclatureModel = `${el['nm.title']}`
+                    el.created = `${moment(el.createdAt).format('YYYY.MM.DD HH:mm:ss')}`
+                    //console.log(el.factoryId, JSON.stringify(el, 0, 2))
+                    return el
+                  }));
+                }
+              })
+              return deferred.promise();
+            }
+          },
+          fields: [
+            { title: "Код",                 name: "id",                 type: "number", width: 60, filtering: false },
+            { title: "Обозначение",         name: "designation",        type: "text",   width: 140 },
+            { title: "Наименование",        name: "title",              type: "text",   width: 280 },
+            { title: "Ед изм.",             name: "unitId",             type: "text",   width: 70,},
+            { title: "Класс",               name: "nomenclatureClass",  type: "text",   width: 220,},
+            { title: "Группа",              name: "nomenclatureGroup",  type: "text",   width: 220,},
+            { title: "Тип",                 name: "nomenclatureType",   type: "text",   width: 220,},
+            { title: "Модель",              name: "nomenclatureModel",  type: "text",   width: 220,},
+            { title: "Дата создания",       name: "created",            type: "date",   width: 160},
+          ]
+        })
+      })

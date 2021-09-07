@@ -1,5 +1,12 @@
 extends ../layout.pug
 
+block breadcrumbs
+  li.breadcrumb-item: a(href="/passport") Оборудование
+  if instance
+    li.breadcrumb-item.active(aria-current="page") Изменение оборудования
+  else
+    li.breadcrumb-item.active(aria-current="page") Новое оборудование
+
 block body
   - var instance = instance || {}
   .card: form(method='post' enctype='application/x-www-form-urlencoded')
@@ -16,22 +23,22 @@ block body
           - nomenclature.map(el => el['__title'] = el.title)
           +select_required('nomenclatureId', 'Номенклатура', nomenclature)
         .col-xl-3.col-lg-6
-          +dummy_input('title',  'Наименование')
+          +input('title',  'Наименование')
         .col-xl-3.col-lg-6
-          +dummy_input('serial_id',  'Серийный номер')
+          +input('serial',  'Серийный номер')
         .col-xl-3.col-lg-6
           +input_required('factory_id',  'Заводской номер')
         .col-xl-3.col-lg-6
-          +dummy_input('part_id',  'Номер партии')
+          +input('partnumber',  'Номер партии')
         .col-xl-3.col-lg-6
           - counterparty.map(el => el['__title'] = el.title)
           +select_required('counterpartyId', 'Изготовитель', counterparty)
         .col-xl-3.col-lg-6
           +dateonly_single_required('produced', 'Дата изготовления')
         .col-xl-3.col-lg-6
-          +dateonly_single_required('commissioned', 'Ввод в эксплуатацию')
+          +dateonly_single('commissioned', 'Ввод в эксплуатацию')
         .col-xl-3.col-lg-6
-          +dummy_input('provisioner', 'Медицинская организация')
+          +input('provisioner', 'Медицинская организация')
         .col-xl-3.col-lg-6
           +dummy_input('sub_provisioner', 'Подразделение мед. орг.')
         .col-xl-3.col-lg-6
@@ -147,41 +154,41 @@ append script
     script.
       $(() => {
         $('#part-grid').footable({
-          "rows": $.get(`#{env.backendAddr}/api/part?filter=%7b"passportId":#{instance.id}%7d`)
+          "rows": $.get(`#{env.backendAddr}/api/complectation?filter=%7b"nomenclatureId":#{instance.nomenclatureId || 0}%7d`)
         });
       })
 
     script.
       $(() => {
         $('#params-grid').footable({
-          "rows": $.get(`#{env.backendAddr}/api/value?filter=%7b"passportId":#{instance.id}%7d`)
+          "rows": $.get(`#{env.backendAddr}/api/value?filter=%7b"passportId":#{instance.id || 0}%7d`)
         });
       })
 
     script.
       $(() => {
         $('#commission-grid').footable({
-          "rows": $.get(`#{env.backendAddr}/api/commission?filter=%7b"passportId":#{instance.id}%7d`)
+          "rows": $.get(`#{env.backendAddr}/api/commission?filter=%7b"passportId":#{instance.id || 0}%7d`)
         });
       })
 
     script.
       $(() => {
         $('#toro-grid').footable({
-          "rows": $.get(`#{env.backendAddr}/api/toro?filter=%7b"passportId":#{instance.id}%7d`)
+          "rows": $.get(`#{env.backendAddr}/api/toro?filter=%7b"passportId":#{instance.id || 0}%7d`)
         });
       })
 
     script.
       $(() => {
         $('#warranty-grid').footable({
-          "rows": $.get(`#{env.backendAddr}/api/warranty?filter=%7b"passportId":#{instance.id}%7d`)
+          "rows": $.get(`#{env.backendAddr}/api/warranty?filter=%7b"passportId":#{instance.id || 0}%7d`)
         });
       })
 
     script.
       $(() => {
         $('#runtime-grid').footable({
-          "rows": $.get(`#{env.backendAddr}/api/runtime?filter=%7b"passportId":#{instance.id}%7d`)
+          "rows": $.get(`#{env.backendAddr}/api/runtime?filter=%7b"passportId":#{instance.id || 0}%7d`)
         });
       })

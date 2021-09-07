@@ -22,10 +22,10 @@ mixin input_required(key, text)
       span.required *
     - var err = errors && errors.find(e => e.path == key)
     if err
-      input.form-control.is-invalid(id=key name=key type="text" placeholder="" value=instance[key])
+      input.form-control.is-invalid(id=key name=key type="text" placeholder="" value=instance[key] required)
       .error.invalid-feedback= err.message
     else
-      input.form-control(id=key name=key type="text" placeholder="" value=instance[key])
+      input.form-control(id=key name=key type="text" placeholder="" value=instance[key] required)
 
 mixin dateonly_single(key, text)
   .form-group
@@ -63,7 +63,7 @@ mixin select(key, text, options)
     label(for=key)= text
     - var err = errors && errors.find(e => e.path == key)
     if err
-      select.select2.form-control.is-invalid(id=key name=key)
+      select.select.form-control.is-invalid(id=key name=key)
         option(value='') ___
         each val in options
           if instance[key] == val.id
@@ -72,7 +72,7 @@ mixin select(key, text, options)
             option(value=val.id)= val.__title
       .error.invalid-feedback= err.message
     else
-      select.select2.form-control(id=key name=key)
+      select.select.form-control(id=key name=key)
         option(value='') ___
         each val in options
           if instance[key] == val.id
@@ -86,7 +86,7 @@ mixin select_required(key, text, options)
       span.required *
     - var err = errors && errors.find(e => e.path == key)
     if err
-      select.select2.form-control.is-invalid(id=key name=key required)
+      select.select.form-control.is-invalid(id=key name=key required)
         option(value='') ___
         each val in options
           if instance[key] == val.id
@@ -95,7 +95,7 @@ mixin select_required(key, text, options)
             option(value=val.id)= val.__title
       .error.invalid-feedback= err.message
     else
-      select.select2.form-control(id=key name=key required)
+      select.select.form-control(id=key name=key required)
         option(value='') ___
         each val in options
           if instance[key] == val.id

@@ -1,17 +1,17 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('part', {
+    await queryInterface.createTable('complectation', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      designation: {
+      quantity: {
         allowNull: false,
 
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
 
       nomenclature_id: {
@@ -19,6 +19,13 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: 'nomenclature'
+        }
+      },
+      part_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'part'
         }
       },
 
@@ -39,6 +46,6 @@ module.exports = {
 
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('part');
+    await queryInterface.dropTable('complectation');
   }
 };

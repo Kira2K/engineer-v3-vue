@@ -8,8 +8,23 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      title: {
+
+
+        type: Sequelize.STRING
+      },
       factory_id: {
         allowNull: false,
+
+        type: Sequelize.STRING
+      },
+      serial: {
+
+
+        type: Sequelize.STRING
+      },
+      partnumber: {
+
 
         type: Sequelize.STRING
       },
@@ -17,6 +32,11 @@ module.exports = {
         allowNull: false,
 
         type: Sequelize.DATEONLY
+      },
+      state: {
+        allowNull: false,
+
+        type: Sequelize.STRING
       },
       commissioned: {
 
@@ -28,30 +48,10 @@ module.exports = {
 
         type: Sequelize.STRING
       },
-      warranty: {
-        allowNull: false,
-
-        type: Sequelize.INTEGER
-      },
-      warranty_expiration: {
-        allowNull: false,
-
-        type: Sequelize.DATEONLY
-      },
       extra: {
 
 
         type: Sequelize.TEXT
-      },
-      accepted_runtime: {
-        allowNull: false,
-
-        type: Sequelize.INTEGER
-      },
-      max_runtime: {
-        allowNull: false,
-
-        type: Sequelize.INTEGER
       },
 
       nomenclature_id: {

@@ -110,28 +110,14 @@ body {
   padding: 16px;
 }
 
-table thead tr.footable-header {
+table thead {
   background: #142333;
 }
 
-table.footable thead tr.footable-header > th {
-  padding: 3px 10px 3px 16px;
+table thead th {
   color: #80C5ED;
   font-size: 12px;
-  line-height: 16px;
 }
-
-.table > :not(:last-child) > :last-child > *,
-table tr {
-  border-bottom: 1px solid #30485C;
-}
-
-table tbody tr td, table thead tr th {
-  text-align: left;
-  padding: 0 10px;
-  border-right: 1px solid #30485C;
-}
-
 
 .pagination {
   margin: 0;
@@ -212,14 +198,6 @@ aside {
 .modal-header .close span {
   color: #80C5ED;
   text-shadow: none;
-}
-
-.footable-filtering {
-  display:none;
-}
-
-table.footable, table.footable-details {
-
 }
 
 .dropdown-menu {

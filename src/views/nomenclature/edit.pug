@@ -1,5 +1,12 @@
 extends ../layout.pug
 
+block breadcrumbs
+  li.breadcrumb-item: a(href="/passport") Номенклатура
+  if instance
+    li.breadcrumb-item.active(aria-current="page") Изменение номенклатуры
+  else
+    li.breadcrumb-item.active(aria-current="page") Новая номенклатура
+
 block body
   - var instance = instance || {}
   .card: form(method='post' enctype='application/x-www-form-urlencoded')

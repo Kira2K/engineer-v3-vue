@@ -3,29 +3,34 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class part extends Model {
+  class complectation extends Model {
     static associate(models) {
       models.nomenclature.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
       this.belongsTo(models.nomenclature);
+      models.part.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
+      this.belongsTo(models.part);
 
       this.addScope('defaultScope', {
         include: [
           {
             model: models.nomenclature.unscoped(),
           },
+          {
+            model: models.part.unscoped(),
+          },
 
         ]
       });
     }
   };
-  part.init({
+  complectation.init({
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
       autoIncrement: true
     },
-    designation: {
-      type: DataTypes.STRING,
+    quantity: {
+      type: DataTypes.INTEGER,
 
       allowNull: false,
       validate: {
@@ -38,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     paranoid: true,
     underscored: true,
     freezeTableName: true,
-    modelName: 'part',
+    modelName: 'complectation',
   });
-  return part;
+  return complectation;
 };

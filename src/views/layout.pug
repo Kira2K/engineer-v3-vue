@@ -23,16 +23,31 @@ html(lang='en')
         .card-body { background: #213345 }
         .card-footer { background: #213345 }
         .card-footer:last-child { border-radius: 0 0 4px 4px; }
-        .form-control, .form-control:focus, option { background-color: #142333; color: #c9ebff }
+        .form-control, .form-control:focus, option, input { background-color: #142333; color: #c9ebff }
+        .jsgrid-grid-header input { border: 1px solid #80c5ed !important }
         .form-control:disabled { background-color: #1F2A38; cursor: not-allowed; color: #c9ebff }
         .btn { background-color: #2a445e; color: #c9ebff; border-radius: 3px }
+
+        .jsgrid-load-shader { opacity: 1; background-color: #213345; }
+        .jsgrid-load-panel { background-color: #213345; color: #c9ebff; border: 2px solid #80c5ed; }
+
+        .jsgrid-header-sortable::before { float: right; margin-top: 8px; border-top-color: #80c5ed; border-bottom-color: #80c5ed;}
+        .jsgrid-table { font-size: 0.8em}
+        .jsgrid-filter-row > .jsgrid-cell { background: #142333; border-color: #30485c }
         .jsgrid-header-row > .jsgrid-header-cell { background: #142333; border-color: #30485c }
         .jsgrid-row > .jsgrid-cell, .jsgrid-alt-row > .jsgrid-cell, .jsgrid-nodata-row > .jsgrid-cell { border-color: #30485c; background: #213345 }
         .jsgrid-cell, .jsgrid-selected-row > .jsgrid-cell,
         .navbar, .main-footer { border-color: #30485c; }
-        .jsgrid-grid-header, .jsgrid-grid-body { border-color: #30485c; overflow: auto; }
-        .layout-fixed .brand-link img { width: 210px; max-height: 90px; }
-        .layout-fixed .brand-link { height: 140px; }
+        .overflow-x { overflow-x: scroll; }
+        .jsgrid-grid-body { overflow-x: visible; }
+        .jsgrid-grid-header, .jsgrid-grid-body { border-color: #30485c; overflow-y: auto; }
+        .jsgrid-pager-page, .jsgrid-pager-nav-button { color: #73D0F5; border: 1px solid #73D0F5; margin: 2px; border-radius: 5px; font-weight: 600; }
+        .jsgrid-pager-page a, .jsgrid-pager-nav-button a { text-decoration: none; }
+        .jsgrid-pager-current-page { background-color: #73D0F5; color: #213345; }
+
+        ol.breadcrumb { background: none; margin: 0; }
+        ol.breadcrumb li a { text-decoration: none; }
+
       link(rel='stylesheet', href='/plugins/icheck-bootstrap/icheck-bootstrap.min.css')
       link(rel='stylesheet', href='/plugins/jqvmap/jqvmap.min.css')
       link(rel='stylesheet', href='/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')
@@ -55,14 +70,14 @@ html(lang='en')
         ul.navbar-nav.ml-3
           li.nav-item
             a.nav-link(data-widget='pushmenu', href='#', role='button')
-              i.ion.ion-md-menu
-          li.nav-item.d-none.d-sm-inline-block
-            a.nav-link(href='/')
-              ion-icon(name='home-outline')
-          li.nav-item.d-none.d-sm-inline-block
-            a.nav-link
-              ion-icon(name='chevron-forward-outline')
-              p Номенклатура
+              i.fa.fa-bars
+
+        ol.breadcrumb
+          li.breadcrumb-item
+            a.breadcrumb-item(href='/')
+              i.fa.fa-home
+          block breadcrumbs
+
         // Right navbar links
         ul.navbar-nav.ml-auto.mr-3
           li.nav-item

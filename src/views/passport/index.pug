@@ -1,422 +1,86 @@
 extends ../layout.pug
 
+block breadcrumbs
+  li.breadcrumb-item.active(aria-current="page") Оборудование
+
 block body
-  - var filterParams = query && query.filter ? JSON.parse(query.filter) : {};
   .card
     .card-header
-      //a.float-left.btn.mr-3(type="button")
-      //  ion-icon(name='location-outline')
-      a.float-left.btn.mr-3(data-toggle="dropdown")
-        i.far.fa-filter
-      .dropdown-menu
-        a.btn.float-left.ml-3.mb-3.mr-3.mt-3(type="button", onclick='resetAll()') Сбросисть все фильтры
-      a.float-right.btn.ml-3(type="button", data-toggle="modal", data-target="#tableSettingsModal")
-        i.far.fa-cog
-      a.float-right.btn.ml-3(type="button" href="/download/passport")
-        i.far.fa-file-excel
-      a.float-right.btn.ml-3(type="button")
-        i.far.fa-redo
-      a.float-right.btn.ml-3(type="button" href="/passport/edit")
-        i.ion.ion-md-add-circle-outline
-        |  Добавить
-    .card-body.table-body
-      table#main.footable(data-paging='true', data-stop-propagation="true", data-filtering="true", data-sorting="true", data-empty="Нет данных", data-paging-size="50")
-        thead
-          tr
-            th(data-name='id', data-type="number", data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('id') ? 'false' : 'true')
-              .table-header Номер
-            th(data-name='title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('nomenclature.title') ? 'false' : 'true')
-              .table-header Оборудование
-                a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  if filterParams['nomenclature.title']
-                    i.fa.fa-filter.float-right
-                  else
-                    i.far.fa-filter.float-right
-                .dropdown-menu
-                  form.px-3.py-3
-                    .form-group
-                      input.titleSearch.form-control(placeholder='Поиск по названию...', value=filterParams['nomenclature.title'])
-                  a.btn.float-left.ml-3.mb-3(type="button", onclick='reset()') Сброс
-                  a.btn.float-right.mr-3.mb-3(type="button", onclick='apply()') Применить
-            th(data-name='produced', data-formatter='dateFormat', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('produced') ? 'false' : 'true', data-format-string="dd")
-              .table-header Дата изготовления
-                a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  if filterParams['produced']
-                    i.fa.fa-filter.float-right
-                  else
-                    i.far.fa-filter.float-right
-                .dropdown-menu
-                  form.px-3.py-3
-                    .form-group
-                      .input-group
-                        .input-group-prepend
-                          span.input-group-text
-                            i.far.fa-calendar-alt
-                        input#produced.daterange.form-control.float-right(type='text')
-                  a.btn.float-left.ml-3.mb-3(type="button", onclick='resetDate("produced")') Сброс
-                  a.btn.float-right.mr-3.mb-3(type="button", onclick='applyDate("produced")') Применить
-            th(style="min-width: 200px;", data-breakpoints='xs', data-name='factory_id', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('factory_id') ? 'false' : 'true')
-              .table-header Заводской номер
-            th(data-breakpoints='xs', data-name='warranty', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty') ? 'false' : 'true', data-type="number")
-              .table-header Срок гарантии (мес.)
-            th(data-breakpoints='xs', data-formatter='dateFormat', data-name='nomenclature.createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty.createdAt') ? 'false' : 'true', data-format-string="dd")
-              .table-header Дата начала гарантии
-                //a.filter.dropdown.ml-2(data-toggle="dropdown")
-                //  i.far.fa-filter.float-right
-                //.dropdown-menu
-                //  form.px-3.py-3
-                //    .form-group
-                //      .input-group
-                //        .input-group-prepend
-                //          span.input-group-text
-                //            i.far.fa-calendar-alt
-                //        input#nomenclatureCreatedAt.daterange.form-control.float-right(type='text')
-                //  a.btn.float-left.ml-3.mb-3(type="button", onclick='resetDate("nomenclature.createdAt")') Сброс
-                //  a.btn.float-right.mr-3.mb-3(type="button", onclick='applyDate("nomenclature.createdAt, nomenclatureCreatedAt")') Применить
-            th(data-breakpoints='xs', data-formatter='dateFormat', data-name='warranty_expiration', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('warranty_expiration') ? 'false' : 'true', data-format-string="dd")
-              .table-header Дата окончания гарантии
-                a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  if filterParams['warranty_expiration']
-                    i.fa.fa-filter.float-right
-                  else
-                    i.far.fa-filter.float-right
-                .dropdown-menu
-                  form.px-3.py-3
-                    .form-group
-                      .input-group
-                        .input-group-prepend
-                          span.input-group-text
-                            i.far.fa-calendar-alt
-                        input#warranty_expiration.daterange.form-control.float-right(type='text')
-                  a.btn.float-left.ml-3.mb-3(type="button", onclick='resetDate("warranty_expiration")') Сброс
-                  a.btn.float-right.mr-3.mb-3(type="button", onclick='applyDate("warranty_expiration")') Применить
-            th(data-breakpoints='xs', data-name='serial_number', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('serial_number') ? 'false' : 'true')
-              .table-header Сер. №
-            th(data-breakpoints='xs', data-name='med_org', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('med_org') ? 'false' : 'true')
-              .table-header МО
-            th(data-breakpoints='xs', data-name='sub_med_org', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('sub_med_org') ? 'false' : 'true')
-              .table-header Подразд. МО
-            th(data-breakpoints='xs', data-name='state', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('state') ? 'false' : 'true')
-              .table-header Состаяние
-            th(data-breakpoints='xs sm md', data-name='counterparty.title', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('counterparty.title') ? 'false' : 'true')
-              .table-header Изотовитель
-                //a.filter.dropdown.ml-2(data-toggle="dropdown")
-                //  i.far.fa-filter.float-right
-                //.dropdown-menu
-                //  form.px-3.py-3
-                //    .form-group.scroll
-                //      - var filtered = list.map(el => el['counterparty.title']).filter((el, n, all) => all.indexOf(el) == n)
-                //      each val in filtered
-                //        .form-check
-                //          input.form-check-input(type='checkbox', name='counterpartyTitle', value=val, checked=filterParams['counterparty.title'] && filterParams['counterparty.title'].length && filterParams['counterparty.title'].includes(val))
-                //          label.form-check-label= val
-                //  a.btn.float-left.ml-3.mb-3(type="button", onclick='resetCheckbox()') Сброс
-                //  a.btn.float-right.ml-3.mr-3.mb-3(type="button", onclick='applyCheckbox()') Применить
-            th(data-breakpoints='xs sm md', data-name='extra', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('extra') ? 'false' : 'true')
-              .table-header Особые отметки
-                a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  if filterParams['extra']
-                    i.fa.fa-filter.float-right
-                  else
-                    i.far.fa-filter.float-right
-                .dropdown-menu
-                  form.px-3.py-3
-                    .form-group
-                      select#extra.form-control
-                        - var filtered = list.map(el => el.extra).filter((el, n, all) => all.indexOf(el) == n)
-                        each val in filtered
-                          option= val
-                  a.btn.float-left.ml-3.mb-3(type="button", onclick='resetSelect()') Сброс
-                  a.btn.float-right.mr-3.mb-3(type="button", onclick='applySelect("extra")') Применить
-            th(data-breakpoints='xs sm md', data-formatter='dateFormat', data-name='beginAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('beginAt') ? 'false' : 'true')
-              .table-header Дата ввода в эксплуат.
-                a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  if filterParams['beginAt']
-                    i.fa.fa-filter.float-right
-                  else
-                    i.far.fa-filter.float-right
-                .dropdown-menu
-                  form.px-3.py-3
-                    .form-group
-                      .input-group
-                        .input-group-prepend
-                          span.input-group-text
-                            i.far.fa-calendar-alt
-                        input#beginAt.daterange.form-control.float-right(type='text')
-                  a.btn.float-left.ml-3.mb-3(type="button", onclick='resetDate("beginAt")') Сброс
-                  a.btn.float-right.mr-3.mb-3(type="button", onclick='applyDate("beginAt")') Применить
-            th(data-breakpoints='xs sm md', data-name='accepted_runtime', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('accepted_runtime') ? 'false' : 'true')
-              .table-header Допустим. наработка
-            th(data-breakpoints='xs sm md', data-name='max_runtime', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('max_runtime') ? 'false' : 'true')
-              .table-header Предел. наработка
-            th(data-breakpoints='xs sm md', data-formatter='dateFormat' data-name='createdAt', data-visible=query && query.hide_columns && query.hide_columns.split(',').includes('createdAt') ? 'false' : 'true')
-              .table-header Дата создания
-                a.filter.dropdown.ml-2(data-toggle="dropdown")
-                  if filterParams['createdAt']
-                    i.fa.fa-filter.float-right
-                  else
-                    i.far.fa-filter.float-right
-                .dropdown-menu
-                  form.px-3.py-3
-                    .form-group
-                      .input-group
-                        .input-group-prepend
-                          span.input-group-text
-                            i.far.fa-calendar-alt
-                        input#createdAt.daterange.form-control.float-right(type='text')
-                  a.btn.float-left.ml-3.mb-3(type="button", onclick='resetDate("createdAt")') Сброс
-                  a.btn.float-right.mr-3.mb-3(type="button", onclick='applyDate("createdAt")') Применить
-        tbody
-          each val in list
-            tr(data-href=val.id)
-              td(width="100px")= val['id']
-              td= val['nomenclature']['title']
-              td= val['produced']
-              td= val['factory_id']
-              td= val['warranty']
-              td
-              td= val['warranty_expiration']
-              td
-              td
-              td
-              td
-              td= val['counterparty.title']
-              td= val['extra']
-              td
-              td= val['accepted_runtime']
-              td= val['max_runtime']
-              td= val['createdAt']
-  #tableSettingsModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='tableSettingsModalTitle' aria-hidden='true')
-    .modal-dialog.modal-dialog-centered(role='document')
-      .modal-content
-        .modal-header
-          h6#tableSettingsModalTitle.modal-title Настройка таблицы
-          button.close(type='button' data-dismiss='modal' aria-label='Close')
-            span(aria-hidden='true') ×
-        .modal-body
-          table.footable(data-paging='true', data-paging-size="20")
-            thead
-              tr
-                th() Заголовок столбца
-                th() Видимость
-            tbody
-              tr
-                td.float-left.ml-3 Код
-                td
-                  input(type="checkbox", name="visible", value="id", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('id') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Оборудование
-                td
-                  input(type="checkbox", name="visible", value="nomenclature.title", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('nomenclature.title') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Дата изготовления
-                td
-                  input(type="checkbox", name="visible", value="produced", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('produced') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Заводской номер
-                td
-                  input(type="checkbox", name="visible", value="factory_id", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('factory_id') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Срок гарантии (мес.)
-                td
-                  input(type="checkbox", name="visible", value="warranty", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('warranty') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Дата начала гарантии
-                td
-                  input(type="checkbox", name="visible", value="nomenclature.createdAt", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('warranty.createdAt') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Дата окончания гарантии
-                td
-                  input(type="checkbox", name="visible", value="warranty_expiration", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('warranty_expiration') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Сер. №
-                td
-                  input(type="checkbox", name="visible", value="serial_number", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('counterparty.title') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 МО
-                td
-                  input(type="checkbox", name="visible", value="med_org", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('counterparty.title') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Подразд. МО
-                td
-                  input(type="checkbox", name="visible", value="sub_med_org", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('counterparty.title') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Состаяние
-                td
-                  input(type="checkbox", name="visible", value="state", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('counterparty.title') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Изотовитель
-                td
-                  input(type="checkbox", name="visible", value="counterparty.title", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('counterparty.title') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Особые отметки
-                td
-                  input(type="checkbox", name="visible", value="extra", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('extra') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Дата ввода в эксплуат.
-                td
-                  input(type="checkbox", name="visible", value="beginAt", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('beginAt') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Допустим. наработка
-                td
-                  input(type="checkbox", name="visible", value="accepted_runtime", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('accepted_runtime') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Предел. наработка
-                td
-                  input(type="checkbox", name="visible", value="max_runtime", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('max_runtime') ? undefined : "checked"))
-              tr
-                td.float-left.ml-3 Дата создания
-                td
-                  input(type="checkbox", name="visible", value="createdAt", checked=(query && query.hide_columns && query.hide_columns.split(',').includes('createdAt') ? undefined : "checked"))
+      h3.card-title Оборудование
+      .float-right
+        a.btn.btn-success(type="button" href="/passport/edit")
+          i.far.fa-plus-circle
+          |  Добавить
+        | &nbsp;
+        a.btn.btn-primary(type="button" href="/download/passport")
+          i.fa.fa-file-excel
+    .card-body
+      #jsGrid
 
-        .modal-footer.justify-content-between
-          button.btn(type='button' data-dismiss='modal') Отмена
-          button#settingsModalSave.btn(type='button') Сохранить
-  #myModal
 append script
-  script.
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    const params = Object.fromEntries(urlSearchParams.entries());
-  script.
-    $(() => {
-      $('table').footable();
-
-      $('tr[data-href]').on("click", function (e) {
-        if (!$(e.target).hasClass('footable-toggle')) {
-          document.location.href = `/passport/edit/${$(this).data('href')}`;
-        }
-      });
-
-      $('#settingsModalSave').on("click", function () {
-        let arr = [];
-        $("input:checkbox[name='visible']").each(function () {
-          if (!this.checked) {
-            arr.push($(this).val());
-          }
-        });
-        document.location.href = `/passport?hide_columns=${arr}`
-      });
-
-      $(document).on('click', '.dropdown-menu', function (e) {
-        e.stopPropagation();
-      });
-
-      $(document).on('click', 'span.month, th.next, th.prev, th.switch, span.year, .applyBtn, .cancelBtn, .daterangepicker', function (e) {
-        e.stopPropagation();
-      });
-
-      $('body').on('shown.bs.dropdown', function () {
-        $('.footable-filtering-search').html('');
-        $(this).find('select').each(function () {
-          let dropdownParent = $(document.body);
-
-          if ($(this).parents('.dropdown.in:first').length !== 0)
-            dropdownParent = $(this).parents('.dropdown.in:first');
-
-          $(this).select2({
-            placeholder: 'Поиск по названию...',
-            dropdownParent: $(this).parent()
-          });
-        });
-
-        $('.daterange').daterangepicker({
-          locale: {
-            "format": "DD.MM.YYYY",
-            "applyLabel": "Применить",
-            "cancelLabel": "Сбросить",
-            "daysOfWeek": [
-              "Пн",
-              "Вт",
-              "Ср",
-              "Чт",
-              "Пт",
-              "Сб",
-              "Вс"
-            ],
-            "monthNames": [
-              "Январь",
-              "Февраль",
-              "Март",
-              "Апрель",
-              "Май",
-              "Июнь",
-              "Июль",
-              "Август",
-              "Сентябрь",
-              "Октябрь",
-              "Ноябрь",
-              "Декабрь"
-            ],
+    script.
+      $(() => {
+        var data
+        $('#jsGrid').jsGrid({
+          height: "auto",
+          width: "auto",
+          editing: false,
+          filtering: true,
+          autoload: true,
+          sorting: true,
+          paging: true,
+          loadMessage: 'Загрузка...',
+          noDataContent: 'Нет данных',
+          pageSize: 20,
+          pageButtonCount: 15,
+          pagerFormat: "Страницы: {first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} из {pageCount}",
+          pagePrevText: "&#x23F4",
+          pageNextText: "&#x23F5",
+          pageFirstText: "&#x23EE",
+          pageLastText: "&#x23ED",
+          rowClick: function(args) {
+            window.location.href=`/passport/edit/${args.item.id}`
           },
-          linkedCalendars: false,
-          // startDate: "08/13/2021",
-          // endDate: "08/19/2021"
-        });
-      });
-    })
-  script.
-    function apply() {
-      let filter = $('.titleSearch').val();
-      let currentFilter = params && params.filter ? JSON.parse(params.filter) : {};
-      let searchParams = new URLSearchParams();
-      searchParams.set("filter", JSON.stringify({ 'nomenclature.title': filter, ...currentFilter }));
-      document.location.href = `/passport?${searchParams}&hide_columns=${params.hide_columns}`
-    }
-  script.
-    function reset() {
-      document.location.href = `/passport?hide_columns=${params.hide_columns}`
-    }
-  script.
-    function applySelect(key, id) {
-      let filter = $('body').find(`#${id ? id : key}`).val();
-      let currentFilter = params && params.filter ? JSON.parse(params.filter) : {};
-      let searchParams = new URLSearchParams();
-      let filterParams = {};
-      filterParams[key] = filter;
-      searchParams.set("filter", JSON.stringify({ ...filterParams, ...currentFilter }));
-      document.location.href = `/passport?${searchParams}&hide_columns=${params.hide_columns}`
-    }
-  script.
-    function resetSelect() {
-      document.location.href = `/passport?hide_columns=${params.hide_columns}`
-    }
-  script.
-    function applyDate(key, id) {
-      let currentFilter = params && params.filter ? JSON.parse(params.filter) : {};
-      let filter = $('body').find(`#${id ? id : key}`).data('daterangepicker');
-      let dtStart = filter.startDate.format('YYYY-MM-DDTHH:mm:ss.SSS');
-      let dtEnd = filter.endDate ? filter.endDate.format('YYYY-MM-DDTHH:mm:ss.SSS') : filter.startDate.format('YYYY-MM-DDTHH:mm:ss.SSS');
-      let searchParams = new URLSearchParams();
-      let filterParams = {};
-      filterParams[key] = [ dtStart, dtEnd ]
-      searchParams.set("filter", JSON.stringify({ ...filterParams, ...currentFilter }));
-      document.location.href = `/passport?${searchParams}&hide_columns=${params.hide_columns}`
-    }
-  script.
-    function resetDate(key) {
-      document.location.href = `/passport?hide_columns=${params.hide_columns}`
-    }
-  script.
-    function resetAll() {
-      document.location.href = `/passport?hide_columns=${params.hide_columns}`;
-    }
-  script.
-    function applyCheckbox() {
-      let filter = [];
-      let currentFilter = params && params.filter ? JSON.parse(params.filter) : {};
-
-      $("input:checkbox[name='counterpartyTitle']:checked").each(function () {
-        filter.push($(this).val());
-      });
-      let searchParams = new URLSearchParams();
-      searchParams.set("filter", JSON.stringify({ 'counterparty.title': filter, ...currentFilter }));
-      document.location.href = `/passport?${searchParams}&hide_columns=${params.hide_columns}`
-    }
-  script.
-    function resetCheckbox() {
-      document.location.href = `/passport?hide_columns=${params.hide_columns}`
-    }
-  script.
-    function dateFormat(value) {
-      return value ? moment(value).format('DD.MM.YYYY') : '';
-    }
+          controller: {
+            loadData: (filter) => {
+              var deferred = $.Deferred();
+              if (data) {
+                console.log(filter)
+                return $.grep(data, el =>
+                     (!filter.nomenclatureTitle || el.nomenclatureTitle.toLowerCase().includes(filter.nomenclatureTitle.toLowerCase()))
+                  && (!filter.factory_id        || el.factory_id.toLowerCase().includes(filter.factory_id.toLowerCase()))
+                  && (!filter.serial            || el.serial.toLowerCase().includes(filter.serial.toLowerCase()))
+                  && (!filter.partnumber        || el.partnumber.toLowerCase().includes(filter.partnumber.toLowerCase()))
+                  && (!filter.state             || el.state.toLowerCase().includes(filter.state.toLowerCase()))
+                  && (!filter.provisioner       || el.provisioner.toLowerCase().includes(filter.provisioner.toLowerCase()))
+                  && (!filter.extra             || el.extra.toLowerCase().includes(filter.extra.toLowerCase()))
+                )
+              } else
+              $.ajax({
+                url: `#{env.backendAddr}/api/passport?range=%5B0%2C1000000%5D`,
+                success: function(response) {
+                  deferred.resolve(data = response.map(el => {
+                    el.nomenclatureTitle = `${el['nomenclature.title']}`
+                    el.created = `${moment(el.createdAt).format('YYYY.MM.DD HH:mm:ss')}`
+                    //console.log(el.factoryId, JSON.stringify(el, 0, 2))
+                    return el
+                  }));
+                }
+              })
+              return deferred.promise();
+            }
+          },
+          fields: [
+            { title: "Код",               name: "id",                 type: "number", width: 60, filtering: false },
+            { title: "Оборудование",      name: "nomenclatureTitle",  type: "text",   width: 240 },
+            { title: "Заводской номер",   name: "factory_id",         type: "text",   width: 280 },
+            { title: "Сер. №",            name: "serial",             type: "text", },
+            { title: "№ партии",          name: "partnumber",         type: "text", },
+            { title: "Изготовлен",        name: "produced",           type: "date",   width: 110 },
+            { title: "Состояние",         name: "state",              type: "text", },
+            { title: "Изотовитель",       name: "provisioner",        type: "text", },
+            { title: "Особые отметки",    name: "extra",              type: "text", width: 240 },
+            { title: "Дата создания",     name: "created",            type: "date", width: 160},
+          ]
+        })
+      })
