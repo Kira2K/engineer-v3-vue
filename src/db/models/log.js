@@ -19,13 +19,34 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    person: {
+    username: {
       type: DataTypes.STRING,
 
       allowNull: false,
       validate: {
         notEmpty: true
       }
+    },
+    name: {
+      type: DataTypes.STRING,
+
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    ip: {
+      type: DataTypes.STRING,
+
+
     },
     module: {
       type: DataTypes.STRING,
@@ -44,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     extra: {
-      type: DataTypes.TEXT,
+      type: DataTypes.JSON,
 
 
     },

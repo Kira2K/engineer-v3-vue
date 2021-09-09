@@ -8,8 +8,23 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      person: {
+      username: {
         allowNull: false,
+
+        type: Sequelize.STRING
+      },
+      name: {
+        allowNull: false,
+
+        type: Sequelize.STRING
+      },
+      email: {
+        allowNull: false,
+
+        type: Sequelize.STRING
+      },
+      ip: {
+
 
         type: Sequelize.STRING
       },
@@ -26,7 +41,7 @@ module.exports = {
       extra: {
 
 
-        type: Sequelize.TEXT
+        type: Sequelize.JSON
       },
 
 

@@ -133,9 +133,12 @@ value	}o--|| enabled_parameter : ""
 value	}o--|| passport : ""
 
 log {
-  string	person
+  string	username
+  string	name
+  string	email
+  string	ip
   string	module
   string	action
-  text	extra
+  json	extra
 }
 

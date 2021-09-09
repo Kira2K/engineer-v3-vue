@@ -241,7 +241,7 @@ front.post('/:module/edit/:id?', async (req, res, next) => {
   const instanceId = (await result.json()).id
   if (module == 'nomenclature') {
     const enabledparameters = !id ? [] : (await fetch(`${backendAddr}/api/enabledparameter?filter=%7b"nomenclatureId":${id}%7d`).then(res => res.json()))
-    const requested = req.body.enabledparameters
+    const requested = Array.isArray(req.body.enabledparameters) ? req.body.enabledparameters : req.body.enabledparameters ? [req.body.enabledparameters] : []
     const deleted = enabledparameters.filter(el => !requested.find(rel => rel == el.nomenclatureParameterId))
     const added = requested.filter(el => !enabledparameters.find(ep => ep.nomenclatureParameterId == el))
     await Promise.all(added.map(id => fetch(`${backendAddr}/api/enabledparameter`, {
@@ -250,8 +250,13 @@ front.post('/:module/edit/:id?', async (req, res, next) => {
       headers: { 'Content-Type': 'application/json' },
     }).then(res => res.json())))
     await Promise.all(deleted.map(el => console.log(`${backendAddr}/api/enabledparameter/${el.id}`) || fetch(`${backendAddr}/api/enabledparameter/${el.id}`, { method: 'delete' }).then(res => res.json())))
-
   }
+  var { name, preferred_username, email } = res.locals.grant.id
+  await fetch(`${backendAddr}/api/log`, {
+    method: 'post',
+    body: JSON.stringify({username: preferred_username, name, email, ip: req.headers['x-forwarded-for'], module, action: id ? 'edit' : 'create', extra: req.body}),
+    headers: { 'Content-Type': 'application/json' },
+  })
   return res.redirect(302, `/${module}`)
 })
 

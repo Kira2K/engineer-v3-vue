@@ -218,3 +218,16 @@ html(lang='en')
       script(src='/public/js/dateonlypicker.js')
       script.
         $(() => $(".select2").select2())
+      if errors
+        script.
+          var err = !{JSON.stringify(errors)}
+          console.log(err)
+          err.map(el => {
+            $(document).Toasts('create', {
+              title: 'Ошибка',
+              body: el.message,
+              'class': 'bg-danger'
+            })
+          })
+
+
