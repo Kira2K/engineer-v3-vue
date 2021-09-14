@@ -103,6 +103,51 @@ mixin select_required(key, text, options)
           else
             option(value=val.id)= val.__title
 
+mixin select2(key, text, options)
+  .form-group
+    label(for=key)= text
+    - var err = errors && errors.find(e => e.path == key)
+    if err
+      select.select2.form-control.is-invalid(id=key name=key)
+        option(value='') ___
+        each val in options
+          if instance[key] == val.id
+            option(selected value=val.id)= val.__title
+          else
+            option(value=val.id)= val.__title
+      .error.invalid-feedback= err.message
+    else
+      select.select2.form-control(id=key name=key)
+        option(value='') ___
+        each val in options
+          if instance[key] == val.id
+            option(selected value=val.id)= val.__title
+          else
+            option(value=val.id)= val.__title
+
+mixin select2_required(key, text, options)
+  .form-group
+    label(for=key)= text
+      span.required *
+    - var err = errors && errors.find(e => e.path == key)
+    if err
+      select.select2.form-control.is-invalid(id=key name=key required)
+        option(value='') ___
+        each val in options
+          if instance[key] == val.id
+            option(selected value=val.id)= val.__title
+          else
+            option(value=val.id)= val.__title
+      .error.invalid-feedback= err.message
+    else
+      select.select2.form-control(id=key name=key required)
+        option(value='') ___
+        each val in options
+          if instance[key] == val.id
+            option(selected value=val.id)= val.__title
+          else
+            option(value=val.id)= val.__title
+
 mixin multiselect(key, text, options, fkey)
   .form-group
     label(for=key)= text

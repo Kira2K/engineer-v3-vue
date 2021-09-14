@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/app.js",
   "scripts": {
-    "demo": "git pull; npm ci; npx sequelize-cli db:migrate; npx sequelize-cli db:seed:all; pm2 restart engineer-v3",
+    "demo": "git pull; npm ci; npx sequelize-cli db:migrate; npx sequelize-cli db:seed:all; pm2 restart engineer; pm2 restart stage; pm2 restart front",
+    "demo:nodb": "git pull; npm ci; pm2 restart engineer; pm2 restart stage; pm2 restart front",
     "local": "node src/front.js",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",

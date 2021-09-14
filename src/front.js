@@ -156,26 +156,26 @@ front.get('/nomenclatureparameter/:action/:id?', async (req, res, next) => {
 })
 
 front.get('/enabledparameter/:action/:id?', async (req, res, next) => {
-  res.locals.nomenclature = await fetch(`${backendAddr}/api/nomenclature`).then(res => res.json())
+  res.locals.nomenclature = await fetch(`${backendAddr}/api/nomenclature?range=[0,1000000]`).then(res => res.json())
   res.locals.nomenclatureparameter = await fetch(`${backendAddr}/api/nomenclatureparameter`).then(res => res.json())
   next()
 })
 
 front.get('/value/:action/:id?', async (req, res, next) => {
   res.locals.enabledparameter = await fetch(`${backendAddr}/api/enabledparameter`).then(res => res.json())
-  res.locals.passport = await fetch(`${backendAddr}/api/passport`).then(res => res.json())
+  res.locals.passport = await fetch(`${backendAddr}/api/passport?range=[0,1000000]`).then(res => res.json())
   next()
 })
 
 front.get('/part/:action/:id?', async (req, res, next) => {
-  res.locals.nomenclature = await fetch(`${backendAddr}/api/nomenclature`).then(res => res.json())
-  res.locals.passport = await fetch(`${backendAddr}/api/passport`).then(res => res.json())
+  res.locals.nomenclature = await fetch(`${backendAddr}/api/nomenclature?range=[0,1000000]`).then(res => res.json())
+  res.locals.passport = await fetch(`${backendAddr}/api/passport?range=[0,1000000]`).then(res => res.json())
   next()
 })
 
 front.get('/commission/:action/:id?', async (req, res, next) => {
   res.locals.branch = await fetch(`${backendAddr}/api/branch`).then(res => res.json())
-  res.locals.passport = await fetch(`${backendAddr}/api/passport`).then(res => res.json())
+  res.locals.passport = await fetch(`${backendAddr}/api/passport?range=[0,1000000]`).then(res => res.json())
   next()
 })
 
@@ -183,23 +183,23 @@ front.get('/toro/:action/:id?', async (req, res, next) => {
   res.locals.repair_type = await fetch(`${backendAddr}/api/repair_type`).then(res => res.json())
   res.locals.malfunction_type = await fetch(`${backendAddr}/api/malfunction_type`).then(res => res.json())
   res.locals.branch = await fetch(`${backendAddr}/api/branch`).then(res => res.json())
-  res.locals.passport = await fetch(`${backendAddr}/api/passport`).then(res => res.json())
+  res.locals.passport = await fetch(`${backendAddr}/api/passport?range=[0,1000000]`).then(res => res.json())
   next()
 })
 
 front.get('/warranty/:action/:id?', async (req, res, next) => {
-  res.locals.passport = await fetch(`${backendAddr}/api/passport`).then(res => res.json())
+  res.locals.passport = await fetch(`${backendAddr}/api/passport?range=[0,1000000]`).then(res => res.json())
   next()
 })
 
 front.get('/runtime/:action/:id?', async (req, res, next) => {
-  res.locals.passport = await fetch(`${backendAddr}/api/passport`).then(res => res.json())
+  res.locals.passport = await fetch(`${backendAddr}/api/passport?range=[0,1000000]`).then(res => res.json())
   next()
 })
 
 front.get('/passport/:action/:id?', async (req, res, next) => {
   const { module, action, id } = req.params
-  res.locals.nomenclature = await fetch(`${backendAddr}/api/nomenclature`).then(res => res.json())
+  res.locals.nomenclature = await fetch(`${backendAddr}/api/nomenclature?range=[0,1000000]`).then(res => res.json())
   res.locals.counterparty = await fetch(`${backendAddr}/api/counterparty`).then(res => res.json())
   if (id) {
     res.locals.enabledparameters = await fetch(`${backendAddr}/api/enabledparameter?filter=%7b"nomenclatureId":${res.locals.instance.nomenclatureId}%7d`).then(res => res.json())

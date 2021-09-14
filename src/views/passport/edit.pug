@@ -21,7 +21,7 @@ block body
       .row
         .col-xl-3.col-lg-6
           - nomenclature.map(el => el['__title'] = el.title)
-          +select_required('nomenclatureId', 'Номенклатура', nomenclature)
+          +select2_required('nomenclatureId', 'Номенклатура', nomenclature)
         .col-xl-3.col-lg-6
           +input('title',  'Наименование')
         .col-xl-3.col-lg-6
