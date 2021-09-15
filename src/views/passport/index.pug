@@ -36,8 +36,8 @@ append script
         ]
         if (query.cols) {
           query.cols.split(',').map((i, n) => fields[i].pos = +n)
+          fields = fields.filter(el => typeof el.pos == 'number').sort((a, b) => a.pos > b.pos)
         }
-        fields = fields.filter(el => typeof el.pos == 'number').sort((a, b) => a.pos > b.pos)
         $('#jsGrid').jsGrid({
           height: "auto",
           width: "auto",
