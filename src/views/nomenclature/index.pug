@@ -8,10 +8,38 @@ block body
     .card-header
       h3.card-title Номенклатура
       .float-right
+        button.btn.btn-primary(type="button" data-toggle="modal" data-target="#exampleModal")
+          |  настройки
+
+        #exampleModal.modal.fade(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+          .modal-dialog(role="document")
+            .modal-content
+              .modal-header
+                h5#exampleModalLabel.modal-title Modal title
+                button.close(type="button" data-dismiss="modal" aria-label="Close")
+                  span(aria-hidden="true") &times;
+              
+              .modal-body 
+                ul#sortable.list-group
+                  li.list-group-item.active Item 1
+                  li.list-group-item Item 2
+                  li.list-group-item Item 3
+                  li.list-group-item Item 4
+                  li.list-group-item Item 5
+                  li.not-a-class line
+                  li.list-group-item Item 6
+                  li.list-group-item Item 7
+                  li.list-group-item Item 8
+
+              
+              .modal-footer
+                button.btn.btn-secondary(type="button" data-dismiss="modal") Close
+                button.btn.btn-primary(type="button") Save changes
+
         a.btn.btn-success(type="button" href="/nomenclature/edit")
           i.far.fa-plus-circle
           |  Добавить
-        | &nbsp;
+          | &nbsp;
         a.btn.btn-primary(type="button" href="/download/nomenclature")
           i.fa.fa-file-excel
     .card-body
@@ -20,6 +48,7 @@ block body
 append script
     script.
       $(() => {
+       
         var data
         $('#jsGrid').jsGrid({
           height: "auto",
@@ -86,4 +115,6 @@ append script
             { title: "Дата создания",       name: "created",            type: "date",   width: 160},
           ]
         })
+         $("#sortable").sortable();
+           
       })
