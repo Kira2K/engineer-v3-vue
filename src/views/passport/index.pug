@@ -20,7 +20,24 @@ block body
 append script
     script.
       $(() => {
+        var query = Object.fromEntries(new URLSearchParams(window.location.search).entries())
         var data
+        var fields = [
+          { title: "Код",               name: "id",                 type: "number", width: 60, filtering: false },
+          { title: "Оборудование",      name: "nomenclatureTitle",  type: "text",   width: 240 },
+          { title: "Заводской номер",   name: "factory_id",         type: "text",   width: 280 },
+          { title: "Сер. №",            name: "serial",             type: "text", },
+          { title: "№ партии",          name: "partnumber",         type: "text", },
+          { title: "Изготовлен",        name: "produced",           type: "date",   width: 110 },
+          { title: "Состояние",         name: "state",              type: "text", },
+          { title: "Изотовитель",       name: "provisioner",        type: "text", },
+          { title: "Особые отметки",    name: "extra",              type: "text", width: 240 },
+          { title: "Дата создания",     name: "created",            type: "date", width: 160},
+        ]
+        if (query.cols) {
+          query.cols.split(',').map((i, n) => fields[i].pos = +n)
+        }
+        fields = fields.filter(el => typeof el.pos == 'number').sort((a, b) => a.pos > b.pos)
         $('#jsGrid').jsGrid({
           height: "auto",
           width: "auto",
@@ -70,17 +87,6 @@ append script
               return deferred.promise();
             }
           },
-          fields: [
-            { title: "Код",               name: "id",                 type: "number", width: 60, filtering: false },
-            { title: "Оборудование",      name: "nomenclatureTitle",  type: "text",   width: 240 },
-            { title: "Заводской номер",   name: "factory_id",         type: "text",   width: 280 },
-            { title: "Сер. №",            name: "serial",             type: "text", },
-            { title: "№ партии",          name: "partnumber",         type: "text", },
-            { title: "Изготовлен",        name: "produced",           type: "date",   width: 110 },
-            { title: "Состояние",         name: "state",              type: "text", },
-            { title: "Изотовитель",       name: "provisioner",        type: "text", },
-            { title: "Особые отметки",    name: "extra",              type: "text", width: 240 },
-            { title: "Дата создания",     name: "created",            type: "date", width: 160},
-          ]
+          fields
         })
       })
