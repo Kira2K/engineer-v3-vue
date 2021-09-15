@@ -8,6 +8,65 @@ block body
     .card-header
       h3.card-title Оборудование
       .float-right
+        button.btn.btn-primary(type="button" data-toggle="modal" data-target="#exampleModal")
+          |  настройки
+
+        #exampleModal.modal.fade(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+          .modal-dialog(role="document")
+            .modal-content
+              .modal-header
+                h5#exampleModalLabel.modal-title Modal title
+                button.close(type="button" data-dismiss="modal" aria-label="Close")
+                  span(aria-hidden="true") &times;
+              
+              .modal-body 
+                //- ul
+                //-   each val in [1, 2, 3, 4, 5]
+                //-     li= val
+
+                ul#sortable.list-group
+                  - var fields = [
+                    { title: "Код",               name: "id",                 type: "number", width: 60, filtering: false },
+                    { title: "Оборудование",      name: "nomenclatureTitle",  type: "text",   width: 240 },
+                    { title: "Заводской номер",   name: "factory_id",         type: "text",   width: 280 },
+                    { title: "Сер. №",            name: "serial",             type: "text", },
+                    { title: "№ партии",          name: "partnumber",         type: "text", },
+                    { title: "Изготовлен",        name: "produced",           type: "date",   width: 110 },
+                    { title: "Состояние",         name: "state",              type: "text", },
+                    { title: "Изотовитель",       name: "provisioner",        type: "text", },
+                    { title: "Особые отметки",    name: "extra",              type: "text", width: 240 },
+                    { title: "Дата создания",     name: "created",            type: "date", width: 160},
+                  ]
+                  
+                  each val in fields
+                    li.list-group-item= val.title
+             
+
+              //- li.list-group-item Код
+              //-         li.list-group-item Единица измерения
+              //-         li.list-group-item Наименование
+              //-         li.list-group-item Обозначение
+              //-         li.list-group-item Класс
+              //-         li.list-group-item Группа
+              //-         li.list-group-item Тип
+              //-         li.list-group-item Модель
+              //-         hr.hr 
+              //-         li.list-group-item Параметры
+              //-  { title: "Код",               name: "id",                 
+              //- { title: "Оборудование",      name: "nomenclatureTitle",  
+              //- { title: "Заводской номер",   name: "factory_id",        
+              //- { title: "Сер. №",            name: "serial",             
+              //- { title: "№ партии",          name: "partnumber",    
+              //- { title: "Изготовлен",        name: "produced",          
+              //- { title: "Состояние",         name: "state",             
+              //- { title: "Изотовитель",       name: "provisioner",      
+              //- { title: "Особые отметки",    name: "extra",             
+              //- { title: "Дата создания",     name: "created",  
+
+              .modal-footer
+                button.btn.btn-secondary(type="button" data-dismiss="modal") Close
+                button.btn.btn-primary(type="button") Save changes
+
         a.btn.btn-success(type="button" href="/passport/edit")
           i.far.fa-plus-circle
           |  Добавить
@@ -89,4 +148,5 @@ append script
           },
           fields
         })
+         $("#sortable").sortable();
       })
