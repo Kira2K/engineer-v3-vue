@@ -8,6 +8,24 @@ block body
     .card-header
       h3.card-title Оборудование
       .float-right
+        button.btn.btn-primary(type="button" data-toggle="modal" data-target="#modal")
+          |  настройки
+
+        #modal.modal.fade(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+          .modal-dialog(role="document")
+            .modal-content
+              .modal-header
+                h5#exampleModalLabel.modal-title Modal title
+                button.close(type="button" data-dismiss="modal" aria-label="Close")
+                  span(aria-hidden="true") &times;
+              .modal-body
+                ul#cols_order.list-group
+                  li.list-group-item.hr Неактивные
+
+              .modal-footer
+                button.btn.btn-secondary(type="button" data-dismiss="modal") Close
+                button#cols_apply.btn.btn-primary(type="button") Save changes
+
         a.btn.btn-success(type="button" href="/passport/edit")
           i.far.fa-plus-circle
           |  Добавить
@@ -20,7 +38,8 @@ block body
 append script
     script.
       $(() => {
-        var query = Object.fromEntries(new URLSearchParams(window.location.search).entries())
+        var urlSearchParams = new URLSearchParams(window.location.search)
+        var query = Object.fromEntries(urlSearchParams.entries())
         var data
         var fields = [
           { title: "Код",               name: "id",                 type: "number", width: 60, filtering: false },
@@ -34,10 +53,25 @@ append script
           { title: "Особые отметки",    name: "extra",              type: "text", width: 240 },
           { title: "Дата создания",     name: "created",            type: "date", width: 160},
         ]
-        if (query.cols) {
-          query.cols.split(',').map((i, n) => fields[i].pos = +n)
-          fields = fields.filter(el => typeof el.pos == 'number').sort((a, b) => a.pos > b.pos)
+        fields.map((el, id) => Object.assign(el, {pos: -1, id}))
+        var cols = (query.cols || '').split(',').filter(el => fields[el])
+        if (cols.length) {
+          cols.map((i, n) => fields[i].pos = +n)
+          fields.sort((a, b) => a.pos > b.pos)
+        } else {
+          fields.map(el => el.pos = 1)
         }
+
+        fields.map((el, n) => $('#cols_order .hr')[el.pos > -1 ? 'before' : 'after'](`<li class="list-group-item active" data-n="${el.id}">${el.title}</li>`))
+        fields = fields.filter(el => el.pos > -1)
+
+        $('#cols_apply').click(() => {
+          var order = [...$('#cols_order *')].map(el => $(el).data('n'))
+          order = order.slice(0, order.indexOf(undefined))
+          urlSearchParams.set('cols', order)
+          document.location.href = `/passport?${urlSearchParams.toString()}`
+        })
+
         $('#jsGrid').jsGrid({
           height: "auto",
           width: "auto",
@@ -74,7 +108,7 @@ append script
                 )
               } else
               $.ajax({
-                url: `#{env.backendAddr}/api/passport?range=%5B0%2C1000000%5D`,
+                url: `#{env.backendAddr}/api/passport?range=%5B0%2C10000000%5D`,
                 success: function(response) {
                   deferred.resolve(data = response.map(el => {
                     el.nomenclatureTitle = `${el['nomenclature.title']}`
@@ -89,4 +123,5 @@ append script
           },
           fields
         })
+         $("#cols_order").sortable();
       })

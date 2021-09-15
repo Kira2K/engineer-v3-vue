@@ -8,10 +8,42 @@ block body
     .card-header
       h3.card-title Номенклатура
       .float-right
+        button.btn.btn-primary(type="button" data-toggle="modal" data-target="#modal")
+          |  настройки
+
+        #modal.modal.fade(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+          .modal-dialog(role="document")
+            .modal-content
+              .modal-header
+                h5#exampleModalLabel.modal-title Modal title
+                button.close(type="button" data-dismiss="modal" aria-label="Close")
+                  span(aria-hidden="true") &times;
+              
+              .modal-body 
+                ul#sortable.list-group
+                  
+    
+        
+                  li.list-group-item Код
+                  li.list-group-item Единица измерения
+                  li.list-group-item Наименование
+                  li.list-group-item Обозначение
+                  li.list-group-item Класс
+                  li.list-group-item Группа
+                  li.list-group-item Тип
+                  li.list-group-item Модель
+                  hr.hr 
+                  li.list-group-item Параметры
+
+              
+              .modal-footer
+                button.btn.btn-secondary(type="button" data-dismiss="modal") Close
+                button.btn.btn-primary(type="button") Save changes
+
         a.btn.btn-success(type="button" href="/nomenclature/edit")
           i.far.fa-plus-circle
           |  Добавить
-        | &nbsp;
+          | &nbsp;
         a.btn.btn-primary(type="button" href="/download/nomenclature")
           i.fa.fa-file-excel
     .card-body
@@ -20,6 +52,7 @@ block body
 append script
     script.
       $(() => {
+       
         var data
         $('#jsGrid').jsGrid({
           height: "auto",
@@ -86,4 +119,6 @@ append script
             { title: "Дата создания",       name: "created",            type: "date",   width: 160},
           ]
         })
+         $("#sortable").sortable();
+           
       })
