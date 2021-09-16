@@ -179,3 +179,9 @@ mixin nav-item(id, title)
 
 mixin format-date(iso)
   = moment(iso).format('YYYY.MM.DD HH:mm:ss')
+
+mixin inspect_local(key)
+  pre.debug(style="font-size: .6rem; line-height: .6rem;")= JSON.stringify(locals._locals[key], 0, 4)
+
+mixin inspect(str)
+  pre.debug(style="font-size: .6rem; line-height: .6rem;")= str

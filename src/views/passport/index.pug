@@ -28,8 +28,6 @@ block body
         button.btn.btn-primary(type="button" data-toggle="modal" data-target="#table-configuration-modal")
           i.far.fa-cog
         | &nbsp;
-
-     
         a.btn.btn-success(type="button" href="/passport/edit")
           i.far.fa-plus-circle
           |  Добавить
@@ -37,7 +35,6 @@ block body
         a.btn.btn-primary(type="button" href="/download/passport")
           i.fa.fa-file-excel
     .card-body
-      
       #jsGrid
 
 append script
@@ -54,7 +51,9 @@ append script
           { title: "№ партии",          name: "partnumber",         type: "text", },
           { title: "Изготовлен",        name: "produced",           type: "date",   width: 110 },
           { title: "Состояние",         name: "state",              type: "text", },
-          { title: "Изотовитель",       name: "provisioner",        type: "text", },
+          { title: "MAC адрес",         name: "mac",                type: "text", width: "120px" },
+          { title: "IP адрес",          name: "ip",                 type: "text", },
+          { title: "MO",                name: "mo",                 type: "text", width: "150px" },
           { title: "Особые отметки",    name: "extra",              type: "text", width: 240 },
           { title: "Дата создания",     name: "created",            type: "date", width: 160},
         ]
@@ -120,6 +119,9 @@ append script
                 success: function(response) {
                   deferred.resolve(data = response.map(el => {
                     el.nomenclatureTitle = `${el['nomenclature.title']}`
+                    el.mac = `${el['commissions.mac'] || ''}`
+                    el.ip = `${el['commissions.ip'] || ''}`
+                    el.mo = `${el['commissions.branch.title'] || ''}`
                     el.created = `${moment(el.createdAt).format('YYYY.MM.DD HH:mm:ss')}`
                     //console.log(el.factoryId, JSON.stringify(el, 0, 2))
                     return el

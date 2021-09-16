@@ -38,19 +38,24 @@ block body
         .col-xl-3.col-lg-6
           +dateonly_single('commissioned', 'Ввод в эксплуатацию')
         .col-xl-3.col-lg-6
-          +input('provisioner', 'Медицинская организация')
-        .col-xl-3.col-lg-6
-          +dummy_input('sub_provisioner', 'Подразделение мед. орг.')
-        .col-xl-3.col-lg-6
           +input_required('state', 'Состояние')
         .col-xl-3.col-lg-6
           +input('extra', 'Особые отметки')
+      h6 Текущее закрепление
       hr
       .row
         .col-xl-3.col-lg-6
+          - instance.mo = instance.commissions[0].branch.title
+          +dummy_input('mo', 'Медицинская организация')
+        .col-xl-3.col-lg-6
+          +dummy_input('mo', 'Подразделение мед. орг.')
+        .col-xl-3.col-lg-6
+          - instance.mac = instance.commissions[0].mac
           +dummy_input('mac', 'MAC-адрес')
         .col-xl-3.col-lg-6
+          - instance.ip = instance.commissions[0].ip
           +dummy_input('ip', 'IP-адрес')
+      //
         .col-xl-3.col-lg-6
           +dummy_input('warranty', 'Гарантия (мес)')
         .col-xl-3.col-lg-6
@@ -59,6 +64,9 @@ block body
           +dummy_input('accepted_runtime', 'Допустимая наработка')
         .col-xl-3.col-lg-6
           +dummy_input('max_runtime', 'Максимальная наработка')
+
+      // .row
+        +inspect_local('instance')
 
       hr
       ul#tabs.nav.nav-tabs(role="tablist")
