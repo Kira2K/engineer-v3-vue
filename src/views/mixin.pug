@@ -29,7 +29,7 @@ mixin input_required(key, text)
 
 mixin dateonly_single(key, text)
   .form-group
-    label(for="daterange")= text
+    label(for=key)= text
     .input-group
       - var err = errors && errors.find(e => e.path == key)
       if err
@@ -44,7 +44,7 @@ mixin dateonly_single(key, text)
 
 mixin dateonly_single_required(key, text)
   .form-group
-    label(for="daterange")= text
+    label(for=key)= text
       span.required *
     .input-group
       - var err = errors && errors.find(e => e.path == key)
