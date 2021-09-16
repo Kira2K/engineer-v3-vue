@@ -71,12 +71,12 @@ append script
           var order = [...$('#cols_order *')].map(el => $(el).data('n'))
           order = order.slice(0, order.indexOf(undefined))
           urlSearchParams.set('cols', order)
-          document.location.href = `/passport?${urlSearchParams.toString()}`
+          document.location.href = `/nomenclature?${urlSearchParams.toString()}`
         })
               $('#cols_reset').click(() => {
          
           urlSearchParams.delete('cols')
-          document.location.href = `/passport?${urlSearchParams.toString()}`
+          document.location.href = `/nomenclature?${urlSearchParams.toString()}`
         })
 
         $('#jsGrid').jsGrid({
@@ -134,6 +134,8 @@ append script
           },
           fields
         })
-         $("#cols_order").sortable();
+        $("#cols_order").sortable({
+          placeholder: 'drop-placeholder'
+          });
            
       })

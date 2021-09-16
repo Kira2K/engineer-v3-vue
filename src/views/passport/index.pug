@@ -2,6 +2,7 @@ extends ../layout.pug
 
 block breadcrumbs
   li.breadcrumb-item.active(aria-current="page") Оборудование
+ 
 
 block body
   #table-configuration-modal.modal.fade(tabindex="-1" role="dialog" aria-labelledby="table-configuration-modal-label" aria-hidden="true")
@@ -133,5 +134,92 @@ append script
           },
           fields
         })
-         $("#cols_order").sortable();
+        $("#cols_order").sortable({
+          placeholder: 'drop-placeholder'
+          });
+          $( ()=> {
+          $('[data-toggle="popover"]').popover()
+        })
+
+         var headers=  $('.jsgrid-header-sortable')
+      
+         var initInputByField= (field)=> {
+           var name = field.name
+           var maybeParams = window.localStorage.getItem('filterParams')
+           var params =maybeParams?JSON.stringify(maybeParams):null 
+           var initFilterButton = $(`<button class="btn mb-3 float-right">Применить</button>`)
+          var popover = $('.popover-body')
+           switch(true) {
+            case field.type=='text':
+            var textInput = `<div class="form-group">
+              <label for="key">
+                <input class="form-control" id="input-${name}" name="input-${name}" type="text" placeholder="поиск по названию..."alue="${params?params[field.title]:''}">
+              </label>
+            </div>`
+
+            $(initFilterButton).click(() => {
+             var inputValue=$(`#input-${name}` ).val()
+             console.log(name)
+              console.log(field.title)
+             
+              $("#jsGrid").jsGrid("loadData", { [name]:inputValue}).done(function() {
+                      console.log("data loaded");
+                });
+              $( `#filter-${name}` ).removeClass( "fal fa-filter" ).addClass( "fas fa-filter" );  
+             $(`#filter-${name}`).popover('hide')
+
+            })
+            
+            
+            //- TODO: 
+            //-  1.fix second creation
+            //-  2. Make filters work with each other (no localStorage now) 
+            //- 
+            console.log(popover)
+            $(popover).append(textInput)
+            $(popover).append(initFilterButton)
+             
+            break    //- return  +input_required(`${field.title}`,`${field.name}`) 
+                
+            
+           }
+         }
+         
+         fields.map((el, id)=> {
+          var filter= $(`
+        
+            <i id= "filter-${el.name}" class="filter fal fa-filter p-1
+              data-toggle="popover" title=" "   data-content=" "
+                  >
+            </i>
+          
+            `
+            
+          )
+             $(headers[id]).append(filter)
+           
+           filter.popover({
+           html:true,
+         
+           template:`<div class="popover" id="popover-${el.title}" role="tooltip">
+           <div class="arrow"></div>
+           <h3 class="popover-header">Фильтр для ${el.title}</h3>
+           <div class="popover-body">Тест</div>
+           </div>  `
+          });
+         filter.click(() => {initInputByField(el) })
+          
+      
+       
+
+         
+
+            
+         })
+        //-  let aBlock = document.createElement('block');
+        //-   fields.map((el, n) => $('#cols_order .hr')[el.pos > -1 ? 'before' : 'after'](`<li class="list-group-item item" data-n="${el.id}">${el.title}</li>`)
+        //- fields.map((el, id)=> { 
+        //-   console.logheaders[id];
+        //- //-  headers[id].append(fields[id].type)
+        //-   })
       })
