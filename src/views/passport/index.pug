@@ -4,10 +4,32 @@ block breadcrumbs
   li.breadcrumb-item.active(aria-current="page") Оборудование
 
 block body
+  #table-configuration-modal.modal.fade(tabindex="-1" role="dialog" aria-labelledby="table-configuration-modal-label" aria-hidden="true")
+        .modal-dialog(role="document")
+          .modal-content
+            .modal-header
+              h5#table-configuration-modal-label.modal-title Настройка таблицы
+              button.close(type="button" data-dismiss="modal" aria-label="Close")
+                span(aria-hidden="true") &times;
+            .modal-body
+              ul#cols_order.list-group
+                li.list-group-item.hr.inactive-zone Незакрепленная область
+
+            .modal-footer
+              
+              button#cols_reset.btn.btn-danger.mr-auto(type="button" data-dismiss="modal") Сбросить
+              button.btn.btn-secondary(type="button" data-dismiss="modal") Отмена
+              button#cols_apply.btn.btn-primary(type="button") Сохранить
+
   .card
     .card-header
       h3.card-title Оборудование
       .float-right
+        button.btn.btn-primary(type="button" data-toggle="modal" data-target="#table-configuration-modal")
+          i.far.fa-cog
+        | &nbsp;
+
+     
         a.btn.btn-success(type="button" href="/passport/edit")
           i.far.fa-plus-circle
           |  Добавить
@@ -15,12 +37,14 @@ block body
         a.btn.btn-primary(type="button" href="/download/passport")
           i.fa.fa-file-excel
     .card-body
+      
       #jsGrid
 
 append script
     script.
       $(() => {
-        var query = Object.fromEntries(new URLSearchParams(window.location.search).entries())
+        var urlSearchParams = new URLSearchParams(window.location.search)
+        var query = Object.fromEntries(urlSearchParams.entries())
         var data
         var fields = [
           { title: "Код",               name: "id",                 type: "number", width: 60, filtering: false },
@@ -34,10 +58,30 @@ append script
           { title: "Особые отметки",    name: "extra",              type: "text", width: 240 },
           { title: "Дата создания",     name: "created",            type: "date", width: 160},
         ]
-        if (query.cols) {
-          query.cols.split(',').map((i, n) => fields[i].pos = +n)
-          fields = fields.filter(el => typeof el.pos == 'number').sort((a, b) => a.pos > b.pos)
+        fields.map((el, id) => Object.assign(el, {pos: -1, id}))
+        var cols = (query.cols || '').split(',').filter(el => fields[el])
+        if (cols.length) {
+          cols.map((i, n) => fields[i].pos = +n)
+          fields.sort((a, b) => a.pos > b.pos)
+        } else {
+          fields.map(el => el.pos = 1)
         }
+
+        fields.map((el, n) => $('#cols_order .hr')[el.pos > -1 ? 'before' : 'after'](`<li class="list-group-item item" data-n="${el.id}">${el.title}</li>`))
+        fields = fields.filter(el => el.pos > -1)
+
+        $('#cols_apply').click(() => {
+          var order = [...$('#cols_order *')].map(el => $(el).data('n'))
+          order = order.slice(0, order.indexOf(undefined))
+          urlSearchParams.set('cols', order)
+          document.location.href = `/passport?${urlSearchParams.toString()}`
+        })
+              $('#cols_reset').click(() => {
+         
+          urlSearchParams.delete('cols')
+          document.location.href = `/passport?${urlSearchParams.toString()}`
+        })
+
         $('#jsGrid').jsGrid({
           height: "auto",
           width: "auto",
@@ -74,7 +118,7 @@ append script
                 )
               } else
               $.ajax({
-                url: `#{env.backendAddr}/api/passport?range=%5B0%2C1000000%5D`,
+                url: `#{env.backendAddr}/api/passport?range=%5B0%2C10000000%5D`,
                 success: function(response) {
                   deferred.resolve(data = response.map(el => {
                     el.nomenclatureTitle = `${el['nomenclature.title']}`
@@ -89,4 +133,5 @@ append script
           },
           fields
         })
+         $("#cols_order").sortable();
       })
