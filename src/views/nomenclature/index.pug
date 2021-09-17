@@ -23,32 +23,42 @@ block body
 
   .card
     .card-header
-      h3.card-title Номенклатура
+      .float-left 
+        btn#clear-filters.btn.btn-danger очистить фильтры 
       .float-right
+        a.btn.btn-success(type="button" href="/nomenclature/edit")
+          i.far.fa-plus-circle
+          |  Добавить
+        | &nbsp; 
+        a.btn.btn-primary(type="button" href="/download/nomenclature")
+          i.fa.fa-file-excel   
+        | &nbsp;          
         button.btn.btn-primary(type="button" data-toggle="modal" data-target="#table-configuration-modal")
           i.far.fa-cog
         | &nbsp;
 
-        a.btn.btn-success(type="button" href="/nomenclature/edit")
-          i.far.fa-plus-circle
-          |  Добавить
-          | &nbsp;
-        a.btn.btn-primary(type="button" href="/download/nomenclature")
-          i.fa.fa-file-excel
+
+          
     .card-body
       #jsGrid
-
+      .d-flex.justify-content-end
+        #externalPager.external-pager.jsgrid-pager-container.d-inline-block
 append script
     script.
       $(() => {
+        var localStorage =window.localStorage
+        localStorage.clear()
+           $('body').click(() => { 
+          $('.filter').popover('hide')
+        })
         var urlSearchParams = new URLSearchParams(window.location.search)
         var query = Object.fromEntries(urlSearchParams.entries())
         var data
         let fields= [
-            { title: "Код",                 name: "id",                 type: "number", width: 60, filtering: false },
+            { title: "Код",                 name: "id",                 type: "number", width: 70, filtering: false },
             { title: "Обозначение",         name: "designation",        type: "text",   width: 140 },
             { title: "Наименование",        name: "title",              type: "text",   width: 280 },
-            { title: "Ед изм.",             name: "unitId",             type: "text",   width: 70,},
+            { title: "Ед изм.",             name: "unitId",             type: "text",   width: 90,},
             { title: "Класс",               name: "nomenclatureClass",  type: "text",   width: 220,},
             { title: "Группа",              name: "nomenclatureGroup",  type: "text",   width: 220,},
             { title: "Тип",                 name: "nomenclatureType",   type: "text",   width: 220,},
@@ -89,6 +99,7 @@ append script
           paging: true,
           loadMessage: 'Загрузка...',
           noDataContent: 'Нет данных',
+          pagerContainer: "#externalPager",
           pageSize: 20,
           pageButtonCount: 15,
           pagerFormat: "Страницы: {first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} из {pageCount}",
@@ -112,6 +123,12 @@ append script
                   && (!filter.nomenclatureGroup || el.nomenclatureGroup.toLowerCase().includes(filter.nomenclatureGroup.toLowerCase()))
                   && (!filter.nomenclatureType  || el.nomenclatureType.toLowerCase().includes(filter.nomenclatureType.toLowerCase()))
                   && (!filter.nomenclatureModel || el.nomenclatureModel.toLowerCase().includes(filter.nomenclatureModel.toLowerCase()))
+                  && (!filter.created || `${moment(el.createdAt).format('YYYY.MM.DD')}`.toLowerCase().startsWith(filter.created.toLowerCase())
+                  )
+                   && (!filter.produced || `${moment(el.produced).format('YYYY.MM.DD')}`.startsWith(filter.produced.toLowerCase())
+                  )
+                  && (!filter.id  || el.id.toString().toLowerCase().startsWith(filter.id.toString().toLowerCase())
+                  )
                 )
               } else
               $.ajax({
@@ -123,8 +140,8 @@ append script
                     el.nomenclatureGroup = `${el['nm.nt.ng.title']}`
                     el.nomenclatureType  = `${el['nm.nt.title']}`
                     el.nomenclatureModel = `${el['nm.title']}`
-                    el.created = `${moment(el.createdAt).format('YYYY.MM.DD HH:mm:ss')}`
-                    //console.log(el.factoryId, JSON.stringify(el, 0, 2))
+                    el.created = `${moment(el.createdAt).format('YYYY.MM.DD')}`
+                    
                     return el
                   }));
                 }
@@ -137,5 +154,80 @@ append script
         $("#cols_order").sortable({
           placeholder: 'drop-placeholder'
           });
+        $( ()=> {
+                  $('[data-toggle="popover"]').popover()
+                })
+        var activatedPopovers = []
+         $('#clear-filters').click(()=>{
+           $('.filter').removeClass( "fas fa-filter" ).addClass( "fal fa-filter" ); 
+           activatedPopovers = []
+          $("#jsGrid").jsGrid("loadData", {} ).done(function() {
+          localStorage.removeItem('filterParams')  
+            });
+         })
+         var headers=  $('.jsgrid-header-sortable')
+      
+         var initInputByField= (field)=> {
            
+           var name = field.name
+           var maybeParams = localStorage.getItem('filterParams') 
+           
+            var excistingParams =maybeParams?JSON.parse(maybeParams):{} 
+            var initFilterButton = $(`<button class="btn mb-3 float-right">Применить</button>`)
+            var popover = $('.popover-body')
+            popover.click((event) => {
+              event.stopPropagation()
+            } )
+            var initialValue = excistingParams[name] ?? ''
+   
+ 
+            var textInput = `<div class="form-group">
+              <label for="key">
+                <input class="form-control" id="input-${name}" name="input-${name}" type="text" placeholder="поиск по названию..."value="${initialValue}">
+              </label>
+            </div>`
+
+            $(initFilterButton).click(() => {
+             var inputValue=$(`#input-${name}` ).val()
+             if(field.type=='number') inputValue = Number(inputValue)
+             excistingParams[name]=inputValue
+              $("#jsGrid").jsGrid("loadData", excistingParams ).done(function() {
+              localStorage.setItem('filterParams',JSON.stringify(excistingParams))  
+                });
+              $( `#filter-${name}` ).removeClass( "fal fa-filter" ).addClass( "fas fa-filter" );  
+             $(`#filter-${name}`).popover('hide')
+            })
+            $(popover).append(textInput)
+            $(popover).append(initFilterButton)
+         }
+         
+         fields.map((el, id)=> {
+          var filter= $(`
+            <i id= "filter-${el.name}" class="filter fal fa-filter p-1
+              data-toggle="popover" title=" "   data-content=" "
+                  >
+            </i>
+            `
+          )
+             $(headers[id]).append(filter)
+           
+           filter.popover({
+           html:true,
+         
+           template:`<div class="popover" id="popover-${el.name}" role="tooltip">
+           <div class="arrow"></div>
+           <h3 class="popover-header">Фильтр для ${el.title}</h3>
+           <div class="popover-body">Тест</div>
+           </div>  `
+          });
+         filter.click((event) => {
+           event.stopPropagation();
+           activatedPopovers.map(popoverId=> {
+             if(popoverId != `#filter-${el.name}`)
+             $(popoverId).popover('hide')
+             })
+           activatedPopovers = [`#filter-${el.name}`]
+           initInputByField(el) 
+           })
+         })  
       })

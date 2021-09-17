@@ -215,6 +215,7 @@ aside {
 }
 .modal-body .inactive-zone {
   background: #2a445e;
+  border: 1px solid #80c5ed;
 }
 .dropdown-menu {
   background: #233851;

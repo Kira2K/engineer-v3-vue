@@ -24,38 +24,44 @@ block body
 
   .card
     .card-header
-      h3.card-title Оборудование
+      .float-left 
+        btn#clear-filters.btn.btn-danger очистить фильтры 
       .float-right
+        a.btn.btn-success(type="button" href="/nomenclature/edit")
+          i.far.fa-plus-circle
+          |  Добавить
+        | &nbsp; 
+        a.btn.btn-primary(type="button" href="/download/nomenclature")
+          i.fa.fa-file-excel   
+        | &nbsp;          
         button.btn.btn-primary(type="button" data-toggle="modal" data-target="#table-configuration-modal")
           i.far.fa-cog
         | &nbsp;
-
-     
-        a.btn.btn-success(type="button" href="/passport/edit")
-          i.far.fa-plus-circle
-          |  Добавить
-        | &nbsp;
-        a.btn.btn-primary(type="button" href="/download/passport")
-          i.fa.fa-file-excel
     .card-body
       
       #jsGrid
-
+      .d-flex.justify-content-end
+        #externalPager.external-pager.jsgrid-pager-container
 append script
     script.
       $(() => {
+        var localStorage =window.localStorage
+        localStorage.clear()
+        $('body').click(() => { 
+          $('.filter').popover('hide')
+        })
         var urlSearchParams = new URLSearchParams(window.location.search)
         var query = Object.fromEntries(urlSearchParams.entries())
         var data
         var fields = [
-          { title: "Код",               name: "id",                 type: "number", width: 60, filtering: false },
+          { title: "Код",               name: "id",                 type: "number", width: 70, filtering: false },
           { title: "Оборудование",      name: "nomenclatureTitle",  type: "text",   width: 240 },
           { title: "Заводской номер",   name: "factory_id",         type: "text",   width: 280 },
           { title: "Сер. №",            name: "serial",             type: "text", },
           { title: "№ партии",          name: "partnumber",         type: "text", },
           { title: "Изготовлен",        name: "produced",           type: "date",   width: 110 },
           { title: "Состояние",         name: "state",              type: "text", },
-          { title: "Изотовитель",       name: "provisioner",        type: "text", },
+          { title: "Изотовитель",       name: "provisioner",        type: "text", width: 130},
           { title: "Особые отметки",    name: "extra",              type: "text", width: 240 },
           { title: "Дата создания",     name: "created",            type: "date", width: 160},
         ]
@@ -93,6 +99,7 @@ append script
           paging: true,
           loadMessage: 'Загрузка...',
           noDataContent: 'Нет данных',
+          pagerContainer: "#externalPager",
           pageSize: 20,
           pageButtonCount: 15,
           pagerFormat: "Страницы: {first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} из {pageCount}",
@@ -109,22 +116,36 @@ append script
               if (data) {
                 console.log(filter)
                 return $.grep(data, el =>
-                     (!filter.nomenclatureTitle || el.nomenclatureTitle.toLowerCase().includes(filter.nomenclatureTitle.toLowerCase()))
-                  && (!filter.factory_id        || el.factory_id.toLowerCase().includes(filter.factory_id.toLowerCase()))
-                  && (!filter.serial            || el.serial.toLowerCase().includes(filter.serial.toLowerCase()))
-                  && (!filter.partnumber        || el.partnumber.toLowerCase().includes(filter.partnumber.toLowerCase()))
+                  (!filter.nomenclatureTitle || el.nomenclatureTitle.toLowerCase().includes(filter.nomenclatureTitle.toLowerCase())
+                  )
+                  && (!filter.factory_id        || el.factory_id.toLowerCase().includes(filter.factory_id.toLowerCase())
+                  )
+                  && (!filter.serial            || el.serial.toLowerCase().includes(filter.serial.toLowerCase())
+                  )
+                  && (!filter.partnumber        || el.partnumber.toLowerCase().includes(filter.partnumber.toLowerCase())
+                  )
                   && (!filter.state             || el.state.toLowerCase().includes(filter.state.toLowerCase()))
-                  && (!filter.provisioner       || el.provisioner.toLowerCase().includes(filter.provisioner.toLowerCase()))
-                  && (!filter.extra             || el.extra.toLowerCase().includes(filter.extra.toLowerCase()))
-                )
+                  && (!filter.provisioner       || el.provisioner.toLowerCase().includes(filter.provisioner.toLowerCase())
+                  )
+                  && (!filter.extra             || el.extra.toLowerCase().includes(filter.extra.toLowerCase())
+                  )
+                  && (!filter.created || `${moment(el.createdAt).format('YYYY.MM.DD')}`.toLowerCase().startsWith(filter.created.toLowerCase())
+                  )
+                   && (!filter.produced || `${moment(el.produced).format('YYYY.MM.DD')}`.startsWith(filter.produced.toLowerCase())
+                  )
+                  && (!filter.id  || el.id.toString().toLowerCase().startsWith(filter.id.toString().toLowerCase())
+                  )
+                  )
+                  
               } else
               $.ajax({
                 url: `#{env.backendAddr}/api/passport?range=%5B0%2C10000000%5D`,
                 success: function(response) {
                   deferred.resolve(data = response.map(el => {
                     el.nomenclatureTitle = `${el['nomenclature.title']}`
-                    el.created = `${moment(el.createdAt).format('YYYY.MM.DD HH:mm:ss')}`
-                    //console.log(el.factoryId, JSON.stringify(el, 0, 2))
+                    el.created = `${moment(el.createdAt).format('YYYY.MM.DD')}`
+                     el.produced = `${moment(el.produced).format('YYYY.MM.DD')}`
+
                     return el
                   }));
                 }
@@ -139,62 +160,62 @@ append script
           });
           $( ()=> {
           $('[data-toggle="popover"]').popover()
+          
         })
-
+          var activatedPopovers = []
+          $('#clear-filters').click(()=>{
+           $('.filter').removeClass( "fas fa-filter" ).addClass( "fal fa-filter" ); 
+           activatedPopovers = []
+          $("#jsGrid").jsGrid("loadData", {} ).done(function() {
+          localStorage.removeItem('filterParams')  
+            });
+         })
          var headers=  $('.jsgrid-header-sortable')
       
          var initInputByField= (field)=> {
+           
            var name = field.name
-           var maybeParams = window.localStorage.getItem('filterParams')
-           var params =maybeParams?JSON.stringify(maybeParams):null 
+           var maybeParams = localStorage.getItem('filterParams') 
+           
+           var excistingParams =maybeParams?JSON.parse(maybeParams):{} 
            var initFilterButton = $(`<button class="btn mb-3 float-right">Применить</button>`)
           var popover = $('.popover-body')
-           switch(true) {
-            case field.type=='text':
-            var textInput = `<div class="form-group">
+          popover.click((event) => {
+            event.stopPropagation()
+          } )
+          var initialValue = excistingParams[name] ?? ''
+          
+             var textInput = `<div class="form-group">
               <label for="key">
-                <input class="form-control" id="input-${name}" name="input-${name}" type="text" placeholder="поиск по названию..."alue="${params?params[field.title]:''}">
+                <input class="form-control" id="input-${name}" name="input-${name}" type="text" placeholder="поиск по названию..."value="${initialValue}">
               </label>
             </div>`
-
+             
             $(initFilterButton).click(() => {
              var inputValue=$(`#input-${name}` ).val()
-             console.log(name)
-              console.log(field.title)
-             
-              $("#jsGrid").jsGrid("loadData", { [name]:inputValue}).done(function() {
-                      console.log("data loaded");
+             if(field.type=='number') inputValue = Number(inputValue)
+             excistingParams[name]=inputValue
+              $("#jsGrid").jsGrid("loadData", excistingParams ).done(function() {
+              localStorage.setItem('filterParams',JSON.stringify(excistingParams))  
                 });
               $( `#filter-${name}` ).removeClass( "fal fa-filter" ).addClass( "fas fa-filter" );  
              $(`#filter-${name}`).popover('hide')
 
             })
-            
-            
-            //- TODO: 
-            //-  1.fix second creation
-            //-  2. Make filters work with each other (no localStorage now) 
-            //- 
-            console.log(popover)
+
             $(popover).append(textInput)
             $(popover).append(initFilterButton)
              
-            break    //- return  +input_required(`${field.title}`,`${field.name}`) 
-                
-            
-           }
+           
          }
          
          fields.map((el, id)=> {
           var filter= $(`
-        
             <i id= "filter-${el.name}" class="filter fal fa-filter p-1
               data-toggle="popover" title=" "   data-content=" "
                   >
             </i>
-          
             `
-            
           )
              $(headers[id]).append(filter)
            
@@ -207,19 +228,14 @@ append script
            <div class="popover-body">Тест</div>
            </div>  `
           });
-         filter.click(() => {initInputByField(el) })
-          
-      
-       
-
-         
-
-            
+          filter.click((event) => {
+           event.stopPropagation();
+           activatedPopovers.map(popoverId=> {
+             if(popoverId != `#filter-${el.name}`)
+             $(popoverId).popover('hide')
+             })
+           activatedPopovers = [`#filter-${el.name}`]
+           initInputByField(el) 
+           })
          })
-        //-  let aBlock = document.createElement('block');
-        //-   fields.map((el, n) => $('#cols_order .hr')[el.pos > -1 ? 'before' : 'after'](`<li class="list-group-item item" data-n="${el.id}">${el.title}</li>`)
-        //- fields.map((el, id)=> { 
-        //-   console.logheaders[id];
-        //- //-  headers[id].append(fields[id].type)
-        //-   })
       })

@@ -13,12 +13,19 @@ html(lang='en')
       link(rel='stylesheet', href='/dist/bootstrap.css')
       link(rel='stylesheet', href='/plugins/jsgrid/jsgrid.css')
       link(rel='stylesheet', href='/plugins/jsgrid/jsgrid-theme.css')
+      link(rel='preconnect' href='https://fonts.googleapis.com')
+      link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+      link(href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap' rel='stylesheet')
+
       style.
-        body { color: #c9ebff }
+        body { color: #c9ebff;  
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        }
         .content-wrapper { background: #121b25 }
         .main-footer { background: #121b25 }
         .card { border-radius: 4px }
-        .card-header { background: #213345; }
+        .card-header { background: #213345;}
         .card-header:first-child { border-radius: 4px 4px 0 0; }
         .card-body { background: #213345 }
         .card-footer { background: #213345 }
@@ -30,6 +37,8 @@ html(lang='en')
 
         .jsgrid-load-shader { opacity: 1; background-color: #213345; }
         .jsgrid-load-panel { background-color: #213345; color: #c9ebff; border: 2px solid #80c5ed; }
+   
+        .jsgrid-header-cell {font-weight: 700;}
         .jsgrid-header-sortable .filter {
           float: right;
           
@@ -37,14 +46,25 @@ html(lang='en')
         .popover {
           background: rgba(37, 56, 78, 1);
         }
+        .popover .arrow::after{
+           border-right-color: rgba(37, 56, 78, 1);
+        }
+
+
         //- .jsgrid-filter-wrapper {width:100%; display:flex; justify-content: flex-end;}
         .jsgrid-header-sortable::before { float: right; margin-top: 8px; border-top-color: #80c5ed; border-bottom-color: #80c5ed;}
         .jsgrid-table { font-size: 0.8em}
         .jsgrid-filter-row > .jsgrid-cell { background: #142333; border-color: #30485c }
         .jsgrid-header-row > .jsgrid-header-cell { background: #142333; border-color: #30485c }
+
         .jsgrid-row > .jsgrid-cell, .jsgrid-alt-row > .jsgrid-cell, .jsgrid-nodata-row > .jsgrid-cell { border-color: #30485c; background: #213345 }
-        .jsgrid-cell, .jsgrid-selected-row > .jsgrid-cell,
-        .navbar, .main-footer { border-color: #30485c; }
+
+        .jsgrid-row:hover > .jsgrid-cell, .jsgrid-alt-row:hover > .jsgrid-cell, .jsgrid-nodata-row:hover > .jsgrid-cell {
+          background: #2A445E;}
+
+       
+    
+
         .overflow-x { overflow-x: scroll; }
         .jsgrid-grid-body { overflow-x: visible; }
         .jsgrid-grid-header, .jsgrid-grid-body { border-color: #30485c; overflow-y: auto; }
