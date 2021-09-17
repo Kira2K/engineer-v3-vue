@@ -4,69 +4,30 @@ block breadcrumbs
   li.breadcrumb-item.active(aria-current="page") Оборудование
 
 block body
+  #table-configuration-modal.modal.fade(tabindex="-1" role="dialog" aria-labelledby="table-configuration-modal-label" aria-hidden="true")
+        .modal-dialog(role="document")
+          .modal-content
+            .modal-header
+              h5#table-configuration-modal-label.modal-title Настройка таблицы
+              button.close(type="button" data-dismiss="modal" aria-label="Close")
+                span(aria-hidden="true") &times;
+            .modal-body
+              ul#cols_order.list-group
+                li.list-group-item.hr.inactive-zone Незакрепленная область
+
+            .modal-footer
+              
+              button#cols_reset.btn.btn-danger.mr-auto(type="button" data-dismiss="modal") Сбросить
+              button.btn.btn-secondary(type="button" data-dismiss="modal") Отмена
+              button#cols_apply.btn.btn-primary(type="button") Сохранить
+
   .card
     .card-header
       h3.card-title Оборудование
       .float-right
-        button.btn.btn-primary(type="button" data-toggle="modal" data-target="#exampleModal")
-          |  настройки
-
-        #exampleModal.modal.fade(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
-          .modal-dialog(role="document")
-            .modal-content
-              .modal-header
-                h5#exampleModalLabel.modal-title Modal title
-                button.close(type="button" data-dismiss="modal" aria-label="Close")
-                  span(aria-hidden="true") &times;
-              
-              .modal-body 
-                //- ul
-                //-   each val in [1, 2, 3, 4, 5]
-                //-     li= val
-
-                ul#sortable.list-group
-                  - var fields = [
-                    { title: "Код",               name: "id",                 type: "number", width: 60, filtering: false },
-                    { title: "Оборудование",      name: "nomenclatureTitle",  type: "text",   width: 240 },
-                    { title: "Заводской номер",   name: "factory_id",         type: "text",   width: 280 },
-                    { title: "Сер. №",            name: "serial",             type: "text", },
-                    { title: "№ партии",          name: "partnumber",         type: "text", },
-                    { title: "Изготовлен",        name: "produced",           type: "date",   width: 110 },
-                    { title: "Состояние",         name: "state",              type: "text", },
-                    { title: "Изотовитель",       name: "provisioner",        type: "text", },
-                    { title: "Особые отметки",    name: "extra",              type: "text", width: 240 },
-                    { title: "Дата создания",     name: "created",            type: "date", width: 160},
-                  ]
-                  
-                  each val in fields
-                    li.list-group-item= val.title
-             
-
-              //- li.list-group-item Код
-              //-         li.list-group-item Единица измерения
-              //-         li.list-group-item Наименование
-              //-         li.list-group-item Обозначение
-              //-         li.list-group-item Класс
-              //-         li.list-group-item Группа
-              //-         li.list-group-item Тип
-              //-         li.list-group-item Модель
-              //-         hr.hr 
-              //-         li.list-group-item Параметры
-              //-  { title: "Код",               name: "id",                 
-              //- { title: "Оборудование",      name: "nomenclatureTitle",  
-              //- { title: "Заводской номер",   name: "factory_id",        
-              //- { title: "Сер. №",            name: "serial",             
-              //- { title: "№ партии",          name: "partnumber",    
-              //- { title: "Изготовлен",        name: "produced",          
-              //- { title: "Состояние",         name: "state",             
-              //- { title: "Изотовитель",       name: "provisioner",      
-              //- { title: "Особые отметки",    name: "extra",             
-              //- { title: "Дата создания",     name: "created",  
-
-              .modal-footer
-                button.btn.btn-secondary(type="button" data-dismiss="modal") Close
-                button.btn.btn-primary(type="button") Save changes
-
+        button.btn.btn-primary(type="button" data-toggle="modal" data-target="#table-configuration-modal")
+          i.far.fa-cog
+        | &nbsp;
         a.btn.btn-success(type="button" href="/passport/edit")
           i.far.fa-plus-circle
           |  Добавить
@@ -79,7 +40,8 @@ block body
 append script
     script.
       $(() => {
-        var query = Object.fromEntries(new URLSearchParams(window.location.search).entries())
+        var urlSearchParams = new URLSearchParams(window.location.search)
+        var query = Object.fromEntries(urlSearchParams.entries())
         var data
         var fields = [
           { title: "Код",               name: "id",                 type: "number", width: 60, filtering: false },
@@ -89,14 +51,34 @@ append script
           { title: "№ партии",          name: "partnumber",         type: "text", },
           { title: "Изготовлен",        name: "produced",           type: "date",   width: 110 },
           { title: "Состояние",         name: "state",              type: "text", },
-          { title: "Изотовитель",       name: "provisioner",        type: "text", },
+          { title: "MAC адрес",         name: "mac",                type: "text", width: "120px" },
+          { title: "IP адрес",          name: "ip",                 type: "text", },
+          { title: "MO",                name: "mo",                 type: "text", width: "150px" },
           { title: "Особые отметки",    name: "extra",              type: "text", width: 240 },
           { title: "Дата создания",     name: "created",            type: "date", width: 160},
         ]
-        if (query.cols) {
-          query.cols.split(',').map((i, n) => fields[i].pos = +n)
-          fields = fields.filter(el => typeof el.pos == 'number').sort((a, b) => a.pos > b.pos)
+        fields.map((el, id) => Object.assign(el, {pos: -1, id}))
+        var cols = (query.cols || '').split(',').filter(el => fields[el])
+        if (cols.length) {
+          cols.map((i, n) => fields[i].pos = +n)
+          fields.sort((a, b) => a.pos > b.pos)
+        } else {
+          fields.map(el => el.pos = 1)
         }
+
+        fields.map((el, n) => $('#cols_order .hr')[el.pos > -1 ? 'before' : 'after'](`<li class="list-group-item item" data-n="${el.id}">${el.title}</li>`))
+        fields = fields.filter(el => el.pos > -1)
+
+        $('#cols_apply').click(() => {
+          var order = [...$('#cols_order *')].map(el => $(el).data('n'))
+          order = order.slice(0, order.indexOf(undefined))
+          urlSearchParams.set('cols', order)
+          document.location.href = `/passport?${urlSearchParams.toString()}`
+        })
+        $('#cols_reset').click(() => {
+          document.location.href = `/passport`
+        })
+
         $('#jsGrid').jsGrid({
           height: "auto",
           width: "auto",
@@ -133,10 +115,13 @@ append script
                 )
               } else
               $.ajax({
-                url: `#{env.backendAddr}/api/passport?range=%5B0%2C1000000%5D`,
+                url: `#{env.backendAddr}/api/passport?range=%5B0%2C10000000%5D`,
                 success: function(response) {
                   deferred.resolve(data = response.map(el => {
                     el.nomenclatureTitle = `${el['nomenclature.title']}`
+                    el.mac = `${el['commissions.mac'] || ''}`
+                    el.ip = `${el['commissions.ip'] || ''}`
+                    el.mo = `${el['commissions.branch.title'] || ''}`
                     el.created = `${moment(el.createdAt).format('YYYY.MM.DD HH:mm:ss')}`
                     //console.log(el.factoryId, JSON.stringify(el, 0, 2))
                     return el
@@ -148,5 +133,5 @@ append script
           },
           fields
         })
-         $("#sortable").sortable();
+         $("#cols_order").sortable();
       })

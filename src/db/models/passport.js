@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Op, Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class passport extends Model {
@@ -22,6 +22,20 @@ module.exports = (sequelize, DataTypes) => {
           },
           {
             model: models.counterparty.unscoped(),
+          },
+          {
+            model: models.commission.unscoped(),
+            include: [
+              {
+                model: models.branch.unscoped(),
+              },
+            ],
+            required: false,
+            where: {
+              id: {
+                [Op.in]: sequelize.literal('(select distinct on (passport_id) id from commission order by passport_id, commissioned desc)')
+              }
+            }
           },
 
         ]
