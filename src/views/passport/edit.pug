@@ -45,7 +45,7 @@ block body
       hr
       .row
         .col-xl-3.col-lg-6
-          - instance.mo = instance.commissions[0].branch.title
+          - instance.mo = instance.commissions ? instance.commissions[0].branch.title : ''
           +dummy_input('mo', 'Медицинская организация')
         .col-xl-3.col-lg-6
           +dummy_input('mo', 'Подразделение мед. орг.')
