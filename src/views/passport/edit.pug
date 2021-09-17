@@ -41,20 +41,21 @@ block body
           +input_required('state', 'Состояние')
         .col-xl-3.col-lg-6
           +input('extra', 'Особые отметки')
-      h6 Текущее закрепление
-      hr
-      .row
-        .col-xl-3.col-lg-6
-          - instance.mo = instance.commissions ? instance.commissions[0].branch.title : ''
-          +dummy_input('mo', 'Медицинская организация')
-        .col-xl-3.col-lg-6
-          +dummy_input('mo', 'Подразделение мед. орг.')
-        .col-xl-3.col-lg-6
-          - instance.mac = instance.commissions ? instance.commissions[0].mac : ''
-          +dummy_input('mac', 'MAC-адрес')
-        .col-xl-3.col-lg-6
-          - instance.ip = instance.commissions ? instance.commissions[0].ip : ''
-          +dummy_input('ip', 'IP-адрес')
+      if instance.commissions && instance.commissions.length
+        h6 Текущее закрепление
+        hr
+        .row
+          .col-xl-3.col-lg-6
+            - instance.mo = instance.commissions[0].branch.title : ''
+            +dummy_input('mo', 'Медицинская организация')
+          .col-xl-3.col-lg-6
+            +dummy_input('mo', 'Подразделение мед. орг.')
+          .col-xl-3.col-lg-6
+            - instance.mac = instance.commissions[0].mac : ''
+            +dummy_input('mac', 'MAC-адрес')
+          .col-xl-3.col-lg-6
+            - instance.ip = instance.commissions ? instance.commissions[0].ip : ''
+            +dummy_input('ip', 'IP-адрес')
       //
         .col-xl-3.col-lg-6
           +dummy_input('warranty', 'Гарантия (мес)')
