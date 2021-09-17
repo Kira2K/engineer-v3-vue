@@ -28,6 +28,10 @@ block body
         btn#clear-filters.btn.btn-danger очистить фильтры 
       .float-right
         a.btn.btn-success(type="button" href="/nomenclature/edit")
+        button.btn.btn-primary(type="button" data-toggle="modal" data-target="#table-configuration-modal")
+          i.far.fa-cog
+        | &nbsp;
+        a.btn.btn-success(type="button" href="/passport/edit")
           i.far.fa-plus-circle
           |  Добавить
         | &nbsp; 
@@ -38,7 +42,6 @@ block body
           i.far.fa-cog
         | &nbsp;
     .card-body
-      
       #jsGrid
       .d-flex.justify-content-end
         #externalPager.external-pager.jsgrid-pager-container
@@ -62,6 +65,9 @@ append script
           { title: "Изготовлен",        name: "produced",           type: "date",   width: 110 },
           { title: "Состояние",         name: "state",              type: "text", },
           { title: "Изотовитель",       name: "provisioner",        type: "text", width: 130},
+          { title: "MAC адрес",         name: "mac",                type: "text", width: "120px" },
+          { title: "IP адрес",          name: "ip",                 type: "text", },
+          { title: "MO",                name: "mo",                 type: "text", width: "150px" },
           { title: "Особые отметки",    name: "extra",              type: "text", width: 240 },
           { title: "Дата создания",     name: "created",            type: "date", width: 160},
         ]
@@ -83,10 +89,8 @@ append script
           urlSearchParams.set('cols', order)
           document.location.href = `/passport?${urlSearchParams.toString()}`
         })
-              $('#cols_reset').click(() => {
-         
-          urlSearchParams.delete('cols')
-          document.location.href = `/passport?${urlSearchParams.toString()}`
+        $('#cols_reset').click(() => {
+          document.location.href = `/passport`
         })
 
         $('#jsGrid').jsGrid({
@@ -146,6 +150,10 @@ append script
                     el.created = `${moment(el.createdAt).format('YYYY.MM.DD')}`
                      el.produced = `${moment(el.produced).format('YYYY.MM.DD')}`
 
+                    el.mac = `${el['commissions.mac'] || ''}`
+                    el.ip = `${el['commissions.ip'] || ''}`
+                    el.mo = `${el['commissions.branch.title'] || ''}`
+                    //console.log(el.factoryId, JSON.stringify(el, 0, 2))
                     return el
                   }));
                 }

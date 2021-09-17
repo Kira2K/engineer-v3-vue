@@ -83,10 +83,8 @@ append script
           urlSearchParams.set('cols', order)
           document.location.href = `/nomenclature?${urlSearchParams.toString()}`
         })
-              $('#cols_reset').click(() => {
-         
-          urlSearchParams.delete('cols')
-          document.location.href = `/nomenclature?${urlSearchParams.toString()}`
+        $('#cols_reset').click(() => {
+          document.location.href = `/nomenclature`
         })
 
         $('#jsGrid').jsGrid({
