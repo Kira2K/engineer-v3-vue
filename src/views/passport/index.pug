@@ -27,7 +27,6 @@ block body
       .float-left 
         btn#clear-filters.btn.btn-danger очистить фильтры 
       .float-right
-        
         button.btn.btn-primary(type="button" data-toggle="modal" data-target="#table-configuration-modal")
           i.far.fa-cog
         | &nbsp;
@@ -57,7 +56,7 @@ append script
         var query = Object.fromEntries(urlSearchParams.entries())
         var data
         var fields = [
-          { title: "Код",               name: "id",                 type: "number", width: 70, filtering: false },
+          { title: "Код",               name: "id",                 type: "number", width: 70,  },
           { title: "Оборудование",      name: "nomenclatureTitle",  type: "text",   width: 240 },
           { title: "Заводской номер",   name: "factory_id",         type: "text",   width: 280 },
           { title: "Сер. №",            name: "serial",             type: "text", },
@@ -97,7 +96,7 @@ append script
           height: "auto",
           width: "auto",
           editing: false,
-          filtering: true,
+          filtering: false,
           autoload: true,
           sorting: true,
           paging: true,
@@ -118,7 +117,7 @@ append script
             loadData: (filter) => {
               var deferred = $.Deferred();
               if (data) {
-                console.log(filter)
+                
                 return $.grep(data, el =>
                   (!filter.nomenclatureTitle || el.nomenclatureTitle.toLowerCase().includes(filter.nomenclatureTitle.toLowerCase())
                   )
@@ -133,10 +132,11 @@ append script
                   )
                   && (!filter.extra             || el.extra.toLowerCase().includes(filter.extra.toLowerCase())
                   )
-                  && (!filter.created || `${moment(el.createdAt).format('YYYY.MM.DD')}`.toLowerCase().startsWith(filter.created.toLowerCase())
+                  && (!filter.produced || el.produced.toLowerCase().startsWith(filter.produced.toLowerCase())
                   )
-                   && (!filter.produced || `${moment(el.produced).format('YYYY.MM.DD')}`.startsWith(filter.produced.toLowerCase())
+                  && (!filter.created || `${moment(el.createdAt).format('YYYY.MM.DD')}`.startsWith(filter.created.toLowerCase())
                   )
+
                   && (!filter.id  || el.id.toString().toLowerCase().startsWith(filter.id.toString().toLowerCase())
                   )
                   )
@@ -148,8 +148,9 @@ append script
                   deferred.resolve(data = response.map(el => {
                     el.nomenclatureTitle = `${el['nomenclature.title']}`
                     el.created = `${moment(el.createdAt).format('YYYY.MM.DD')}`
-                     el.produced = `${moment(el.produced).format('YYYY.MM.DD')}`
-
+                    //- console.log(typeof el.produced)
+                    //- el.produced = `${moment(el.produced).format('YYYY.MM.DD')}`
+                    console.log(typeof el.produced)
                     el.mac = `${el['commissions.mac'] || ''}`
                     el.ip = `${el['commissions.ip'] || ''}`
                     el.mo = `${el['commissions.branch.title'] || ''}`
@@ -175,8 +176,10 @@ append script
            $('.filter').removeClass( "fas fa-filter" ).addClass( "fal fa-filter" ); 
            activatedPopovers = []
           $("#jsGrid").jsGrid("loadData", {} ).done(function() {
+            $("#grid").jsGrid("render")
           localStorage.removeItem('filterParams')  
             });
+          
          })
          var headers=  $('.jsgrid-header-sortable')
       
@@ -184,7 +187,7 @@ append script
            
            var name = field.name
            var maybeParams = localStorage.getItem('filterParams') 
-           
+           console.log(maybeParams)
            var excistingParams =maybeParams?JSON.parse(maybeParams):{} 
            var initFilterButton = $(`<button class="btn mb-3 float-right">Применить</button>`)
           var popover = $('.popover-body')
@@ -201,9 +204,12 @@ append script
              
             $(initFilterButton).click(() => {
              var inputValue=$(`#input-${name}` ).val()
+             
              if(field.type=='number') inputValue = Number(inputValue)
              excistingParams[name]=inputValue
+             
               $("#jsGrid").jsGrid("loadData", excistingParams ).done(function() {
+                $("#grid").jsGrid("render")
               localStorage.setItem('filterParams',JSON.stringify(excistingParams))  
                 });
               $( `#filter-${name}` ).removeClass( "fal fa-filter" ).addClass( "fas fa-filter" );  

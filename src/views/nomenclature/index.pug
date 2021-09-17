@@ -21,7 +21,7 @@ block body
               button.btn.btn-secondary(type="button" data-dismiss="modal") Отмена
               button#cols_apply.btn.btn-primary(type="button") Сохранить
 
-  .card
+  .card#make-me-table-width
     .card-header
       .float-left 
         btn#clear-filters.btn.btn-danger очистить фильтры 
@@ -55,7 +55,7 @@ append script
         var query = Object.fromEntries(urlSearchParams.entries())
         var data
         let fields= [
-            { title: "Код",                 name: "id",                 type: "number", width: 70, filtering: false },
+            { title: "Код",                 name: "id",                 type: "number", width: 70, },
             { title: "Обозначение",         name: "designation",        type: "text",   width: 140 },
             { title: "Наименование",        name: "title",              type: "text",   width: 280 },
             { title: "Ед изм.",             name: "unitId",             type: "text",   width: 90,},
@@ -91,7 +91,7 @@ append script
           height: "auto",
           width: "auto",
           editing: false,
-          filtering: true,
+          filtering: false,
           autoload: true,
           sorting: true,
           paging: true,
@@ -123,8 +123,7 @@ append script
                   && (!filter.nomenclatureModel || el.nomenclatureModel.toLowerCase().includes(filter.nomenclatureModel.toLowerCase()))
                   && (!filter.created || `${moment(el.createdAt).format('YYYY.MM.DD')}`.toLowerCase().startsWith(filter.created.toLowerCase())
                   )
-                   && (!filter.produced || `${moment(el.produced).format('YYYY.MM.DD')}`.startsWith(filter.produced.toLowerCase())
-                  )
+                  
                   && (!filter.id  || el.id.toString().toLowerCase().startsWith(filter.id.toString().toLowerCase())
                   )
                 )
@@ -160,6 +159,7 @@ append script
            $('.filter').removeClass( "fas fa-filter" ).addClass( "fal fa-filter" ); 
            activatedPopovers = []
           $("#jsGrid").jsGrid("loadData", {} ).done(function() {
+            $("#grid").jsGrid("render")
           localStorage.removeItem('filterParams')  
             });
          })
@@ -191,7 +191,9 @@ append script
              excistingParams[name]=inputValue
               $("#jsGrid").jsGrid("loadData", excistingParams ).done(function() {
               localStorage.setItem('filterParams',JSON.stringify(excistingParams))  
+              $("#grid").jsGrid("render")  
                 });
+              
               $( `#filter-${name}` ).removeClass( "fal fa-filter" ).addClass( "fas fa-filter" );  
              $(`#filter-${name}`).popover('hide')
             })
@@ -228,4 +230,6 @@ append script
            initInputByField(el) 
            })
          })  
+      var tableWidth = $('#jsGrid').width()
+      $('#make-me-table-width').css('max-width', `${tableWidth+32}px`)   
       })
