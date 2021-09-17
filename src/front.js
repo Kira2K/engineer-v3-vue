@@ -95,9 +95,11 @@ front.get('/download/:module', async (req, res, next) => {
 front.set('view engine', 'pug')
 front.set('views', 'src/views')
 
-front.use((req, res, next) => {
+front.use(async (req, res, next) => {
+  res.locals.lastlog = await fetch(`${backendAddr}/api/log?range=%5b0%2c0%5d&sort=%5b"id","DESC"%5d`).then(res => res.json())
   res.locals.moment = moment
   res.locals.query = req.query
+  res.locals.i10n = i10n
   res.locals.env = { backendAddr, frontDebug }
   next()
 })
@@ -233,6 +235,7 @@ front.post('/:module/edit/:id?', async (req, res, next) => {
     body: JSON.stringify(req.body),
     headers: { 'Content-Type': 'application/json' },
   })
+
   if (!result.ok) {
     const err = await result.json()
     res.cookie(`errors${req.path}`, base64.fromByteArray(lzma.compress(JSON.stringify(err))))
@@ -254,7 +257,7 @@ front.post('/:module/edit/:id?', async (req, res, next) => {
   var { name, preferred_username, email } = res.locals.grant.id
   await fetch(`${backendAddr}/api/log`, {
     method: 'post',
-    body: JSON.stringify({username: preferred_username, name, email, ip: req.headers['x-forwarded-for'], module, action: id ? 'edit' : 'create', extra: req.body}),
+    body: JSON.stringify({username: preferred_username, name, email, ip: req.headers['x-forwarded-for'], module, action: id ? 'edit' : 'create', extra: Object.assign({}, req.body, { instanceId })}),
     headers: { 'Content-Type': 'application/json' },
   })
   return res.redirect(302, `/${module}`)

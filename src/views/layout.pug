@@ -186,9 +186,28 @@ html(lang='en')
             - if (exposed_locals.list) exposed_locals.list = exposed_locals.list.filter((el, n) => n < 10)
             pre.debug(style="font-size: .6rem; line-height: .6rem;")= JSON.stringify(exposed_locals, 0, 2)
       footer.main-footer
-        strong
-          | Maximus
-          | &copy; 2021
+        if lastlog && lastlog.length
+          .float-left
+            strong Последняя операция:
+            | 
+            strong= `${lastlog[0].name} (${lastlog[0].email})`
+            | 
+
+            -var action = { create: 'создал', edit: 'изменил', delete: 'удалил'}
+            strong=  action[lastlog[0].action] || lastlog[0].action
+            | 
+            strong: a(href=lastlog[0].module + '/edit/' + lastlog[0].extra.instanceId)= lastlog[0].extra.instanceId
+            |  в 
+            strong= (i10n.modules[lastlog[0].module] || { title: lastlog[0].module }).title
+            | 
+            strong
+              i.fa.fa-clock
+              | 
+              +format-date(lastlog[0].createdAt)
+        else
+          strong
+            | Maximus
+            | &copy; 2021
         .float-right.d-none.d-sm-inline-block
           | Модуль
           b  ИНЖЕНЕР
