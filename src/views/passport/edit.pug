@@ -50,10 +50,10 @@ block body
         .col-xl-3.col-lg-6
           +dummy_input('mo', 'Подразделение мед. орг.')
         .col-xl-3.col-lg-6
-          - instance.mac = instance.commissions[0].mac
+          - instance.mac = instance.commissions ? instance.commissions[0].mac
           +dummy_input('mac', 'MAC-адрес')
         .col-xl-3.col-lg-6
-          - instance.ip = instance.commissions[0].ip
+          - instance.ip = instance.commissions ? instance.commissions[0].ip
           +dummy_input('ip', 'IP-адрес')
       //
         .col-xl-3.col-lg-6
