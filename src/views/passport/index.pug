@@ -2,6 +2,7 @@ extends ../layout.pug
 
 block breadcrumbs
   li.breadcrumb-item.active(aria-current="page") Оборудование
+ 
 
 block body
   #table-configuration-modal.modal.fade(tabindex="-1" role="dialog" aria-labelledby="table-configuration-modal-label" aria-hidden="true")
@@ -23,7 +24,8 @@ block body
 
   .card
     .card-header
-      h3.card-title Оборудование
+      .float-left 
+        btn#clear-filters.btn.btn-danger очистить фильтры 
       .float-right
         button.btn.btn-primary(type="button" data-toggle="modal" data-target="#table-configuration-modal")
           i.far.fa-cog
@@ -31,26 +33,37 @@ block body
         a.btn.btn-success(type="button" href="/passport/edit")
           i.far.fa-plus-circle
           |  Добавить
+        | &nbsp; 
+        a.btn.btn-primary(type="button" href="/download/nomenclature")
+          i.fa.fa-file-excel   
+        | &nbsp;          
+        button.btn.btn-primary(type="button" data-toggle="modal" data-target="#table-configuration-modal")
+          i.far.fa-cog
         | &nbsp;
-        a.btn.btn-primary(type="button" href="/download/passport")
-          i.fa.fa-file-excel
     .card-body
       #jsGrid
-
+      .d-flex.justify-content-end
+        #externalPager.external-pager.jsgrid-pager-container
 append script
     script.
       $(() => {
+        var localStorage =window.localStorage
+        localStorage.clear()
+        $('body').click(() => { 
+          $('.filter').popover('hide')
+        })
         var urlSearchParams = new URLSearchParams(window.location.search)
         var query = Object.fromEntries(urlSearchParams.entries())
         var data
         var fields = [
-          { title: "Код",               name: "id",                 type: "number", width: 60, filtering: false },
+          { title: "Код",               name: "id",                 type: "number", width: 70,  },
           { title: "Оборудование",      name: "nomenclatureTitle",  type: "text",   width: 240 },
           { title: "Заводской номер",   name: "factory_id",         type: "text",   width: 280 },
           { title: "Сер. №",            name: "serial",             type: "text", },
           { title: "№ партии",          name: "partnumber",         type: "text", },
           { title: "Изготовлен",        name: "produced",           type: "date",   width: 110 },
           { title: "Состояние",         name: "state",              type: "text", },
+          { title: "Изотовитель",       name: "provisioner",        type: "text", width: 130},
           { title: "MAC адрес",         name: "mac",                type: "text", width: "120px" },
           { title: "IP адрес",          name: "ip",                 type: "text", },
           { title: "MO",                name: "mo",                 type: "text", width: "150px" },
@@ -83,12 +96,13 @@ append script
           height: "auto",
           width: "auto",
           editing: false,
-          filtering: true,
+          filtering: false,
           autoload: true,
           sorting: true,
           paging: true,
           loadMessage: 'Загрузка...',
           noDataContent: 'Нет данных',
+          pagerContainer: "#externalPager",
           pageSize: 20,
           pageButtonCount: 15,
           pagerFormat: "Страницы: {first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} из {pageCount}",
@@ -103,26 +117,43 @@ append script
             loadData: (filter) => {
               var deferred = $.Deferred();
               if (data) {
-                console.log(filter)
+                
                 return $.grep(data, el =>
-                     (!filter.nomenclatureTitle || el.nomenclatureTitle.toLowerCase().includes(filter.nomenclatureTitle.toLowerCase()))
-                  && (!filter.factory_id        || el.factory_id.toLowerCase().includes(filter.factory_id.toLowerCase()))
-                  && (!filter.serial            || el.serial.toLowerCase().includes(filter.serial.toLowerCase()))
-                  && (!filter.partnumber        || el.partnumber.toLowerCase().includes(filter.partnumber.toLowerCase()))
+                  (!filter.nomenclatureTitle || el.nomenclatureTitle.toLowerCase().includes(filter.nomenclatureTitle.toLowerCase())
+                  )
+                  && (!filter.factory_id        || el.factory_id.toLowerCase().includes(filter.factory_id.toLowerCase())
+                  )
+                  && (!filter.serial            || el.serial.toLowerCase().includes(filter.serial.toLowerCase())
+                  )
+                  && (!filter.partnumber        || el.partnumber.toLowerCase().includes(filter.partnumber.toLowerCase())
+                  )
                   && (!filter.state             || el.state.toLowerCase().includes(filter.state.toLowerCase()))
-                  && (!filter.provisioner       || el.provisioner.toLowerCase().includes(filter.provisioner.toLowerCase()))
-                  && (!filter.extra             || el.extra.toLowerCase().includes(filter.extra.toLowerCase()))
-                )
+                  && (!filter.provisioner       || el.provisioner.toLowerCase().includes(filter.provisioner.toLowerCase())
+                  )
+                  && (!filter.extra             || el.extra.toLowerCase().includes(filter.extra.toLowerCase())
+                  )
+                  && (!filter.produced || el.produced.toLowerCase().startsWith(filter.produced.toLowerCase())
+                  )
+                  && (!filter.created || `${moment(el.createdAt).format('YYYY.MM.DD')}`.startsWith(filter.created.toLowerCase())
+                  )
+
+                  && (!filter.id  || el.id.toString().toLowerCase().startsWith(filter.id.toString().toLowerCase())
+                  )
+                  )
+                  
               } else
               $.ajax({
                 url: `#{env.backendAddr}/api/passport?range=%5B0%2C10000000%5D`,
                 success: function(response) {
                   deferred.resolve(data = response.map(el => {
                     el.nomenclatureTitle = `${el['nomenclature.title']}`
+                    el.created = `${moment(el.createdAt).format('YYYY.MM.DD')}`
+                    //- console.log(typeof el.produced)
+                    //- el.produced = `${moment(el.produced).format('YYYY.MM.DD')}`
+                    console.log(typeof el.produced)
                     el.mac = `${el['commissions.mac'] || ''}`
                     el.ip = `${el['commissions.ip'] || ''}`
                     el.mo = `${el['commissions.branch.title'] || ''}`
-                    el.created = `${moment(el.createdAt).format('YYYY.MM.DD HH:mm:ss')}`
                     //console.log(el.factoryId, JSON.stringify(el, 0, 2))
                     return el
                   }));
@@ -133,5 +164,92 @@ append script
           },
           fields
         })
-         $("#cols_order").sortable();
+        $("#cols_order").sortable({
+          placeholder: 'drop-placeholder'
+          });
+          $( ()=> {
+          $('[data-toggle="popover"]').popover()
+          
+        })
+          var activatedPopovers = []
+          $('#clear-filters').click(()=>{
+           $('.filter').removeClass( "fas fa-filter" ).addClass( "fal fa-filter" ); 
+           activatedPopovers = []
+          $("#jsGrid").jsGrid("loadData", {} ).done(function() {
+            $("#grid").jsGrid("render")
+          localStorage.removeItem('filterParams')  
+            });
+          
+         })
+         var headers=  $('.jsgrid-header-sortable')
+      
+         var initInputByField= (field)=> {
+           
+           var name = field.name
+           var maybeParams = localStorage.getItem('filterParams') 
+           console.log(maybeParams)
+           var excistingParams =maybeParams?JSON.parse(maybeParams):{} 
+           var initFilterButton = $(`<button class="btn mb-3 float-right">Применить</button>`)
+          var popover = $('.popover-body')
+          popover.click((event) => {
+            event.stopPropagation()
+          } )
+          var initialValue = excistingParams[name] ?? ''
+          
+             var textInput = `<div class="form-group">
+              <label for="key">
+                <input class="form-control" id="input-${name}" name="input-${name}" type="text" placeholder="поиск по названию..."value="${initialValue}">
+              </label>
+            </div>`
+             
+            $(initFilterButton).click(() => {
+             var inputValue=$(`#input-${name}` ).val()
+             
+             if(field.type=='number') inputValue = Number(inputValue)
+             excistingParams[name]=inputValue
+             
+              $("#jsGrid").jsGrid("loadData", excistingParams ).done(function() {
+                $("#grid").jsGrid("render")
+              localStorage.setItem('filterParams',JSON.stringify(excistingParams))  
+                });
+              $( `#filter-${name}` ).removeClass( "fal fa-filter" ).addClass( "fas fa-filter" );  
+             $(`#filter-${name}`).popover('hide')
+
+            })
+
+            $(popover).append(textInput)
+            $(popover).append(initFilterButton)
+             
+           
+         }
+         
+         fields.map((el, id)=> {
+          var filter= $(`
+            <i id= "filter-${el.name}" class="filter fal fa-filter p-1
+              data-toggle="popover" title=" "   data-content=" "
+                  >
+            </i>
+            `
+          )
+             $(headers[id]).append(filter)
+           
+           filter.popover({
+           html:true,
+         
+           template:`<div class="popover" id="popover-${el.title}" role="tooltip">
+           <div class="arrow"></div>
+           <h3 class="popover-header">Фильтр для ${el.title}</h3>
+           <div class="popover-body">Тест</div>
+           </div>  `
+          });
+          filter.click((event) => {
+           event.stopPropagation();
+           activatedPopovers.map(popoverId=> {
+             if(popoverId != `#filter-${el.name}`)
+             $(popoverId).popover('hide')
+             })
+           activatedPopovers = [`#filter-${el.name}`]
+           initInputByField(el) 
+           })
+         })
       })
