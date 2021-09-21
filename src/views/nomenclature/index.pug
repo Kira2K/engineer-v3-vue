@@ -57,7 +57,7 @@ append script
       { title: "Группа",              name: "nomenclatureGroup",  type: "text",   width: 220,},
       { title: "Тип",                 name: "nomenclatureType",   type: "text",   width: 220,},
       { title: "Модель",              name: "nomenclatureModel",  type: "text",   width: 220,},
-      { title: "Дата создания",       name: "created",            type: "date",   width: 160},
+      { title: "Дата создания",       name: "createdAt",          type: "date",   width: 180, cellRenderer: table_formatter.date },
     ]
 
     window.table_formatter = el => {
@@ -66,7 +66,6 @@ append script
       el.nomenclatureGroup = `${el['nm.nt.ng.title']}`
       el.nomenclatureType  = `${el['nm.nt.title']}`
       el.nomenclatureModel = `${el['nm.title']}`
-      el.created = `${moment(el.createdAt).format('YYYY.MM.DD')}`
       return el
     }
 
