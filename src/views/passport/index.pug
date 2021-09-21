@@ -53,16 +53,18 @@ append script
         { title: "Изготовлен",        name: "produced",           type: "date",   width: 110 },
         { title: "Состояние",         name: "state",              type: "text", },
         { title: "Изотовитель",       name: "provisioner",        type: "text", width: 130},
-        { title: "MAC адрес",         name: "mac",                type: "text", width: "120px" },
+        { title: "MAC адрес",         name: "mac",                type: "text", width: 120 },
         { title: "IP адрес",          name: "ip",                 type: "text", },
-        { title: "MO",                name: "mo",                 type: "text", width: "150px" },
+        { title: "MO",                name: "mo",                 type: "text", width: 150 },
         { title: "Особые отметки",    name: "extra",              type: "text", width: 240 },
         { title: "Дата создания",     name: "created",            type: "date", width: 160},
       ]
       window.table_formatter = el => {
         el.nomenclatureTitle = `${el['nomenclature.title']}`
-        el.created = `${moment(el.createdAt).format('YYYY.MM.DD HH:MM ss')}`
-        el.produced = `${moment(el.produced).format('YYYY.MM.DD HH:MM ss')}`
+        el.createdAt = `${moment(el.createdAt).format('YYYY.MM.DD HH:mm:ss')}`
+        el.created = `${moment(el.createdAt).format('YYYY.MM.DD')}`
+        el.producedAt = `${moment(el.produced).format('YYYY.MM.DD HH:mm:ss')}`
+        el.produced = `${moment(el.produced).format('YYYY.MM.DD HH:mm:ss')}`
         el.mac = `${el['commissions.mac'] || ''}`
         el.ip = `${el['commissions.ip'] || ''}`
         el.mo = `${el['commissions.branch.title'] || ''}`
