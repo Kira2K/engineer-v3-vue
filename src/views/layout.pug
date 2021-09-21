@@ -241,6 +241,9 @@ html(lang='en')
     block script
       script.
         window.backend_addr = '#{env.backendAddr}'
+        window.table_formatter = {
+          date: date => `<td>${moment(date).format('YYYY.MM.DD')}</td>`
+        }
       script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js')
       script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.js')
       script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.js')
@@ -248,7 +251,6 @@ html(lang='en')
 
 
       script(src='https://cdnjs.cloudflare.com/ajax/libs/url-search-params/1.1.0/url-search-params.max.js')
-
       script(src='/plugins/jquery/jquery.js')
       script(src='/plugins/jquery-ui/jquery-ui.min.js')
       script.
