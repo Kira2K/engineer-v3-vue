@@ -1,0 +1,60 @@
+branch:
+  title: МО
+commission:
+  title: Закрепления
+complectation:
+  title: Комплектация
+consumable:
+  title: Расходники
+counterparty:
+  title: Организация
+enabled_parameter:
+  title: Включенный параметр
+labor:
+  title: Работы
+labor_type:
+  title: Тип работ
+log:
+  title: Журнал
+malfunction_type:
+  title: Тип неисправности
+nomenclature_class:
+  title: Класс номенклатуры
+nomenclature_group:
+  title: Группа номенклатуры
+nomenclature:
+  title: Номенклатура
+nomenclature_model:
+  title: Модель номенклатуры
+nomenclature_parameter:
+  title: Параметр
+nomenclature_type:
+  title: Тип номенклатуры
+operation:
+  title: Операция
+part:
+  title: Комплектация
+passport:
+  title: Оборудование
+phase:
+  title: Этап
+profession:
+  title: Профессия
+repair_type:
+  title: Тип ремонта
+runtime:
+  title: Наработка
+techmap:
+  title: Тех. карта
+techmap_status:
+  title: Состояние тех. карты
+techmap_type:
+  title: Тип техкарты
+toro:
+  title: Ремонт и эксплуатация
+unit:
+  title: Ед. измерения
+value:
+  title: Значения
+warranty:
+  title: Гарантия
