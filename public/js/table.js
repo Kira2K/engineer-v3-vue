@@ -5,10 +5,8 @@ window.table_filter = (filter) => (row) =>
       return acc && (!filter[name] || `${row[name]}`.startsWith(filter[name]));
     return (
       acc &&
-      (!filter[field.name] ||
-        (row[field.name] || "")
-          .toLowerCase()
-          .includes(filter[field.name].toLowerCase()))
+      (!filter[name] ||
+        (row[name] || "").toLowerCase().includes(filter[name].toLowerCase()))
     );
   }, true);
 
@@ -89,10 +87,18 @@ $(() => {
     },
     fields: window.fields,
   });
-  var customDisplayIndexArr = [];
-  fields.map((field, index) => {
-    if (field.type == "date") customDisplayIndexArr.push(index);
-  });
+  var activeFiltersAmount = 0;
+  var filtersBadge = $("#filters-count-badge");
+  var changeFiltersBadge = (numberToAddOrReduce) => {
+    activeFiltersAmount = activeFiltersAmount + numberToAddOrReduce;
+    if (activeFiltersAmount <= 0) clearFiltersBadge();
+    filtersBadge.text(activeFiltersAmount.toString());
+    filtersBadge.removeClass("d-none");
+  };
+  var clearFiltersBadge = () => {
+    activeFiltersAmount = 0;
+    filtersBadge.addClass("d-none");
+  };
 
   var localStorage = window.localStorage;
   localStorage.clear();
@@ -104,12 +110,13 @@ $(() => {
 
   var activatedPopovers = [];
   $("#clear-filters").click(() => {
+    clearFiltersBadge();
     $(".filter").removeClass("fas fa-filter").addClass("fal fa-filter");
     activatedPopovers = [];
     $("#jsGrid")
       .jsGrid("loadData", {})
       .done(function () {
-        //$("#grid").jsGrid("render")
+        $("#jsGrid").jsGrid("refresh");
         localStorage.removeItem("filterParams");
       });
   });
@@ -143,12 +150,13 @@ $(() => {
         .jsGrid("loadData", excistingParams)
         .done(function () {
           localStorage.setItem("filterParams", JSON.stringify(excistingParams));
-          $("#grid").jsGrid("render");
+          $("#jsGrid").jsGrid("refresh");
         });
 
       $(`#filter-${name}`)
         .removeClass("fal fa-filter")
         .addClass("fas fa-filter");
+      changeFiltersBadge(+1);
       $(`#filter-${name}`).popover("hide");
     });
     $(popover).append(textInput);

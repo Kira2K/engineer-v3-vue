@@ -25,7 +25,9 @@ block body
   .card
     .card-header
       .float-left 
-        btn#clear-filters.btn.btn-danger очистить фильтры 
+        button#clear-filters.btn.btn-primary.d-flex.justify-content-center.align-items-center
+          i.fal.fa-filter
+          span#filters-count-badge.green-circle-badge.d-none
       .float-right
         a.btn.btn-success(type="button" href="/passport/edit")
           i.far.fa-plus-circle
@@ -50,21 +52,17 @@ append script
         { title: "Заводской номер",   name: "factory_id",         type: "text",   width: 280 },
         { title: "Сер. №",            name: "serial",             type: "text", },
         { title: "№ партии",          name: "partnumber",         type: "text", width: 120},
-        { title: "Изготовлен",        name: "produced",           type: "date",   width: 110 },
+        { title: "Изготовлен",        name: "produced",           type: "date",   width: 110,cellRenderer: table_formatter.date  },
         { title: "Состояние",         name: "state",              type: "text", },
         { title: "Изотовитель",       name: "provisioner",        type: "text", width: 130},
         { title: "MAC адрес",         name: "mac",                type: "text", width: 120 },
         { title: "IP адрес",          name: "ip",                 type: "text", },
         { title: "MO",                name: "mo",                 type: "text", width: 150 },
         { title: "Особые отметки",    name: "extra",              type: "text", width: 240 },
-        { title: "Дата создания",     name: "created",            type: "date", width: 160},
+        { title: "Дата создания",     name: "createdAt",            type: "date", width: 160,cellRenderer: table_formatter.date },
       ]
       window.table_formatter = el => {
         el.nomenclatureTitle = `${el['nomenclature.title']}`
-        el.createdAt = `${moment(el.createdAt).format('YYYY.MM.DD HH:mm:ss')}`
-        el.created = `${moment(el.createdAt).format('YYYY.MM.DD')}`
-        el.producedAt = `${moment(el.produced).format('YYYY.MM.DD HH:mm:ss')}`
-        el.produced = `${moment(el.produced).format('YYYY.MM.DD HH:mm:ss')}`
         el.mac = `${el['commissions.mac'] || ''}`
         el.ip = `${el['commissions.ip'] || ''}`
         el.mo = `${el['commissions.branch.title'] || ''}`
