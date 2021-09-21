@@ -39,7 +39,7 @@
 
         $('#jsGrid').jsGrid({
           height: "auto",
-          width: "auto",
+          width: "",
           editing: false,
           filtering: false,
           autoload: true,
@@ -134,7 +134,7 @@
         window.fields.map((el, id) => {
           var filter_handle = $(`<i id= "filter-${el.name}" class="filter fal fa-filter p-1" data-toggle="popover" title=" " data-content=" " />`)
           $(headers[id]).append(filter_handle)
-          console.log('!!!', headers, id)
+
           filter_handle.popover({
             html: true,
             template: `<div class="popover" id="popover-${el.name}" role="tooltip">
