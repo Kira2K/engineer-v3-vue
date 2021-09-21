@@ -229,6 +229,10 @@ input::placeholder {
 .select2-container--default .select2-selection--single {
   background-color: #142333;
   border-color: #142333;
+  height: 38px;
+}
+.select2-selection__arrow {
+  margin-top: 5px;
 }
 
 .select2-container--default
@@ -259,7 +263,8 @@ input::placeholder {
   .select2-selection__rendered {
   color: #718eab;
 }
-
+.selection {
+}
 .input-group-text {
   background-color: #142333;
 }

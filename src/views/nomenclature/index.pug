@@ -19,7 +19,7 @@ block body
               
               button#cols_reset.btn.btn-danger.mr-auto(type="button" data-dismiss="modal") Сбросить
               button.btn.btn-secondary(type="button" data-dismiss="modal") Отмена
-              button#cols_apply.btn.btn-primary(type="button") Сохранить
+              button#cols_apply.btn.btn-primary(type="button") Применить
 
   .card#make-me-table-width
     .card-header
@@ -159,7 +159,7 @@ append script
            $('.filter').removeClass( "fas fa-filter" ).addClass( "fal fa-filter" ); 
            activatedPopovers = []
           $("#jsGrid").jsGrid("loadData", {} ).done(function() {
-            $("#grid").jsGrid("render")
+            
           localStorage.removeItem('filterParams')  
             });
          })
@@ -191,7 +191,7 @@ append script
              excistingParams[name]=inputValue
               $("#jsGrid").jsGrid("loadData", excistingParams ).done(function() {
               localStorage.setItem('filterParams',JSON.stringify(excistingParams))  
-              $("#grid").jsGrid("render")  
+                
                 });
               
               $( `#filter-${name}` ).removeClass( "fal fa-filter" ).addClass( "fas fa-filter" );  
