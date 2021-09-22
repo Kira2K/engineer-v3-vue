@@ -211,12 +211,18 @@ front.get('/passport/:action/:id?', async (req, res, next) => {
 })
 
 front.get('/:module/:action?/:id?', async (req, res, next) => {
+  if(req.cookies.success) {
+    res.locals.success = req.cookies.success
+    res.clearCookie('success')
+  }
+
   const errorPath = Object.keys(req.cookies).find(el => el.replace(/\/$/, '') == `/errors${req.path}`.replace(/\/$/, ''))
   if (!errorPath) return next()
   const err = JSON.parse(lzma.decompress(base64.toByteArray(req.cookies[errorPath])))
   res.locals.errors = err.errors
   if (!res.locals.errors) res.locals.error = err
   res.clearCookie(errorPath)
+
   next()
 })
 
@@ -260,6 +266,8 @@ front.post('/:module/edit/:id?', async (req, res, next) => {
     body: JSON.stringify({username: preferred_username, name, email, ip: req.headers['x-forwarded-for'], module, action: id ? 'edit' : 'create', extra: Object.assign({}, req.body, { instanceId })}),
     headers: { 'Content-Type': 'application/json' },
   })
+  if (id) res.cookie(`success`, { type: 'update', module, id })
+  else res.cookie(`success`, { type: 'create', module, id: instanceId })
   return res.redirect(302, `/${module}`)
 })
 
