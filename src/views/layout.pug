@@ -227,7 +227,7 @@ html(lang='en')
             - var exposed_locals = Object.assign({}, locals._locals)
             - if (exposed_locals.list) exposed_locals.list = exposed_locals.list.filter((el, n) => n < 10)
             pre.debug(style="font-size: .6rem; line-height: .6rem;")= JSON.stringify(exposed_locals, 0, 2)
-          else
+          // else
             +inspect_local('success')
             +inspect_local('errors')
       footer.main-footer
