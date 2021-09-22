@@ -50,7 +50,7 @@ $(() => {
 
   $("#jsGrid").jsGrid({
     height: "auto",
-    width: "auto",
+    width: "",
     editing: false,
     filtering: false,
     autoload: true,
@@ -169,7 +169,7 @@ $(() => {
     );
 
     $(headers[id]).append(filter_handle);
-    // console.log("!!!", headers, id);
+
     filter_handle.popover({
       html: true,
       template: `<div class="popover" id="popover-${el.name}" role="tooltip">
