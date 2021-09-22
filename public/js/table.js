@@ -35,7 +35,7 @@ $(() => {
   $("#cols_order").sortable({
     placeholder: "drop-placeholder",
   });
-
+  var activeFiltersArr = [];
   var activatedFilterPopovers = [];
   var hideAllPopovers = () => {
     $(".filter").popover("hide");
