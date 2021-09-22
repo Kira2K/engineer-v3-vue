@@ -33,6 +33,9 @@ rules:
   - 1tbs
   semi: [error, never]
   eqeqeq: off
+  array-callback-return: off
   arrow-parens: ["error", "as-needed"]
+  no-param-reassign: ["error", { "props": false }]
+  no-return-assign: off
   no-unused-vars: ["error", { "varsIgnorePattern": "debug" }]
 extends: airbnb-base

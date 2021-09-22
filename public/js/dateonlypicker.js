@@ -1,12 +1,16 @@
+/* globals $, moment */
+
 $(() => {
   $('.dateonlypicker_help').hide()
-  const init_dataonlypicker = (el) => {
+  const initDataonlypicker = el => {
     const required = $(el).attr('required')
-    const local_value = $(el).val() ? $(el).val().includes('-') ? moment($(el).val()).format('DD.MM.YYYY') : $(el).val() : ''
-    const hidden_input = $(el.outerHTML.replace(/dateonlypicker/, 'dateonlypicker_value').replace(/type=.text./, 'type="hidden"'))
+    /* eslint no-nested-ternary: "off" */
+    const localValue = $(el).val() ? $(el).val().includes('-') ? moment($(el).val()).format('DD.MM.YYYY') : $(el).val() : ''
+    const hiddenInput = $(el.outerHTML.replace(/dateonlypicker/, 'dateonlypicker_value').replace(/type=.text./, 'type="hidden"'))
+
     $(el).attr('name', '')
-    $(el).after(hidden_input)
-    $(el).val(local_value)
+    $(el).after(hiddenInput)
+    $(el).val(localValue)
 
     $(el).daterangepicker({
       singleDatePicker: true,
@@ -18,48 +22,48 @@ $(() => {
         applyLabel: 'Применить',
         cancelLabel: 'Очистить',
         daysOfWeek: [
-            "Вс",
-            "Пн",
-            "Вт",
-            "Ср",
-            "Чт",
-            "Пт",
-            "Сб"
+          'Вс',
+          'Пн',
+          'Вт',
+          'Ср',
+          'Чт',
+          'Пт',
+          'Сб',
         ],
         monthNames: [
-            "Январь",
-            "Февраль",
-            "Март",
-            "Апрель",
-            "Май",
-            "Июнь",
-            "Июль",
-            "Август",
-            "Сентябрь",
-            "Октябрь",
-            "Ноябрь",
-            "Декабрь"
+          'Январь',
+          'Февраль',
+          'Март',
+          'Апрель',
+          'Май',
+          'Июнь',
+          'Июль',
+          'Август',
+          'Сентябрь',
+          'Октябрь',
+          'Ноябрь',
+          'Декабрь',
         ],
         firstDay: 1,
-      }
+      },
     })
-    $(el).on('apply.daterangepicker', function(ev, picker) {
-      hidden_input.val(picker.startDate.format('YYYY-MM-DD'))
+    $(el).on('apply.daterangepicker', (ev, picker) => {
+      hiddenInput.val(picker.startDate.format('YYYY-MM-DD'))
     })
-    $(el).on('cancel.daterangepicker', function(ev, picker) {
+    $(el).on('cancel.daterangepicker', function () {
       $(this).val('')
-      hidden_input.val('')
+      hiddenInput.val('')
     })
   }
 
   $('.dateonlypicker').map((i, el) => {
-    if ($(el).val()) return init_dataonlypicker(el)
-    var init
-    $(el).focus(function() {
+    if ($(el).val()) return initDataonlypicker(el)
+    let init
+
+    return $(el).focus(() => {
       if (init) return
-      init_dataonlypicker(el)
+      initDataonlypicker(el)
       init = true
     })
   })
-
 })
