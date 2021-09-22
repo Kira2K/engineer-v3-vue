@@ -87,7 +87,9 @@ module.exports = (sequelize, DataTypes) => {
     commissioned: {
       type: DataTypes.DATEONLY,
 
-
+      validate: {
+        notEmpty: true
+      }
     },
     provisioner: {
       type: DataTypes.STRING,
