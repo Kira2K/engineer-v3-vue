@@ -61,7 +61,7 @@ front.use(keycloak.protect())
 
 front.use((req, res, next) => {
   if (!['/login', '/logout'].includes(req.originalUrl)) {
-    res.cookie('lastvisit', req.originalUrl)
+    res.cookie('lastvisit', req.originalUrl, { expires: 0, sameSite: 'Strict' })
   }
   res.locals.path = req.path
   if (!req.kauth.grant) return next()
@@ -211,10 +211,9 @@ front.get('/passport/:action/:id?', async (req, res, next) => {
 })
 
 front.get('/:module/:action?/:id?', async (req, res, next) => {
-  const cookies = cookieParser.JSONCookies(req.cookies)
-  const errorPath = Object.keys(cookies).find(el => el.replace(/\/$/, '') == `errors${req.path}`.replace(/\/$/, ''))
+  const errorPath = Object.keys(req.cookies).find(el => el.replace(/\/$/, '') == `/errors${req.path}`.replace(/\/$/, ''))
   if (!errorPath) return next()
-  const err = JSON.parse(lzma.decompress(base64.toByteArray(cookies[errorPath])))
+  const err = JSON.parse(lzma.decompress(base64.toByteArray(req.cookies[errorPath])))
   res.locals.errors = err.errors
   if (!res.locals.errors) res.locals.error = err
   res.clearCookie(errorPath)
@@ -229,7 +228,8 @@ front.get('/:module/:action?/:id?', async (req, res) => {
 
 front.post('/:module/edit/:id?', async (req, res, next) => {
   const { module, id } = req.params
-  debug('form', req.path, JSON.stringify(req.body))
+  Object.keys(req.body).map(key => req.body[key] || (req.body[key] = null))
+
   const result = await fetch(`${backendAddr}/api/${module}/${id ? id : ''}`, {
     method: id ? 'put' : 'post',
     body: JSON.stringify(req.body),
@@ -238,7 +238,7 @@ front.post('/:module/edit/:id?', async (req, res, next) => {
 
   if (!result.ok) {
     const err = await result.json()
-    res.cookie(`errors${req.path}`, base64.fromByteArray(lzma.compress(JSON.stringify(err))))
+    res.cookie(`/errors${req.path}`, base64.fromByteArray(lzma.compress(JSON.stringify(err))), { sameSite: 'Strict' })
     return res.redirect(302, `/${module}/edit/${id ? id : ''}`)
   }
   const instanceId = (await result.json()).id
