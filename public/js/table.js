@@ -16,9 +16,7 @@ $(() => {
   var urlSearchParams = new URLSearchParams(window.location.search);
   var query = Object.fromEntries(urlSearchParams.entries());
 
-  var activeFiltersArr = [];
   var activeFiltersAmount = 0;
-
   var filtersBadge = $("#filters-count-badge");
   var changeFiltersBadge = (numberToAddOrReduce) => {
     activeFiltersAmount = activeFiltersAmount + numberToAddOrReduce;
@@ -84,7 +82,7 @@ $(() => {
   (() => {
     $("#jsGrid").jsGrid({
       height: "auto",
-      width: "auto",
+      width: "",
       editing: false,
       filtering: false,
       autoload: true,
