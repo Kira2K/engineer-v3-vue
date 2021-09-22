@@ -49,9 +49,50 @@ html(lang='en')
         .popover .arrow::after{
            border-right-color: rgba(37, 56, 78, 1);
         }
+        .filters-state-popover-body {
+          font-size: 14px;
+          line-height: 22px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .filters-state-popover-btn {
+          color: #80C5ED;
+          cursor: pointer
+        }
 
+        .filters-state-popover-titles-container {
+          display: flex;
+          flex-direction: column;
+          margin-top: -6px;
+        }
+        .filters-state-popover-single-title-container {
+          margin-top: 9px;
+          font-size: 12px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+          padding: 1px 8px;
+          border: 1px solid #385775;
+          border-radius: 4px;
+        }
 
-        //- .jsgrid-filter-wrapper {width:100%; display:flex; justify-content: flex-end;}
+        .filters-state-popover-filter-title {
+          margin: 0;
+          padding-bottom: 2px;
+          white-space: nowrap;
+        }
+        .filters-state-popover-filter-delete {
+          margin-left: 5px;
+          width: 80%;
+          cursor: pointer;
+        }
+        .ui-sortable .item{
+          user-select: none;
+          cursor: pointer;
+        }
+         .jsgrid-filter-wrapper {width:100%; display:flex; justify-content: flex-end;}
         .jsgrid-header-sortable::before { float: right; margin-top: 8px; border-top-color: #80c5ed; border-bottom-color: #80c5ed;}
         .jsgrid-table { font-size: 0.8em}
         .jsgrid-filter-row > .jsgrid-cell { background: #142333; border-color: #30485c }
@@ -62,9 +103,6 @@ html(lang='en')
         .jsgrid-row:hover > .jsgrid-cell, .jsgrid-alt-row:hover > .jsgrid-cell, .jsgrid-nodata-row:hover > .jsgrid-cell {
           background: #2A445E;}
 
-       
-    
-
         .overflow-x { overflow-x: scroll; }
         .jsgrid-grid-body { overflow-x: visible; }
         .jsgrid-grid-header, .jsgrid-grid-body { border-color: #30485c; overflow-y: auto; }
@@ -74,7 +112,7 @@ html(lang='en')
 
         ol.breadcrumb { background: none; margin: 0; }
         ol.breadcrumb li a { text-decoration: none; }
-        #clear-filters {
+        #filters-state-button {
           width: 32px;
           height: 32px;
           border: none;
