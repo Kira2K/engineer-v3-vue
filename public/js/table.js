@@ -21,7 +21,7 @@ $(() => {
   fields.map((el) => {
     el.headerTemplate = `${el.title}<i class="fal fa-arrow-up sort-arrow float-right" /></i>
     <i class="fal fa-arrow-down sort-arrow float-right sort-arrow" /></i>
-    <i class="fal fa-arrow-initial sort-arrow fa-arrows-v float-right"></i>`;
+    <i class="fas fa-sort fa-arrow-initial sort-arrow float-right"></i>`;
   });
   const urlSearchParams = new URLSearchParams(window.location.search);
   const query = Object.fromEntries(urlSearchParams.entries());
