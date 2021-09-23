@@ -100,6 +100,16 @@ $(() => {
       autoload: true,
       sorting: true,
       paging: true,
+      headercss: "test",
+      headerTemplate: function () {
+        return {
+          title: "Тип",
+          name: "nomenclatureType",
+          type: "text",
+          width: 220,
+          headerTemplate: `Тип<i class="fal fa-sort float-right" /><i class="fal fa-sort-up float-right" /><i class="fal fa-sort-down float-right" />`,
+        };
+      },
       loadMessage: "Загрузка...",
       noDataContent: "Нет данных",
       pagerContainer: "#externalPager",
@@ -176,7 +186,6 @@ $(() => {
           });
         hideAllPopovers();
       });
-
       popover.append(
         '<p class="filters-state-popover-btn" id="clear-sorting">Сбросить сортировку</p>'
       );
@@ -295,7 +304,7 @@ $(() => {
         `<i id= "filter-${el.name}" class="filter fal fa-filter p-1" data-toggle="popover" title=" " data-content=" " />`
       );
 
-      $(headers[id]).append(filterSingle);
+      $(headers[id]).prepend(filterSingle);
 
       filterSingle.popover({
         html: true,

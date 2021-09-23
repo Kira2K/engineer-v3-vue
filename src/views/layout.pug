@@ -58,9 +58,21 @@ html(lang='en')
         }
         .filters-state-popover-btn {
           color: #80C5ED;
-          cursor: pointer
+          cursor: pointer;
+          margin-bottom: 0px;
         }
-
+        .filters-state-popover-btn:hover {
+          color:#73D0F5
+        }
+        
+        #clear-filters {
+          padding-bottom: 8px;
+          border-bottom: 1px solid #80C5ED;
+        }
+        #clear-sorting {
+          margin-top: 8px;
+          margin-bottom: 16px;
+        }
         .filters-state-popover-titles-container {
           display: flex;
           flex-direction: column;
@@ -96,7 +108,7 @@ html(lang='en')
         .jsgrid-header-sortable::before { float: right; margin-top: 8px; border-top-color: #80c5ed; border-bottom-color: #80c5ed;}
         .jsgrid-table { font-size: 0.8em}
         .jsgrid-filter-row > .jsgrid-cell { background: #142333; border-color: #30485c }
-        .jsgrid-header-row > .jsgrid-header-cell { background: #142333; border-color: #30485c }
+        .jsgrid-header-row > .jsgrid-header-cell { background: #142333; border-color: #30485c;color: #80C5ED; }
 
         .jsgrid-row > .jsgrid-cell, .jsgrid-alt-row > .jsgrid-cell, .jsgrid-nodata-row > .jsgrid-cell { border-color: #30485c; background: #213345 }
 
@@ -106,9 +118,9 @@ html(lang='en')
         .overflow-x { overflow-x: scroll; }
         .jsgrid-grid-body { overflow-x: visible; }
         .jsgrid-grid-header, .jsgrid-grid-body { border-color: #30485c; overflow-y: auto; }
-        .jsgrid-pager-page, .jsgrid-pager-nav-button { color: #73D0F5; border: 1px solid #73D0F5; margin: 2px; border-radius: 5px; font-weight: 700; }
-        .jsgrid-pager-page a, .jsgrid-pager-nav-button a { text-decoration: none; }
-        .jsgrid-pager-current-page { background-color: #73D0F5; color: #213345; }
+        .jsgrid-pager-page, .jsgrid-pager-nav-button { color: #73D0F5; border: 1px solid #385775; margin: 2px; border-radius: 5px; font-weight: 400; }
+        .jsgrid-pager-page a, .jsgrid-pager-nav-button a { text-decoration: none;color:#C9EBFF }
+        .jsgrid-pager-current-page { border: 1px solid #73D0F5; color: #73D0F5; }
 
         ol.breadcrumb { background: none; margin: 0; }
         ol.breadcrumb li a { text-decoration: none; }
@@ -128,6 +140,24 @@ html(lang='en')
           padding: 0px 6.5px 0px 6px;  
           border-radius: 8px;
         }
+
+        .jsgrid-header-sort:before {
+          content: none;
+        }
+        
+        .jsgrid-header-sortable > .fa-arrow-up:before {
+          display: none;
+        }
+        .sort-arrow {
+          margin-top: 4px;
+        }
+        .jsgrid-header-sort-asc > .fa-arrow-up:before {
+          display: block;
+        } 
+        .jsgrid-header-sort-asc > .fa-arrow-down:before {
+          display: none;
+        } 
+       
       link(rel='stylesheet', href='/plugins/icheck-bootstrap/icheck-bootstrap.min.css')
       link(rel='stylesheet', href='/plugins/jqvmap/jqvmap.min.css')
       link(rel='stylesheet', href='/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')
