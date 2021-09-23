@@ -64,7 +64,8 @@ append script
 
       fields.map(el=>{
         el.headerTemplate = `${el.title}<i class="fal fa-arrow-up sort-arrow float-right" /></i>
-        <i class="fal fa-arrow-down sort-arrow float-right sort-arrow" /></i>`
+        <i class="fal fa-arrow-down sort-arrow float-right sort-arrow" /></i>
+        <i class="fal fa-arrow-initial sort-arrow fa-arrows-v float-right"></i>`
       })
       window.fields = fields
       window.table_formatter = el => {

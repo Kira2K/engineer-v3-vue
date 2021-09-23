@@ -145,19 +145,31 @@ html(lang='en')
           content: none;
         }
         
-        .jsgrid-header-sortable > .fa-arrow-up:before {
+        .jsgrid-header-sortable > .fa-arrow-up:before,
+        .jsgrid-header-sortable > .fa-arrow-down:before {
           display: none;
         }
-        .sort-arrow {
-          margin-top: 4px;
+        .jsgrid-header-sortable >.fa-arrow-initial:before {
+          display: block;
         }
+        
         .jsgrid-header-sort-asc > .fa-arrow-up:before {
           display: block;
         } 
-        .jsgrid-header-sort-asc > .fa-arrow-down:before {
+        .jsgrid-header-sort-asc > .fa-arrow-down:before ,
+        .jsgrid-header-sort-asc > .fa-arrow-initial:before  {
           display: none;
         } 
-       
+        .jsgrid-header-sort-desc > .fa-arrow-down:before {
+          display: block;
+        } 
+        .jsgrid-header-sort-desc > .fa-arrow-up:before ,
+        .jsgrid-header-sort-desc > .fa-arrow-initial:before  {
+          display: none;
+        } 
+        .sort-arrow {
+            margin-top: 4px;
+          }
       link(rel='stylesheet', href='/plugins/icheck-bootstrap/icheck-bootstrap.min.css')
       link(rel='stylesheet', href='/plugins/jqvmap/jqvmap.min.css')
       link(rel='stylesheet', href='/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')
