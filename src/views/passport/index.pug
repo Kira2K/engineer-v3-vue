@@ -46,7 +46,7 @@ append script
     script.
       window.table_url = 'passport'
   
-      const fields = [
+      window.fields = [
         { title: "Код",               name: "id",                 type: "number", width: 70,  },
         { title: "Оборудование",      name: "nomenclatureTitle",  type: "text",   width: 240 },
         { title: "Заводской номер",   name: "factory_id",         type: "text",   width: 280 },
@@ -60,14 +60,7 @@ append script
         { title: "MO",                name: "mo",                 type: "text", width: 150 },
         { title: "Особые отметки",    name: "extra",              type: "text", width: 240 },
         { title: "Дата создания",     name: "createdAt",            type: "date", width: 160,cellRenderer: table_formatter.date },
-      ]
-
-      fields.map(el=>{
-        el.headerTemplate = `${el.title}<i class="fal fa-arrow-up sort-arrow float-right" /></i>
-        <i class="fal fa-arrow-down sort-arrow float-right sort-arrow" /></i>
-        <i class="fal fa-arrow-initial sort-arrow fa-arrows-v float-right"></i>`
-      })
-      window.fields = fields
+      ]     
       window.table_formatter = el => {
         el.nomenclatureTitle = `${el['nomenclature.title']}`
         el.mac = `${el['commissions.mac'] || ''}`
