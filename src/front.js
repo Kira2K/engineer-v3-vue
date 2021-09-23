@@ -96,7 +96,7 @@ front.set('view engine', 'pug')
 front.set('views', 'src/views')
 
 front.use(async (req, res, next) => {
-  res.locals.lastlog = await fetch(`${backendAddr}/api/log?range=%5b0%2c0%5d&sort=%5b"id","DESC"%5d`).then(res => res.json())
+  res.locals.lastlog = await fetch(`${backendAddr}/api/log?range=%5b0%2c20%5d&sort=%5b"id","DESC"%5d`).then(res => res.json())
   res.locals.moment = moment
   res.locals.query = req.query
   res.locals.i10n = i10n
