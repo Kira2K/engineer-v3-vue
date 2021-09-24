@@ -23,6 +23,17 @@ html(lang='en')
         font-weight: 400;
         }
         .content-wrapper { background: #121b25 }
+
+        #firstMenuOpenIcon{
+          transform: rotate(0deg);
+          transition: transform 0.4s linear;
+        }
+
+        #firstMenuOpenIcon.open{
+          transform: rotate(180deg);
+          transition: transform 0.4s linear;
+        }
+
         .main-footer { background: #121b25 }
         .card { border-radius: 4px }
         .card-header { background: #213345;}
@@ -55,6 +66,10 @@ html(lang='en')
 
         .popover {
           background: rgba(37, 56, 78, 1);
+          z-index: 999;
+        }
+        .select2{
+          z-index: 1000;
         }
         .popover .arrow::after{
            border-right-color: rgba(37, 56, 78, 1);
@@ -181,7 +196,10 @@ html(lang='en')
         } 
         .sort-arrow {
             margin-top: 4px;
-          }
+        }
+        .select2-container {
+          min-width:150px;
+        }
       link(rel='stylesheet', href='/plugins/icheck-bootstrap/icheck-bootstrap.min.css')
       link(rel='stylesheet', href='/plugins/jqvmap/jqvmap.min.css')
       link(rel='stylesheet', href='/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')
@@ -238,9 +256,7 @@ html(lang='en')
                 a.dropdown-item.dropdown-footer(href='/logout')
                   i.ion.ion-md-logout
                   |  Выйти
-          li.nav-item
-            a.nav-link(data-widget="control-sidebar" data-slide="true" href="#" role="button")
-              i.fas.fa-clipboard-list
+
           li.nav-item
             a.nav-link(data-widget='fullscreen', href='#', role='button')
               i.fas.fa-expand-arrows-alt
@@ -261,11 +277,11 @@ html(lang='en')
                 a.nav-link(href='/')
                   ion-icon(name='star')
                   p Домашняя страница
-              li.nav-item.menu-open
+              li.nav-item.menu-open#firstMenuOpen
                 a.nav-link
                   ion-icon(name='reader-outline')
                   p Номенклатура
-                  ion-icon(name='chevron-up-outline')
+                  i.far.fa-angle-down#firstMenuOpenIcon
                 ul.nav.nav-treeview
                   //+nav-item('nomenclatureparameter')
                   //  p Параметры номенклатуры
@@ -328,6 +344,9 @@ html(lang='en')
       footer.main-footer
         if lastlog && lastlog.length
           .float-left
+            a.nav-link.d-inline(data-widget="control-sidebar" data-slide="true" href="#" role="button")
+              i.far.fa-bell
+              
             strong Последняя операция:
             | 
             strong= `${lastlog[0].name} (${lastlog[0].email})`
@@ -405,7 +424,14 @@ html(lang='en')
       script(src='/public/js/footable.min.js')
       script(src='/public/js/dateonlypicker.js')
       script.
-        $(() => $(".select2").select2())
+        $(() =>{ 
+          $(".select2").select2()
+          //- Menu init
+          $("#firstMenuOpen").click(()=>{
+            console.log('do')
+            $('#firstMenuOpenIcon').toggleClass('open')
+          })
+            })
       if errors
         script.
           $(() => {
@@ -435,5 +461,6 @@ html(lang='en')
                 'class': 'bg-success'
               })
             }
+            
           })
 
