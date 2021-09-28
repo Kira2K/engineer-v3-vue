@@ -3,8 +3,8 @@ extends ../layout.pug
 block body
   .card
     .card-header
-       h3.card-title Модели номенклатуры
-       a.float-right.btn.btn-success(type="button" href="/nomenclaturemodel/edit") Добавить
+       h3.card-title Производитель номенклатуры
+       a.float-right.btn.btn-success(type="button" href="/nomenclaturevendor/edit") Добавить
     .card-body
       #jsGrid
 
@@ -19,13 +19,13 @@ append script
           sorting: true,
           paging: false,
           rowClick: function(args) {
-            window.location.href=`/nomenclaturemodel/edit/${args.item.id}`
+            window.location.href=`/nomenclaturevendor/edit/${args.item.id}`
           },
           controller: {
             loadData: () => {
               var deferred = $.Deferred();
               $.ajax({
-                url: `#{env.backendAddr}/api/nomenclaturemodel`,
+                url: `#{env.backendAddr}/api/nomenclaturevendor`,
                 success: function(response) {
                   deferred.resolve(response.map(el => {
                     el.type = `${el['nt.ng.nc.id']}.${el['nt.ng.id']}.${el['nt.id']}.\t` +
@@ -39,7 +39,7 @@ append script
           },
           fields: [
             { title: "Код", name: "id" },
-            { title: "Модель", name: "title" },
+            { title: "Производитель", name: "title" },
             { title: "Родитель", name: "type" },
           ]
         })

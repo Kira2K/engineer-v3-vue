@@ -59,7 +59,7 @@ append script
       { title: "Класс",               name: "nomenclatureClass",  type: "text",   width: 220,},
       { title: "Группа",              name: "nomenclatureGroup",  type: "text",   width: 220,},
       { title: "Тип",                 name: "nomenclatureType",   type: "text",   width: 220, },
-      { title: "Модель",              name: "nomenclatureModel",  type: "text",   width: 220,},
+      { title: "Модель",              name: "nomenclaturevendor",  type: "text",   width: 220,},
       { title: "Дата создания",       name: "createdAt",          type: "date",   width: 180, cellRenderer: table_formatter.date },
     ]
 
@@ -68,7 +68,7 @@ append script
       el.nomenclatureClass = `${el['nv.nt.ng.nc.title']}`
       el.nomenclatureGroup = `${el['nv.nt.ng.title']}`
       el.nomenclatureType  = `${el['nv.nt.title']}`
-      el.nomenclatureModel = `${el['nv.title']}`
+      el.nomenclaturevendor = `${el['nv.title']}`
       return el
     }
 
