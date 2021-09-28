@@ -1,13 +1,11 @@
 erDiagram
 passport {
   string	title
-  string	factory_id
   string	serial
   string	partnumber
   dateonly	produced
   string	state
   dateonly	commissioned
-  string	provisioner
   text	extra
   ref_id	nomenclature_id
   ref_id	counterparty_id
@@ -41,15 +39,6 @@ counterparty {
   string	www
   dateonly	expiration
 }
-
-nomenclature {
-  string	title
-  string	designation
-  ref_id	unit_id
-  ref_id	nomenclature_model_id
-}
-nomenclature	}o--|| unit : ""
-nomenclature	}o--|| nomenclature_model : ""
 
 unit {
   string	title
