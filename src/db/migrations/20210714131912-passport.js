@@ -13,11 +13,6 @@ module.exports = {
 
         type: Sequelize.STRING
       },
-      factory_id: {
-        allowNull: false,
-
-        type: Sequelize.STRING
-      },
       serial: {
 
 
@@ -42,11 +37,6 @@ module.exports = {
 
 
         type: Sequelize.DATEONLY
-      },
-      provisioner: {
-
-
-        type: Sequelize.STRING
       },
       extra: {
 

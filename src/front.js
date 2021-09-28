@@ -71,8 +71,7 @@ front.use((req, res, next) => {
 })
 
 front.get('/login', keycloak.protect(), function (req, res) {
-  const cookies = cookieParser.JSONCookies(req.cookies)
-  return res.redirect(302, cookies.lastvisit || '/')
+  return res.redirect(302, req.cookies.lastvisit || '/')
 })
 
 front.get('/download/:module', async (req, res, next) => {
@@ -98,6 +97,7 @@ front.set('views', 'src/views')
 front.use(async (req, res, next) => {
   res.locals.lastlog = await fetch(`${backendAddr}/api/log?range=%5b0%2c20%5d&sort=%5b"id","DESC"%5d`).then(res => res.json())
   res.locals.moment = moment
+  res.locals.cookies = res.cookies
   res.locals.query = req.query
   res.locals.i10n = i10n
   res.locals.env = { backendAddr, frontDebug }
@@ -130,14 +130,14 @@ front.get('/:module/:action/:id', async (req, res, next) => {
 
 front.get('/nomenclature/:action/:id?', async (req, res, next) => {
   const { module, action, id } = req.params
-  res.locals.parent = await fetch(`${backendAddr}/api/nomenclaturemodel`).then(res => res.json())
+  res.locals.parent = await fetch(`${backendAddr}/api/nomenclaturevendor`).then(res => res.json())
   res.locals.unit = await fetch(`${backendAddr}/api/unit`).then(res => res.json())
   res.locals.nomenclatureparameter = await fetch(`${backendAddr}/api/nomenclatureparameter`).then(res => res.json())
   res.locals.enabledparameters = !id ? [] : await fetch(`${backendAddr}/api/enabledparameter?filter=%7b"nomenclatureId":${id}%7d`).then(res => res.json())
   next()
 })
 
-front.get('/nomenclaturemodel/:action/:id?', async (req, res, next) => {
+front.get('/nomenclaturevendor/:action/:id?', async (req, res, next) => {
   res.locals.parent = await fetch(`${backendAddr}/api/nomenclaturetype`).then(res => res.json())
   next()
 })

@@ -1,7 +1,7 @@
 'use strict';
 
 const src = 'nomenclature';
-const fields = 'unit_id, nomenclature_model_id, id, title'
+const fields = 'unit_id, id, nomenclature_vendor_id, model'
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

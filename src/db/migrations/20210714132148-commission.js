@@ -9,17 +9,17 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       commission_id: {
-        allowNull: false,
+
 
         type: Sequelize.STRING
       },
       commissioned: {
-        allowNull: false,
+
 
         type: Sequelize.DATEONLY
       },
       inventory_id: {
-        allowNull: false,
+
 
         type: Sequelize.STRING
       },

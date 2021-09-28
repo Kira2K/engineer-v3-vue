@@ -32,26 +32,17 @@ module.exports = (sequelize, DataTypes) => {
     commission_id: {
       type: DataTypes.STRING,
 
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
+
     },
     commissioned: {
       type: DataTypes.DATEONLY,
 
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
+
     },
     inventory_id: {
       type: DataTypes.STRING,
 
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
+
     },
     ip: {
       type: DataTypes.STRING,

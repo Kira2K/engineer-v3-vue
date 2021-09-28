@@ -1,6 +1,6 @@
 'use strict';
 
-const src = 'nomenclature_model';
+const src = 'nomenclature_vendor';
 const fields = 'nomenclature_type_id, id, title'
 
 module.exports = {

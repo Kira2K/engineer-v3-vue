@@ -1,7 +1,7 @@
 'use strict';
 
 const src = 'passport';
-const fields = 'factory_id, extra, nomenclature_id, created_at, produced, counterparty_id'
+const fields = 'extra, nomenclature_id, created_at, produced, counterparty_id'
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
             model: models.nomenclature.unscoped(),
             include: [
               {
+                model: models.nomenclature_vendor.unscoped(),
+                as: 'nv',
+              },
+              {
                 model: models.unit.unscoped(),
               },
             ]
@@ -53,14 +57,6 @@ module.exports = (sequelize, DataTypes) => {
 
 
     },
-    factory_id: {
-      type: DataTypes.STRING,
-
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
     serial: {
       type: DataTypes.STRING,
 
@@ -86,13 +82,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     commissioned: {
       type: DataTypes.DATEONLY,
-
-      validate: {
-        notEmpty: true
-      }
-    },
-    provisioner: {
-      type: DataTypes.STRING,
 
 
     },

@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('nomenclature_model', {
+    await queryInterface.createTable('nomenclature_vendor', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -36,13 +36,13 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-    await queryInterface.addConstraint('nomenclature_model', {
+    await queryInterface.addConstraint('nomenclature_vendor', {
       fields: ["title","nomenclature_type_id"],
       type: 'unique',
     });
 
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('nomenclature_model');
+    await queryInterface.dropTable('nomenclature_vendor');
   }
 };
