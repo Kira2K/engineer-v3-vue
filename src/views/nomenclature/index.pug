@@ -13,7 +13,7 @@ block body
                 span(aria-hidden="true") &times;
             .modal-body
               ul#cols_order.list-group
-                li.list-group-item.hr.inactive-zone Незакрепленная область
+                li.list-group-item.hr.inactive-zone Скрытая область
 
             .modal-footer
               
@@ -30,7 +30,7 @@ block body
       .float-right
         a.btn.btn-success(type="button" href="/nomenclature/edit")
           i.far.fa-plus-circle
-          |  Добавить
+          span.add-btn-text|  Добавить
         | &nbsp; 
         a.btn.btn-primary(type="button" href="/download/nomenclature")
           i.fa.fa-file-excel   
@@ -50,14 +50,15 @@ append script
 
     window.table_url = 'nomenclature'
 
-    window.fields = [
+    window.fields =
+    [
       { title: "Код",                 name: "id",                 type: "number", width: 70, },
       { title: "Обозначение",         name: "designation",        type: "text",   width: 140 },
       { title: "Наименование",        name: "title",              type: "text",   width: 280 },
-      { title: "Ед изм.",             name: "unitId",             type: "text",   width: 90,},
+      { title: "Ед изм.",             name: "unitId",             type: "text",   width: 110,},
       { title: "Класс",               name: "nomenclatureClass",  type: "text",   width: 220,},
       { title: "Группа",              name: "nomenclatureGroup",  type: "text",   width: 220,},
-      { title: "Тип",                 name: "nomenclatureType",   type: "text",   width: 220,},
+      { title: "Тип",                 name: "nomenclatureType",   type: "text",   width: 220, },
       { title: "Модель",              name: "nomenclatureModel",  type: "text",   width: 220,},
       { title: "Дата создания",       name: "createdAt",          type: "date",   width: 180, cellRenderer: table_formatter.date },
     ]

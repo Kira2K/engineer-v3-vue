@@ -23,6 +23,17 @@ html(lang='en')
         font-weight: 400;
         }
         .content-wrapper { background: #121b25 }
+
+        #firstMenuOpenIcon{
+          transform: rotate(0deg);
+          transition: transform 0.4s linear;
+        }
+
+        #firstMenuOpenIcon.open{
+          transform: rotate(180deg);
+          transition: transform 0.4s linear;
+        }
+
         .main-footer { background: #121b25 }
         .card { border-radius: 4px }
         .card-header { background: #213345;}
@@ -41,10 +52,24 @@ html(lang='en')
         .jsgrid-header-cell {font-weight: 700;}
         .jsgrid-header-sortable .filter {
           float: right;
-          
         }
+
+        .add-btn-text {
+          display:none;
+        }
+
+        @media (min-width: 576px) {
+          .add-btn-text {
+            display:inline; 
+          } 
+        } 
+
         .popover {
           background: rgba(37, 56, 78, 1);
+          z-index: 999;
+        }
+        .select2{
+          z-index: 1000;
         }
         .popover .arrow::after{
            border-right-color: rgba(37, 56, 78, 1);
@@ -58,9 +83,21 @@ html(lang='en')
         }
         .filters-state-popover-btn {
           color: #80C5ED;
-          cursor: pointer
+          cursor: pointer;
+          margin-bottom: 0px;
         }
-
+        .filters-state-popover-btn:hover {
+          color:#73D0F5
+        }
+        
+        #clear-filters {
+          padding-bottom: 8px;
+          border-bottom: 1px solid #80C5ED;
+        }
+        #clear-sorting {
+          margin-top: 8px;
+          margin-bottom: 16px;
+        }
         .filters-state-popover-titles-container {
           display: flex;
           flex-direction: column;
@@ -96,7 +133,7 @@ html(lang='en')
         .jsgrid-header-sortable::before { float: right; margin-top: 8px; border-top-color: #80c5ed; border-bottom-color: #80c5ed;}
         .jsgrid-table { font-size: 0.8em}
         .jsgrid-filter-row > .jsgrid-cell { background: #142333; border-color: #30485c }
-        .jsgrid-header-row > .jsgrid-header-cell { background: #142333; border-color: #30485c }
+        .jsgrid-header-row > .jsgrid-header-cell { background: #142333; border-color: #30485c;color: #80C5ED; }
 
         .jsgrid-row > .jsgrid-cell, .jsgrid-alt-row > .jsgrid-cell, .jsgrid-nodata-row > .jsgrid-cell { border-color: #30485c; background: #213345 }
 
@@ -106,9 +143,9 @@ html(lang='en')
         .overflow-x { overflow-x: scroll; }
         .jsgrid-grid-body { overflow-x: visible; }
         .jsgrid-grid-header, .jsgrid-grid-body { border-color: #30485c; overflow-y: auto; }
-        .jsgrid-pager-page, .jsgrid-pager-nav-button { color: #73D0F5; border: 1px solid #73D0F5; margin: 2px; border-radius: 5px; font-weight: 700; }
-        .jsgrid-pager-page a, .jsgrid-pager-nav-button a { text-decoration: none; }
-        .jsgrid-pager-current-page { background-color: #73D0F5; color: #213345; }
+        .jsgrid-pager-page, .jsgrid-pager-nav-button { color: #73D0F5; border: 1px solid #385775; margin: 2px; border-radius: 5px; font-weight: 400; }
+        .jsgrid-pager-page a, .jsgrid-pager-nav-button a { text-decoration: none;color:#C9EBFF }
+        .jsgrid-pager-current-page { border: 1px solid #73D0F5; color: #73D0F5; }
 
         ol.breadcrumb { background: none; margin: 0; }
         ol.breadcrumb li a { text-decoration: none; }
@@ -127,6 +164,43 @@ html(lang='en')
           background-color: #28a745;
           padding: 0px 6.5px 0px 6px;  
           border-radius: 8px;
+        }
+        .select2-selection__rendered {
+          padding-top:5px;
+        }
+        .jsgrid-header-sort:before {
+          content: none;
+        }
+        .fal.fa-calendar {
+          color: #718EAB;
+        }
+        .jsgrid-header-sortable > .fa-arrow-up:before,
+        .jsgrid-header-sortable > .fa-arrow-down:before {
+          display: none;
+        }
+        .jsgrid-header-sortable >.fa-arrow-initial:before {
+          display: block;
+        }
+        
+        .jsgrid-header-sort-asc > .fa-arrow-up:before {
+          display: block;
+        } 
+        .jsgrid-header-sort-asc > .fa-arrow-down:before ,
+        .jsgrid-header-sort-asc > .fa-arrow-initial:before  {
+          display: none;
+        } 
+        .jsgrid-header-sort-desc > .fa-arrow-down:before {
+          display: block;
+        } 
+        .jsgrid-header-sort-desc > .fa-arrow-up:before ,
+        .jsgrid-header-sort-desc > .fa-arrow-initial:before  {
+          display: none;
+        } 
+        .sort-arrow {
+            margin-top: 4px;
+        }
+        .select2-container {
+          min-width:150px;
         }
       link(rel='stylesheet', href='/plugins/icheck-bootstrap/icheck-bootstrap.min.css')
       link(rel='stylesheet', href='/plugins/jqvmap/jqvmap.min.css')
@@ -184,9 +258,7 @@ html(lang='en')
                 a.dropdown-item.dropdown-footer(href='/logout')
                   i.ion.ion-md-logout
                   |  Выйти
-          li.nav-item
-            a.nav-link(data-widget="control-sidebar" data-slide="true" href="#" role="button")
-              i.fas.fa-clipboard-list
+
           li.nav-item
             a.nav-link(data-widget='fullscreen', href='#', role='button')
               i.fas.fa-expand-arrows-alt
@@ -207,11 +279,11 @@ html(lang='en')
                 a.nav-link(href='/')
                   ion-icon(name='star')
                   p Домашняя страница
-              li.nav-item.menu-open
+              li.nav-item.menu-open#firstMenuOpen
                 a.nav-link
                   ion-icon(name='reader-outline')
                   p Номенклатура
-                  ion-icon(name='chevron-up-outline')
+                  i.far.fa-angle-down#firstMenuOpenIcon
                 ul.nav.nav-treeview
                   //+nav-item('nomenclatureparameter')
                   //  p Параметры номенклатуры
@@ -274,6 +346,9 @@ html(lang='en')
       footer.main-footer
         if lastlog && lastlog.length
           .float-left
+            a.nav-link.d-inline(data-widget="control-sidebar" data-slide="true" href="#" role="button")
+              i.far.fa-bell
+              
             strong Последняя операция:
             | 
             strong= `${lastlog[0].name} (${lastlog[0].email})`
@@ -351,7 +426,14 @@ html(lang='en')
       script(src='/public/js/footable.min.js')
       script(src='/public/js/dateonlypicker.js')
       script.
-        $(() => $(".select2").select2())
+        $(() =>{ 
+          $(".select2").select2()
+          //- Menu init
+          $("#firstMenuOpen").click(()=>{
+            console.log('do')
+            $('#firstMenuOpenIcon').toggleClass('open')
+          })
+            })
       if errors
         script.
           $(() => {
@@ -381,5 +463,6 @@ html(lang='en')
                 'class': 'bg-success'
               })
             }
+            
           })
 

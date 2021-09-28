@@ -18,6 +18,11 @@ window.table_filter = (filter) => (row) =>
 $(() => {
   // GLOBAL STATE & INIT
   let { fields } = window;
+  fields.map((el) => {
+    el.headerTemplate = `${el.title}<i class="fal fa-arrow-up sort-arrow float-right" /></i>
+    <i class="fal fa-arrow-down sort-arrow float-right sort-arrow" /></i>
+    <i class="fas fa-sort fa-arrow-initial sort-arrow float-right"></i>`;
+  });
   const urlSearchParams = new URLSearchParams(window.location.search);
   const query = Object.fromEntries(urlSearchParams.entries());
 
@@ -89,7 +94,7 @@ $(() => {
   })();
 
   // GRID load & render
-  let data;
+  let tableData;
 
   (() => {
     $("#jsGrid").jsGrid({
@@ -118,16 +123,17 @@ $(() => {
         loadData: (filter) => {
           const deferred = $.Deferred();
 
-          if (data) {
-            return data.filter(window.table_filter(filter));
+          if (tableData) {
+            return tableData.filter(window.table_filter(filter));
           }
           $.ajax({
             url: `${window.backend_addr}/api/${window.table_url}?range=%5B0%2C1000000%5D`,
             success(response) {
-              deferred.resolve((data = response.map(window.table_formatter)));
+              
+              deferred.resolve((tableData = response.map(window.table_formatter)));
             },
           });
-
+          
           return deferred.promise();
         },
       },
@@ -166,8 +172,8 @@ $(() => {
         activeFiltersAmount = 0;
         $(".filter").removeClass("fas fa-filter").addClass("fal fa-filter");
 
-        let onlySort = $("#jsGrid").jsGrid("getSorting");
-        console.log(onlySort);
+        const onlySort = $("#jsGrid").jsGrid("getSorting");
+
         localStorage.setItem("filterParams", JSON.stringify(onlySort));
         $("#jsGrid")
           .jsGrid("loadData", onlySort)
@@ -176,7 +182,6 @@ $(() => {
           });
         hideAllPopovers();
       });
-
       popover.append(
         '<p class="filters-state-popover-btn" id="clear-sorting">Сбросить сортировку</p>'
       );
@@ -189,9 +194,9 @@ $(() => {
         allFilters.order = undefined;
         allFilters.sortField = undefined;
         allFilters.sortOrder = undefined;
-        localStorage.setItem("filterParams", JSON.stringify(onlySort));
+        localStorage.setItem("filterParams", JSON.stringify(allFilters));
         $("#jsGrid")
-          .jsGrid("loadData", onlySort)
+          .jsGrid("loadData", allFilters)
           .done(() => {
             $("#jsGrid").jsGrid("refresh");
           });
@@ -242,10 +247,22 @@ $(() => {
     const headers = $(".jsgrid-header-sortable");
     const initInputByField = (field) => {
       const { name } = field;
+
       const maybeParams = localStorage.getItem("filterParams");
 
       const excistingParams = maybeParams ? JSON.parse(maybeParams) : {};
+      const initialValue = excistingParams[name] || "";
 
+      const options = tableData.map(el=> el[field.name]).filter((el, n, all)=> all.indexOf(el)==n).map(el=>  `<option value="${el}">${el}</option>`)
+      
+      const singleSelect = `
+      <div class="form-group">
+        <label for="${name}">${field.title}</label>
+          <select  class="select form-control select2 select2popover"name="${name}" id="select-${name}" >
+          ${options}
+          </select>
+      </div>
+      `
       const initFilterButton = $(
         '<button class="btn mb-3 float-right">Применить</button>'
       );
@@ -254,20 +271,14 @@ $(() => {
       popover.click((event) => {
         event.stopPropagation();
       });
-      const initialValue = excistingParams[name] || "";
-
-      const textInput = `<div class="form-group">
-                <label for="key">
-                  <input class="form-control" id="input-${name}" name="input-${name}" type="text" placeholder="поиск по названию..."value="${initialValue}">
-                </label>
-              </div>`;
+      
 
       $(initFilterButton).click(() => {
-        let inputValue = $(`#input-${name}`).val();
-
+        // let inputValue = $(`#input-${name}`).val();
+        let selectValue = $(`#select-${name}`).val();
         if (field.type == "number") inputValue = Number(inputValue);
 
-        excistingParams[name] = inputValue;
+        excistingParams[name] = selectValue;
 
         $("#jsGrid")
           .jsGrid("loadData", excistingParams)
@@ -286,23 +297,31 @@ $(() => {
         activeFiltersArr.push({ name, title: field.title });
         $(`#filter-${name}`).popover("hide");
       });
-      $(popover).append(textInput);
+      $(popover).append(singleSelect);
+      
+      $(".select2popover").select2({
+        placeholder: 'поиск по названию...',
+        dropdownParent:$(`#popover-body-${name}`)
+      })
+      $('.text-field-container').click((event) => {
+        event.stopPropagation();
+      });
       $(popover).append(initFilterButton);
     };
 
     window.fields.map((el, id) => {
       const filterSingle = $(
-        `<i id= "filter-${el.name}" class="filter fal fa-filter p-1" data-toggle="popover" title=" " data-content=" " />`
+        `<i id= "filter-${el.name}" class="filter fal fa-filter p-1" data-toggle="popover" title=" " data-content=" "/>`
       );
 
-      $(headers[id]).append(filterSingle);
+      $(headers[id]).prepend(filterSingle);
 
       filterSingle.popover({
         html: true,
-        template: `<div class="popover" id="popover-${el.name}" role="tooltip">
+        template: `<div class="popover"  role="tooltip">
                   <div class="arrow"></div>
                   <h3 class="popover-header">Фильтр для ${el.title}</h3>
-                  <div class="popover-body popover-body-filter-single">Тест</div>
+                  <div class="popover-body popover-body-filter-single"id="popover-body-${el.name}">Тест</div>
                 </div>`,
       });
       filterSingle.click((event) => {

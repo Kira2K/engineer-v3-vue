@@ -14,7 +14,7 @@ block body
                 span(aria-hidden="true") &times;
             .modal-body
               ul#cols_order.list-group
-                li.list-group-item.hr.inactive-zone Незакрепленная область
+                li.list-group-item.hr.inactive-zone Скрытая область
 
             .modal-footer
               
@@ -22,7 +22,7 @@ block body
               button.btn.btn-secondary(type="button" data-dismiss="modal") Отмена
               button#cols_apply.btn.btn-primary(type="button") Применить
 
-  .card
+  .card#make-me-table-width
     .card-header
       .float-left 
         button#filters-state-button.btn.btn-primary.d-flex.justify-content-center.align-items-center(data-toggle="popover" title=" " data-content=" ")
@@ -31,7 +31,7 @@ block body
       .float-right
         a.btn.btn-success(type="button" href="/passport/edit")
           i.far.fa-plus-circle
-          |  Добавить
+          span.add-btn-text|  Добавить
         | &nbsp; 
         a.btn.btn-primary(type="button" href="/download/nomenclature")
           i.fa.fa-file-excel   
@@ -46,21 +46,21 @@ append script
     script.
       window.table_url = 'passport'
   
-      var fields = [
+      window.fields = [
         { title: "Код",               name: "id",                 type: "number", width: 70,  },
         { title: "Оборудование",      name: "nomenclatureTitle",  type: "text",   width: 240 },
         { title: "Заводской номер",   name: "factory_id",         type: "text",   width: 280 },
         { title: "Сер. №",            name: "serial",             type: "text", },
         { title: "№ партии",          name: "partnumber",         type: "text", width: 120},
-        { title: "Изготовлен",        name: "produced",           type: "date",   width: 110,cellRenderer: table_formatter.date  },
-        { title: "Состояние",         name: "state",              type: "text", },
+        { title: "Изготовлен",        name: "produced",           type: "date",   width: 130,cellRenderer: table_formatter.date  },
+        { title: "Состояние",         name: "state",              type: "text", width: 150 },
         { title: "Изотовитель",       name: "provisioner",        type: "text", width: 130},
         { title: "MAC адрес",         name: "mac",                type: "text", width: 120 },
         { title: "IP адрес",          name: "ip",                 type: "text", },
         { title: "MO",                name: "mo",                 type: "text", width: 150 },
         { title: "Особые отметки",    name: "extra",              type: "text", width: 240 },
         { title: "Дата создания",     name: "createdAt",            type: "date", width: 160,cellRenderer: table_formatter.date },
-      ]
+      ]     
       window.table_formatter = el => {
         el.nomenclatureTitle = `${el['nomenclature.title']}`
         el.mac = `${el['commissions.mac'] || ''}`
