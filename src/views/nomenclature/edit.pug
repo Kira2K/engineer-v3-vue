@@ -23,7 +23,7 @@ block body
           - unit.map(el => el['__title'] = el.title + ' (' + el.short + ')')
           +select_required('unitId', 'Единица измерения', unit)
         .col-xl-4
-          +input_required('model', 'Модель')
+          +input_required('model', 'Производитель')
         .col-xl-4
           +input('vendor_id', 'Артикул')
       .row
