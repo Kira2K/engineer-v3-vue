@@ -1,9 +1,9 @@
 npx sequelize-cli db:create
 npx sequelize-cli init
 rm config/config.json
-npx sequelize-cli model:generate --name Nomenclature --attributes title:string,designation:string,unitID:integer,nomenclatureModelID:integer
+npx sequelize-cli model:generate --name Nomenclature --attributes title:string,designation:string,unitID:integer,nomenclaturevendorID:integer
 npx sequelize-cli model:generate --name Unit --attributes title:string,short:string
-npx sequelize-cli model:generate --name NomenclatureModel --attributes title:string,nomenclatureTypeID:integer
+npx sequelize-cli model:generate --name nomenclaturevendor --attributes title:string,nomenclatureTypeID:integer
 npx sequelize-cli model:generate --name NomenclatureType --attributes title:string,nomenclatureGroupID:integer
 npx sequelize-cli model:generate --name NomenclatureGroup --attributes title:string,nomenclatureClassID:integer
 npx sequelize-cli model:generate --name NomenclatureClass --attributes title:string
