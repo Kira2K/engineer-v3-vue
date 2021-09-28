@@ -1,12 +1,12 @@
 erDiagram
 nomenclature {
-  string	title
-  string	designation
+  string	model
+  string	vendor_id
   ref_id	unit_id
-  ref_id	nomenclature_model_id
+  ref_id	nomenclature_vendor_id
 }
 nomenclature	}o--|| unit : ""
-nomenclature	}o--|| nomenclature_model : ""
+nomenclature	}o--|| nomenclature_vendor : ""
 
 nomenclature_parameter {
   string	title
@@ -42,9 +42,9 @@ nomenclature_type {
 }
 nomenclature_type	}o--|| nomenclature_group : ""
 
-nomenclature_model {
+nomenclature_vendor {
   string	title
   ref_id	nomenclature_type_id
 }
-nomenclature_model	}o--|| nomenclature_type : ""
+nomenclature_vendor	}o--|| nomenclature_type : ""
 

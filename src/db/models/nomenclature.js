@@ -7,13 +7,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.unit.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
       this.belongsTo(models.unit);
-      models.nomenclature_model.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
-      this.belongsTo(models.nomenclature_model, { foreignKey: 'nomenclature_model_id', as: 'nm' });
+      models.nomenclature_vendor.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
+      this.belongsTo(models.nomenclature_vendor, { foreignKey: 'nomenclature_vendor_id', as: 'nv' });
 
       this.addScope('defaultScope', {
         include: [{
-          model: models.nomenclature_model.unscoped(),
-          as: 'nm',
+          model: models.nomenclature_vendor.unscoped(),
+          as: 'nv',
           include: {
             model: models.nomenclature_type.unscoped(),
             as: 'nt',
@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    title: {
+    model: {
       type: DataTypes.STRING,
 
       allowNull: false,
@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
-    designation: {
+    vendor_id: {
       type: DataTypes.STRING,
 
 

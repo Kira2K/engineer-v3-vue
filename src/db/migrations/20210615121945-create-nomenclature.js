@@ -8,12 +8,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
+      model: {
         allowNull: false,
 
         type: Sequelize.STRING
       },
-      designation: {
+      vendor_id: {
 
 
         type: Sequelize.STRING
@@ -26,11 +26,11 @@ module.exports = {
           model: 'unit'
         }
       },
-      nomenclature_model_id: {
+      nomenclature_vendor_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'nomenclature_model'
+          model: 'nomenclature_vendor'
         }
       },
 
@@ -49,7 +49,7 @@ module.exports = {
       }
     });
     await queryInterface.addConstraint('nomenclature', {
-      fields: ["title","nomenclature_model_id"],
+      fields: ["model","nomenclature_vendor_id"],
       type: 'unique',
     });
 

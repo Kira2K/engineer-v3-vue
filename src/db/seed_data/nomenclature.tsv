@@ -1,103 +1,103 @@
-35	1	1	Prisma-Flex (Gambro)
-35	7	7	Innova (Gambro)
-35	12	12	Philips_CardioMon (Philips)
-35	13	13	Draeger_Cardio_Monitor (Draeger)
-35	14	14	BBraun (B. Braun)
-35	18	18	Philips_IntelliVue (Philips)
-35	20	20	AK 200 (Gambro)
-35	21	21	AK 200 ULTRA (Gambro)
-35	22	22	AK 200 S (Gambro)
-35	23	23	AK 200 ULTRA S (Gambro)
-35	25	25	Phoenix (Gambro)
-35	26	26	Artis (Gambro)
-35	27	27	BBraun_Dialog+ (B. Braun)
-35	29	29	Baxter AK-98 (Gambro)
-35	31	31	ServoI-LungVentilation (Maquet)
-35	32	32	LungVentilation Draeger (Draeger)
-35	33	33	Draeger_MediBus_device (Draeger)
-35	34	34	GraphNet LungVentilation (GraphNet)
-35	50	50	Giga-Tek card reader (GIGA)
-35	51	51	SyncAPI_card_reader (Др.)
-35	52	52	CardReaderDetect (diacareSoft)
-35	53	53	Jokoh ExDx (Jokoh)
-35	55	55	Stago ST_Art 4 (Stago)
-35	56	56	Dixion VesterLight (Dixion)
-35	57	57	Siemens_RapidPoint_500 (Siemens)
-35	58	58	LisaScan (Erba)
-35	59	59	Photometer_iMark (Bio-Rad)
-35	60	60	Lou_Import (Др.)
-35	61	61	Sysmex_CA-50 (Sysmex)
-35	62	62	Erba_LauraSmart (Erba)
-35	63	63	Erba (Diatron) Elite5 (Erba)
-35	64	64	Внешняя лаборатория (Др.)
-35	65	65	Анализатор Erba_xl200 (Erba)
-35	66	66	Анализатор Opti Lion (OPTI)
-35	67	67	Sysmex XS-1000i/XS-800i (Sysmex)
-35	68	68	Roche Cobas_c111 (Roche)
-35	69	69	Roche_Reflotron_Plus (Roche)
-35	70	70	Roche_AVL_Electrolyte_Analyzer (Roche)
-35	71	71	Radiometer_Analyzer (Radiometer)
-35	72	72	Bayer_Advia60_Blood_Analyzer (Bayer)
-35	73	73	Bayer_RapidLab_348_Blood_Analyzer (Bayer)
-35	74	74	Biochem_Analette (High_Technology)
-35	75	75	Horiba ABX - Pentra 400 (HoribaABX)
-35	76	76	Cobas_x21 (Roche)
-35	77	77	Roche Urisys - Urine analyzer (Roche)
-35	78	78	Sysmex_pocH_100i (Sysmex)
-35	79	79	ASTM_device_name (Др.)
-35	80	80	CipherLab_1500 (CipherLab)
-35	81	81	GlobalVent_Climate (ГлобалВент)
-35	82	82	SiemensOZW771 (Siemens)
-35	83	83	SiemensRMU (Siemens)
-35	84	84	HVAC_Modbus (Siemens)
-35	86	86	Carel_pCOmini (Carel)
-35	87	87	HVAC_Corrigo (Regin)
-35	88	88	HVAC_Segnetics (Segnetic)
-35	89	89	HVAC_Spora (diacareSoft)
-35	90	90	WeightMachine (Soehnle)
-35	200	200	Mitsubishi_FX1s_controller (Mitsubishi)
-35	300	300	AND_TM265x (A&D)
-35	310	310	InBody BPBIO 320 (InBody)
-35	500	500	MS6503 (MASTECH)
-35	510	510	IVTM7 (Eksis)
-35	550	550	Seneca_Z8AI (SENECA)
-35	700	700	BeamMedMiniOmni (BeamMed)
-35	800	800	Button (Др.)
-35	900	900	Speaker (Др.)
-35	1201	1201	VividE (GEHealthcare)
-35	1300	1300	IPPhone (Др.)
-35	1500	1500	Medas (МЕДАСС)
-35	1501	1501	MAGT (diacareSoft)
-35	1599	1599	MAGT. (diacareSoft)
-35	1600	1600	Nipro55_Dialysis (Nipro)
-35	1650	1650	Nipro Surdial X (Nipro)
-35	1700	1700	Phoenix_OneDS (Nipro PW)
-35	1900	1900	UPT2010 (Algodue)
-35	1910	1910	Mercury230 (Mercury)
-35	1920	1920	EnergomeraCE301 (Энергомера)
-35	1930	1930	Schneider_iEM32XX_ (Schneider)
-35	2000	2000	Mitsubishi_FX3U (Mitsubishi)
-35	2100	2100	Teplomer_VKE_1K1_Calorimeter (Тепломер)
-35	2300	2300	Provita (проВИТА)
-35	2400	2400	X-ray Remodix (Dixion)
-35	2500	2500	MedNord (MedNord)
-35	2600	2600	Timol_KM5 (Тимол)
-35	2700	2700	Nikkiso Aquarius (Nikkiso)
-35	2800	2800	Desco Cube Scanner (Desco)
-35	3000	3000	YunonaWater Aqua-01 (Yunona)
-35	3100	3100	Fresenius_Dialysis (Fresenius)
-35	3200	3200	Teplomer_VKE_1K1_WaterMeter (Тепломер)
-35	3210	3210	Pulsar (Regin)
-35	3300	3300	Nikkiso_DBB_EXA (Nikkiso)
-35	3320	3320	Nikkiso_DBB_05(7) (Nikkiso)
-35	3501	3501	Ballu Machine (Ballu Machine)
-35	3502	3502	Breezart (Breezart)
-35	3503	3503	Korf (Korf)
-35	3504	3504	LITENED (LITENED)
-35	3505	3505	Vertro (Vertro)
-35	3506	3506	Lissant (Lissant)
-35	3507	3507	Rowen (Rowen)
-35	3510	3510	HVAC_Carel_XS (Carel)
-35	3520	3520	HVAC_Segnetics_Doubled_Trim5 (Segnetic)
-35	3530	3530	subHVAC_Thermokon (Thermokon)
-35	3600	3600	MS.Fit (MS.Fit)
+35	1	103	Prisma-Flex
+35	7	1403	Innova
+35	12	255	Philips_CardioMon
+35	13	209	Draeger_Cardio_Monitor
+35	14	506	BBraun
+35	18	255	Philips_IntelliVue
+35	20	1403	AK
+35	21	1403	AK
+35	22	1403	AK
+35	23	1403	AK
+35	25	1403	Phoenix
+35	26	1403	Artis
+35	27	1406	BBraun_Dialog+
+35	29	1403	Baxter
+35	31	310	ServoI-LungVentilation
+35	32	309	LungVentilation
+35	33	309	Draeger_MediBus_device
+35	34	353	GraphNet
+35	50	601	Giga-Tek
+35	51	640	SyncAPI_card_reader
+35	52	649	CardReaderDetect
+35	53	860	Jokoh
+35	55	854	Stago
+35	56	847	Dixion
+35	57	844	Siemens_RapidPoint_500
+35	58	814	LisaScan
+35	59	841	Photometer_iMark
+35	60	840	Lou_Import
+35	61	813	Sysmex_CA-50
+35	62	814	Erba_LauraSmart
+35	63	814	Erba
+35	64	840	Внешняя
+35	65	814	Анализатор
+35	66	815	Анализатор
+35	67	813	Sysmex
+35	68	816	Roche
+35	69	816	Roche_Reflotron_Plus
+35	70	816	Roche_AVL_Electrolyte_Analyzer
+35	71	817	Radiometer_Analyzer
+35	72	818	Bayer_Advia60_Blood_Analyzer
+35	73	818	Bayer_RapidLab_348_Blood_Analyzer
+35	74	856	Biochem_Analette
+35	75	820	Horiba
+35	76	816	Cobas_x21
+35	77	816	Roche
+35	78	813	Sysmex_pocH_100i
+35	79	840	ASTM_device_name
+35	80	921	CipherLab_1500
+35	81	3422	GlobalVent_Climate
+35	82	3444	SiemensOZW771
+35	83	3444	SiemensRMU
+35	84	3444	HVAC_Modbus
+35	86	3472	Carel_pCOmini
+35	87	3461	HVAC_Corrigo
+35	88	3463	HVAC_Segnetics
+35	89	3449	HVAC_Spora
+35	90	1239	WeightMachine
+35	200	2624	Mitsubishi_FX1s_controller
+35	300	1525	AND_TM265x
+35	310	1526	InBody
+35	500	1827	MS6503
+35	510	1851	IVTM7
+35	550	1328	Seneca_Z8AI
+35	700	1929	BeamMedMiniOmni
+35	800	1740	Button
+35	900	2040	Speaker
+35	1201	2146	VividE
+35	1300	2240	IPPhone
+35	1500	2533	Medas
+35	1501	2549	MAGT
+35	1599	2549	MAGT.
+35	1600	1402	Nipro55_Dialysis
+35	1650	1402	Nipro
+35	1700	2634	Phoenix_OneDS
+35	1900	2935	UPT2010
+35	1910	2952	Mercury230
+35	1920	2937	EnergomeraCE301
+35	1930	2945	Schneider_iEM32XX_
+35	2000	2624	Mitsubishi_FX3U
+35	2100	3138	Teplomer_VKE_1K1_Calorimeter
+35	2300	3642	Provita
+35	2400	3747	X-ray
+35	2500	3848	MedNord
+35	2600	3943	Timol_KM5
+35	2700	150	Nikkiso
+35	2800	2858	Desco
+35	3000	2657	YunonaWater
+35	3100	1404	Fresenius_Dialysis
+35	3200	4038	Teplomer_VKE_1K1_WaterMeter
+35	3210	4061	Pulsar
+35	3300	1450	Nikkiso_DBB_EXA
+35	3320	1450	Nikkiso_DBB_05(7)
+35	3501	3464	Ballu
+35	3502	3465	Breezart
+35	3503	3466	Korf
+35	3504	3467	LITENED
+35	3505	3468	Vertro
+35	3506	3469	Lissant
+35	3507	3470	Rowen
+35	3510	3472	HVAC_Carel_XS
+35	3520	3463	HVAC_Segnetics_Doubled_Trim5
+35	3530	1373	subHVAC_Thermokon
+35	3600	3971	MS.Fit

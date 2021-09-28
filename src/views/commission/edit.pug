@@ -6,30 +6,17 @@ block body
     .card-header
       h3.card-title Новое закрепление
     .card-body
-      +dummy_input('id', 'Код')
+      if instance.id
+        +dummy_input('id', 'Код')
       +input('commission_id',  'Номер документа основания')
       +input('commissioned',  'Дата документа основания')
       +input('inventory_id',  'Инвентарный номер')
       +input('ip',  'IP адрес')
       +input('mac',  'MAC адрес')
-      .form-group
-        label(for="passportId") Паспорт оборудования
-        select#passportId.form-control(name="passportId")
-          option(value='') ___
-          each val in passport
-            if instance.passportId == val.id
-              option(selected value=val.id)= val.factory_id + ' (' + val['nomenclature.title'] + ')'
-            else
-              option(value=val.id)= val.factory_id + ' (' + val['nomenclature.title'] + ')'
-      .form-group
-        label(for="branchId") Подразделение
-        select#branchId.form-control(name="branchId")
-          option(value='') ___
-          each val in branch
-            if instance.branchId == val.id
-              option(selected value=val.id)= val.title
-            else
-              option(value=val.id)= val.title
+      - passport.map((el, n) => el['__title'] = `${n} ${el['nomenclature.model']} арт. ${el['nomenclature.vendor_id'] || '__'} изг. ${el['nomenclature.nv.title']}`)
+      +select2_required('passportId', 'Экземпляр борудования', passport)
+      - branch.map(el => el['__title'] = el.title)
+      +select2_required('branchId', 'Подразделение', branch)
 
     .card-footer
       if instance.id

@@ -33,7 +33,7 @@ app.use(crud('/api/pcheck', {
 }))
 app.use(crud('/api/nomenclatureclass', sequelizeCrud(db.nomenclature_class)))
 app.use(crud('/api/nomenclaturegroup', sequelizeCrud(db.nomenclature_group)))
-app.use(crud('/api/nomenclaturemodel', sequelizeCrud(db.nomenclature_model)))
+app.use(crud('/api/nomenclaturevendor', sequelizeCrud(db.nomenclature_vendor)))
 app.use(crud('/api/nomenclaturetype', sequelizeCrud(db.nomenclature_type)))
 app.use(crud('/api/nomenclature', sequelizeCrud(db.nomenclature)))
 app.use(crud('/api/nomenclatureparameter', sequelizeCrud(db.nomenclature_parameter)))
@@ -52,7 +52,7 @@ app.use(crud('/api/passports', {
     return await db.passport.findAndCountAll({ limit, offset, order,
       where,
       include: [
-        {
+/*        {
           model: db.nomenclature.unscoped(),
           where: {
             title: {
@@ -67,7 +67,7 @@ app.use(crud('/api/passports', {
               [Op.iLike]: `%${filter['counterparty.title'] || ''}%`
             }
           }
-        },
+        },*/
       ]
     })
   }

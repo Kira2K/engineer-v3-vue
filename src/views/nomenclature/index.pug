@@ -53,8 +53,8 @@ append script
     window.fields =
     [
       { title: "Код",                 name: "id",                 type: "number", width: 70, },
-      { title: "Обозначение",         name: "designation",        type: "text",   width: 140 },
-      { title: "Наименование",        name: "title",              type: "text",   width: 280 },
+      { title: "Модель",              name: "model",              type: "text",   width: 280 },
+      { title: "Артикул",             name: "vendor_id",          type: "text",   width: 140 },
       { title: "Ед изм.",             name: "unitId",             type: "text",   width: 110,},
       { title: "Класс",               name: "nomenclatureClass",  type: "text",   width: 220,},
       { title: "Группа",              name: "nomenclatureGroup",  type: "text",   width: 220,},
@@ -65,10 +65,10 @@ append script
 
     window.table_formatter = el => {
       el.unitId = `${el['unit.short']}`
-      el.nomenclatureClass = `${el['nm.nt.ng.nc.title']}`
-      el.nomenclatureGroup = `${el['nm.nt.ng.title']}`
-      el.nomenclatureType  = `${el['nm.nt.title']}`
-      el.nomenclatureModel = `${el['nm.title']}`
+      el.nomenclatureClass = `${el['nv.nt.ng.nc.title']}`
+      el.nomenclatureGroup = `${el['nv.nt.ng.title']}`
+      el.nomenclatureType  = `${el['nv.nt.title']}`
+      el.nomenclatureModel = `${el['nv.title']}`
       return el
     }
 

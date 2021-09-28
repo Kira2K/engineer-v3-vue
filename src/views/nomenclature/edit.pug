@@ -15,18 +15,17 @@ block body
     .card-body
       if instance.id
         +dummy_input('id', 'Код')
-
       .row
         .col-12
           - parent.map(el => el['__title'] = el['nt.ng.nc.title'] + ' > ' + el['nt.ng.title'] + ' > ' + el['nt.title'] + ' > ' + el.title)
-          +select_required('nomenclatureModelId', 'Классификация номенклатуры', parent)
+          +select2_required('nomenclatureVendorId', 'Классификация номенклатуры', parent)
         .col-xl-4
           - unit.map(el => el['__title'] = el.title + ' (' + el.short + ')')
           +select_required('unitId', 'Единица измерения', unit)
         .col-xl-4
-          +input_required('title', 'Наименование')
+          +input_required('model', 'Модель')
         .col-xl-4
-          +input('designation', 'Обозначение')
+          +input('vendor_id', 'Артикул')
       .row
         h6 Технические параметры
         - nomenclatureparameter.map(el => el['__title'] = el.title + ' (' + el['unit.short'] + ')')

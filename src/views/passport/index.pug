@@ -47,29 +47,30 @@ block body
 append script
     script.
       window.table_url = 'passport'
-  
+
       window.fields = [
         { title: "Код",               name: "id",                 type: "number", width: 70,  },
-        { title: "Оборудование",      name: "nomenclatureTitle",  type: "text",   width: 240 },
-        { title: "Заводской номер",   name: "factory_id",         type: "text",   width: 280 },
+        { title: "Модель",            name: "model",              type: "text",   width: 240 },
+        { title: "Заводской номер",   name: "vendor_id",          type: "text",   width: 280 },
         { title: "Сер. №",            name: "serial",             type: "text", },
         { title: "№ партии",          name: "partnumber",         type: "text", width: 120},
-        { title: "Изготовлен",        name: "produced",           type: "date",   width: 130,cellRenderer: table_formatter.date  },
+        { title: "Изготовлен",        name: "produced",           type: "date", width: 130, cellRenderer: table_formatter.date  },
         { title: "Состояние",         name: "state",              type: "text", width: 150 },
-        { title: "Изотовитель",       name: "provisioner",        type: "text", width: 130},
+        { title: "Изотовитель",       name: "vendor",             type: "text", width: 130},
         { title: "MAC адрес",         name: "mac",                type: "text", width: 120 },
         { title: "IP адрес",          name: "ip",                 type: "text", },
         { title: "MO",                name: "mo",                 type: "text", width: 150 },
         { title: "Особые отметки",    name: "extra",              type: "text", width: 240 },
-        { title: "Дата создания",     name: "createdAt",            type: "date", width: 160,cellRenderer: table_formatter.date },
-      ]     
-      window.table_formatter = el => {
-        el.nomenclatureTitle = `${el['nomenclature.title']}`
+        { title: "Дата создания",     name: "createdAt",          type: "date", width: 160, cellRenderer: table_formatter.date },
+      ]
+      window.table_formatter = (el, n) => {
+        el.model = `${el['nomenclature.model'] || ''}`
+        el.vendor_id = `${el['nomenclature.vendor_id'] || ''}`
+        el.vendor = `${el['nomenclature.nv.title'] || ''}`
         el.mac = `${el['commissions.mac'] || ''}`
         el.ip = `${el['commissions.ip'] || ''}`
         el.mo = `${el['commissions.branch.title'] || ''}`
         return el
       }
-    script(src='/public/js/table.js')
 
-      
+    script(src='/public/js/table.js')
