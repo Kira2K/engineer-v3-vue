@@ -151,21 +151,25 @@ $(() => {
             <div class="popover-body filters-state-popover-body">Тест</div>
           </div>`,
     });
+    
+    const filterManager = $('#filter-manager')
 
     $("#filters-state-button").click((event) => {
       event.stopPropagation();
-
+      // window.store.commit('toggleFiltersManagerVisibility')
+      console.log(window.store.state.isFiltersManagerVisible)
       const popover = $(".filters-state-popover-body");
 
+        popover.append(filterManager)
+
+       
       popover.click((popoverEvent) => {
         popoverEvent.stopPropagation();
       });
 
-      popover.append(
-        '<p class="filters-state-popover-btn" id="clear-filters">Сбросить все фильтры</p>'
-      );
 
       $("#clear-filters").click(() => {
+        console.log('work')
         clearFiltersBadge();
         activeFiltersArr = [];
         activatedFilterPopovers = [];
@@ -182,9 +186,6 @@ $(() => {
           });
         hideAllPopovers();
       });
-      popover.append(
-        '<p class="filters-state-popover-btn" id="clear-sorting">Сбросить сортировку</p>'
-      );
 
       $("#clear-sorting").click(() => {
         const allFilters = JSON.parse(

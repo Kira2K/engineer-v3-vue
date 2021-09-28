@@ -1,6 +1,7 @@
 doctype html
 html(lang='en')
   include mixin.pug
+  include ../../public/filterManager/index.pug
   head
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
@@ -66,7 +67,7 @@ html(lang='en')
 
         .popover {
           background: rgba(37, 56, 78, 1);
-          z-index: 999;
+          
         }
         .select2{
           z-index: 1000;
@@ -74,21 +75,7 @@ html(lang='en')
         .popover .arrow::after{
            border-right-color: rgba(37, 56, 78, 1);
         }
-        .filters-state-popover-body {
-          font-size: 14px;
-          line-height: 22px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-        .filters-state-popover-btn {
-          color: #80C5ED;
-          cursor: pointer;
-          margin-bottom: 0px;
-        }
-        .filters-state-popover-btn:hover {
-          color:#73D0F5
-        }
+        
         
         #clear-filters {
           padding-bottom: 8px;
@@ -98,33 +85,7 @@ html(lang='en')
           margin-top: 8px;
           margin-bottom: 16px;
         }
-        .filters-state-popover-titles-container {
-          display: flex;
-          flex-direction: column;
-          margin-top: -6px;
-        }
-        .filters-state-popover-single-title-container {
-          margin-top: 9px;
-          font-size: 12px;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: flex-start;
-          padding: 1px 8px;
-          border: 1px solid #385775;
-          border-radius: 4px;
-        }
-
-        .filters-state-popover-filter-title {
-          margin: 0;
-          padding-bottom: 2px;
-          white-space: nowrap;
-        }
-        .filters-state-popover-filter-delete {
-          margin-left: 5px;
-          width: 80%;
-          cursor: pointer;
-        }
+        
         .ui-sortable .item{
           user-select: none;
           cursor: pointer;
@@ -217,7 +178,7 @@ html(lang='en')
       link(rel='stylesheet', href='https://adminlte.io/themes/v3/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')
       link(rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css' integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p' crossorigin='anonymous')
   body.hold-transition.sidebar-mini.layout-footer-fixed
-    .wrapper
+    .wrapper#vue-initter
       // Navbar
       nav.main-header.navbar.navbar-expand
         // Left navbar links
@@ -278,7 +239,8 @@ html(lang='en')
               li.nav-item
                 a.nav-link(href='/')
                   ion-icon(name='star')
-                  p Домашняя страница
+                  p Домашняя страница 
+                  
               li.nav-item.menu-open#firstMenuOpen
                 a.nav-link
                   ion-icon(name='reader-outline')
@@ -344,6 +306,7 @@ html(lang='en')
             +inspect_local('success')
             +inspect_local('errors')
       footer.main-footer
+        filter-manager
         if lastlog && lastlog.length
           .float-left
             a.nav-link.d-inline(data-widget="control-sidebar" data-slide="true" href="#" role="button")
@@ -425,8 +388,34 @@ html(lang='en')
 
       script(src='/public/js/footable.min.js')
       script(src='/public/js/dateonlypicker.js')
+      script(src='https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js')
+      script(src='https://unpkg.com/vuex')
+      
+      script(src='/public/filterManager/index.js') 
       script.
         $(() =>{ 
+          $('[data-toggle="popover"]').popover()
+          const store = new Vuex.Store({
+            state: {
+              count: 0,
+              test: 'teeeest',
+              isFiltersManagerVisible: true,
+            },
+            mutations: {
+              increment (state) {
+                state.count++
+              },
+              toggleFiltersManagerVisibility (state) {
+                state.isFiltersManagerVisible=!state.isFiltersManagerVisible
+              }
+            }
+          })
+          
+          const vue =new Vue({
+            el:'#vue-initter',
+            store: store,
+          })
+          window.store = store
           $(".select2").select2()
           //- Menu init
           $("#firstMenuOpen").click(()=>{

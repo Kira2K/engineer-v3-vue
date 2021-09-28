@@ -42,6 +42,8 @@ block body
     .card-body
       #jsGrid
       #externalPager.float-right
+      
+      
 append script
     script.
       window.table_url = 'passport'
@@ -68,6 +70,6 @@ append script
         el.mo = `${el['commissions.branch.title'] || ''}`
         return el
       }
-      
     script(src='/public/js/table.js')
+
       
