@@ -268,7 +268,7 @@ front.post('/:module/edit/:id?', async (req, res, next) => {
   })
   if (id) res.cookie(`success`, { type: 'update', module, id })
   else res.cookie(`success`, { type: 'create', module, id: instanceId })
-  return res.redirect(302, `/${module}`)
+  return res.redirect(302, req.query.redirectTo || `/${module}`)
 })
 
 front.post('/:module/delete/:id', async (req, res, next) => {
