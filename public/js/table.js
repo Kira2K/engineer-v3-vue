@@ -1,4 +1,4 @@
-/* globals $, window,document */
+/* globals $, window, document,  */
 
 window.table_filter = (filter) => (row) =>
   window.fields.reduce((acc, field) => {
@@ -18,6 +18,7 @@ window.table_filter = (filter) => (row) =>
 $(() => {
   // GLOBAL STATE & INIT
   let { fields } = window;
+
   fields.map((el) => {
     el.headerTemplate = `${el.title}<i class="fal fa-arrow-up sort-arrow float-right" /></i>
     <i class="fal fa-arrow-down sort-arrow float-right sort-arrow" /></i>
@@ -129,11 +130,12 @@ $(() => {
           $.ajax({
             url: `${window.backend_addr}/api/${window.table_url}?range=%5B0%2C1000000%5D`,
             success(response) {
-              
-              deferred.resolve((tableData = response.map(window.table_formatter)));
+              deferred.resolve(
+                (tableData = response.map(window.table_formatter))
+              );
             },
           });
-          
+
           return deferred.promise();
         },
       },
@@ -151,25 +153,23 @@ $(() => {
             <div class="popover-body filters-state-popover-body">Тест</div>
           </div>`,
     });
-    
-    const filterManager = $('#filter-manager')
+
+    const filterManager = $("#filter-manager");
 
     $("#filters-state-button").click((event) => {
       event.stopPropagation();
       // window.store.commit('toggleFiltersManagerVisibility')
-      console.log(window.store.state.isFiltersManagerVisible)
+      console.log(window.store.state.isFiltersManagerVisible);
       const popover = $(".filters-state-popover-body");
 
-        popover.append(filterManager)
+      popover.append(filterManager);
 
-       
       popover.click((popoverEvent) => {
         popoverEvent.stopPropagation();
       });
 
-
       $("#clear-filters").click(() => {
-        console.log('work')
+        console.log("work");
         clearFiltersBadge();
         activeFiltersArr = [];
         activatedFilterPopovers = [];
@@ -216,7 +216,7 @@ $(() => {
             <p class="filters-state-popover-filter-title">
               ${elem.title}
             </p>
-            <i class="fal fa-times filters-state-popover-filter-delete" 
+            <i class="fal fa-times filters-state-popover-filter-delete"
               id="delete-filter-${name}"></i>
             </div>`
           );
@@ -254,8 +254,11 @@ $(() => {
       const excistingParams = maybeParams ? JSON.parse(maybeParams) : {};
       const initialValue = excistingParams[name] || "";
 
-      const options = tableData.map(el=> el[field.name]).filter((el, n, all)=> all.indexOf(el)==n).map(el=>  `<option value="${el}">${el}</option>`)
-      
+      const options = tableData
+        .map((el) => el[field.name])
+        .filter((el, n, all) => all.indexOf(el) == n)
+        .map((el) => `<option value="${el}">${el}</option>`);
+
       const singleSelect = `
       <div class="form-group">
         <label for="${name}">${field.title}</label>
@@ -263,7 +266,7 @@ $(() => {
           ${options}
           </select>
       </div>
-      `
+      `;
       const initFilterButton = $(
         '<button class="btn mb-3 float-right">Применить</button>'
       );
@@ -272,11 +275,11 @@ $(() => {
       popover.click((event) => {
         event.stopPropagation();
       });
-      
 
       $(initFilterButton).click(() => {
         // let inputValue = $(`#input-${name}`).val();
-        let selectValue = $(`#select-${name}`).val();
+        const selectValue = $(`#select-${name}`).val();
+
         if (field.type == "number") inputValue = Number(inputValue);
 
         excistingParams[name] = selectValue;
@@ -299,12 +302,12 @@ $(() => {
         $(`#filter-${name}`).popover("hide");
       });
       $(popover).append(singleSelect);
-      
+
       $(".select2popover").select2({
-        placeholder: 'поиск по названию...',
-        dropdownParent:$(`#popover-body-${name}`)
-      })
-      $('.text-field-container').click((event) => {
+        placeholder: "поиск по названию...",
+        dropdownParent: $(`#popover-body-${name}`),
+      });
+      $(".text-field-container").click((event) => {
         event.stopPropagation();
       });
       $(popover).append(initFilterButton);

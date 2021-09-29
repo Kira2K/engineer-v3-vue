@@ -2,3 +2,4 @@
 keycloak.json
 node_modules
 .idea
+.prettierrc
