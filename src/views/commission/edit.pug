@@ -21,10 +21,12 @@ block body
     .card-footer
       if instance.id
         button.btn.btn-primary(type="submit") Сохранить
-        |  
-        button.btn.btn-primary(type="submit" formaction=`?redirectTo=/passport/edit/${instance.passportId}`) Сохранить и вернуться в Оборудование
+        if instance.passportId
+          |  
+          button.btn.btn-primary(type="submit" formaction=`?redirectTo=/passport/edit/${instance.passportId}`) Сохранить и вернуться в Оборудование
         // a.float-right.btn.btn-danger(href=`/commission/delete/${instance.id}`) Удалить
       else
         button.btn.btn-primary(type="submit") Добавить
-        |  
-        button.btn.btn-primary(type="submit" formaction=`?redirectTo=/passport/edit/${instance.passportId}`) Добавить и вернуться в Оборудование
+        if instance.passportId
+          |  
+          button.btn.btn-primary(type="submit" formaction=`?redirectTo=/passport/edit/${instance.passportId}`) Добавить и вернуться в Оборудование
