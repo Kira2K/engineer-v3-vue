@@ -426,14 +426,14 @@ html(lang='en')
       script(src='/public/js/footable.min.js')
       script(src='/public/js/dateonlypicker.js')
       script.
-        $(() =>{ 
+        $(() => {
           $(".select2").select2()
           //- Menu init
           $("#firstMenuOpen").click(()=>{
             console.log('do')
             $('#firstMenuOpenIcon').toggleClass('open')
           })
-            })
+        })
       if errors
         script.
           $(() => {
