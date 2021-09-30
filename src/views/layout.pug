@@ -19,7 +19,7 @@ html(lang='en')
       link(href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap' rel='stylesheet')
 
       style.
-        body { color: #c9ebff;  
+        body { color: #c9ebff;
         font-family: 'Roboto', sans-serif;
         font-weight: 400;
         }
@@ -49,7 +49,7 @@ html(lang='en')
 
         .jsgrid-load-shader { opacity: 1; background-color: #213345; }
         .jsgrid-load-panel { background-color: #213345; color: #c9ebff; border: 2px solid #80c5ed; }
-   
+
         .jsgrid-header-cell {font-weight: 700;}
         .jsgrid-header-sortable .filter {
           float: right;
@@ -61,13 +61,13 @@ html(lang='en')
 
         @media (min-width: 576px) {
           .add-btn-text {
-            display:inline; 
-          } 
-        } 
+            display:inline;
+          }
+        }
 
         .popover {
           background: rgba(37, 56, 78, 1);
-          
+
         }
         .select2{
           z-index: 1000;
@@ -75,8 +75,8 @@ html(lang='en')
         .popover .arrow::after{
            border-right-color: rgba(37, 56, 78, 1);
         }
-        
-        
+
+
         #clear-filters {
           padding-bottom: 8px;
           border-bottom: 1px solid #80C5ED;
@@ -85,7 +85,7 @@ html(lang='en')
           margin-top: 8px;
           margin-bottom: 16px;
         }
-        
+
         .ui-sortable .item{
           user-select: none;
           cursor: pointer;
@@ -123,7 +123,7 @@ html(lang='en')
           font-weight: 700;
           font-size: 11px;
           background-color: #28a745;
-          padding: 0px 6.5px 0px 6px;  
+          padding: 0px 6.5px 0px 6px;
           border-radius: 8px;
         }
         .select2-selection__rendered {
@@ -142,21 +142,21 @@ html(lang='en')
         .jsgrid-header-sortable >.fa-arrow-initial:before {
           display: block;
         }
-        
+
         .jsgrid-header-sort-asc > .fa-arrow-up:before {
           display: block;
-        } 
+        }
         .jsgrid-header-sort-asc > .fa-arrow-down:before ,
         .jsgrid-header-sort-asc > .fa-arrow-initial:before  {
           display: none;
-        } 
+        }
         .jsgrid-header-sort-desc > .fa-arrow-down:before {
           display: block;
-        } 
+        }
         .jsgrid-header-sort-desc > .fa-arrow-up:before ,
         .jsgrid-header-sort-desc > .fa-arrow-initial:before  {
           display: none;
-        } 
+        }
         .sort-arrow {
             margin-top: 4px;
         }
@@ -176,6 +176,8 @@ html(lang='en')
       link(rel='stylesheet', href='/public/style.css')
       link(rel='stylesheet', href='/public/css/footable.bootstrap.css')
       link(rel='stylesheet', href='https://adminlte.io/themes/v3/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')
+      link(type='text/css' rel='stylesheet' href='//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css')
+
       link(rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css' integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p' crossorigin='anonymous')
   body.hold-transition.sidebar-mini.layout-footer-fixed
     .wrapper#vue-initter
@@ -239,8 +241,8 @@ html(lang='en')
               li.nav-item
                 a.nav-link(href='/')
                   ion-icon(name='star')
-                  p Домашняя страница 
-                  
+                  p Домашняя страница
+
               li.nav-item.menu-open#firstMenuOpen
                 a.nav-link
                   ion-icon(name='reader-outline')
@@ -306,27 +308,28 @@ html(lang='en')
             +inspect_local('success')
             +inspect_local('errors')
       footer.main-footer
-        filter-manager
+        .d-none
+          filter-manager
         if lastlog && lastlog.length
           .float-left
             a.nav-link.d-inline(data-widget="control-sidebar" data-slide="true" href="#" role="button")
               i.far.fa-bell
-              
+
             strong Последняя операция:
-            | 
+            |
             strong= `${lastlog[0].name} (${lastlog[0].email})`
-            | 
+            |
 
             -var action = { create: 'создал', edit: 'изменил', delete: 'удалил'}
             strong=  action[lastlog[0].action] || lastlog[0].action
-            | 
+            |
             strong: a.btn.btn-sm(href=lastlog[0].module + '/edit/' + lastlog[0].extra.instanceId)= lastlog[0].extra.instanceId
-            |  в 
+            |  в
             strong= (i10n.modules[lastlog[0].module] || { title: lastlog[0].module }).title
-            | 
+            |
             strong
               i.fa.fa-clock
-              | 
+              |
               +format-date(lastlog[0].createdAt)
         else
           strong
@@ -390,27 +393,33 @@ html(lang='en')
       script(src='/public/js/dateonlypicker.js')
       script(src='https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js')
       script(src='https://unpkg.com/vuex')
-      
-      script(src='/public/filterManager/index.js') 
+      script(src='//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js')
+      script(src='//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js')
+
+      script(src='/public/filterManager/index.js')
       script.
-        $(() =>{ 
+        $(() =>{
           $('[data-toggle="popover"]').popover()
           const store = new Vuex.Store({
             state: {
               count: 0,
               test: 'teeeest',
               isFiltersManagerVisible: true,
+              headerFields: {}
             },
             mutations: {
               increment (state) {
                 state.count++
               },
+              changeHeaderFields(state, newHeaderFields){
+                state.headerFields = newHeaderFields
+              },
               toggleFiltersManagerVisibility (state) {
                 state.isFiltersManagerVisible=!state.isFiltersManagerVisible
-              }
+              },
             }
           })
-          
+
           const vue =new Vue({
             el:'#vue-initter',
             store: store,
@@ -452,6 +461,6 @@ html(lang='en')
                 'class': 'bg-success'
               })
             }
-            
+
           })
 
