@@ -387,11 +387,14 @@ html(lang='en')
       script(src='/plugins/select2/js/select2.full.min.js')
       script(src='/plugins/jsgrid/jsgrid.js')
       script(src='/plugins/jquery-validation/jquery.validate.js')
+
       script(src='/plugins/moment/moment-with-locales.js')
 
-      script(src='/public/js/footable.min.js')
       script(src='/public/js/dateonlypicker.js')
-      script(src='https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js')
+
+      script(src='/public/js/footable.min.js')
+
+      script(src='https://unpkg.com/vue@2.6.14/dist/vue.js')
       script(src='https://unpkg.com/vuex')
       script(src='//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js')
       script(src='//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js')
@@ -423,12 +426,30 @@ html(lang='en')
           const vue =new Vue({
             el:'#vue-initter',
             store: store,
+            mounted(){
+              dateonlypickerInitialisationFunction()
+
+            }
           })
+
           window.store = store
           $(".select2").select2()
+
+          //- dateonlypickerCalendarInit
+          $('.dateonlypicker').map((i,el)=> {
+            const parent = $(el).parent()
+            const t =$(parent).children()
+            console.log($(t))
+            $(parent).children().map((i,child)=>{
+              if($(child).attr('class') == 'input-group-append') {
+                $(child).click(()=>{
+                  el.click()
+                })
+              }
+            });
+          })
           //- Menu init
           $("#firstMenuOpen").click(()=>{
-            console.log('do')
             $('#firstMenuOpenIcon').toggleClass('open')
           })
             })

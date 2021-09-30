@@ -56,6 +56,7 @@ mixin dateonly_single_required(key, text)
         input.form-control.dateonlypicker(id=key type='text' name=key value=instance[key] required)
         .input-group-append: .input-group-text: i.fal.fa-calendar
     small.form-text.text-muted.dateonlypicker_help Please specify data in the form of YYYY-MM-DD
+
     block
 
 mixin select(key, text, options)

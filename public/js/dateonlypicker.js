@@ -1,6 +1,5 @@
 /* globals $, moment */
-
-$(() => {
+const dateonlypickerInitialisationFunction = () => {
   $('.dateonlypicker_help').hide()
   const initDataonlypicker = el => {
     const required = $(el).attr('required')
@@ -66,4 +65,8 @@ $(() => {
       init = true
     })
   })
+}
+
+$(() => {
+  dateonlypickerInitialisationFunction()
 })
