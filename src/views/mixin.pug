@@ -132,7 +132,7 @@ mixin select2_required(key, text, options)
     - var err = errors && errors.find(e => e.path == key)
     if err
       select.select2.form-control.is-invalid(id=key name=key required)
-        option(value='') ___
+        option(value='' disabled) ___
         each val in options
           if instance[key] == val.id
             option(selected value=val.id)= val.__title
@@ -141,7 +141,7 @@ mixin select2_required(key, text, options)
       .error.invalid-feedback= err.message
     else
       select.select2.form-control(id=key name=key required)
-        option(value='') ___
+        option(value='' disabled) ___
         each val in options
           if instance[key] == val.id
             option(selected value=val.id)= val.__title
