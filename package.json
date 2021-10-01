@@ -49,8 +49,13 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^7.18.0",
     "html2jade": "^0.8.6",
     "prettier": "^2.4.1",
     "sequelize-cli": "^6.2.0"
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "semi": false
   }
 }

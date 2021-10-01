@@ -2,7 +2,7 @@ extends ../layout.pug
 
 block breadcrumbs
   li.breadcrumb-item.active(aria-current="page") Оборудование
- 
+
 
 block body
   #table-configuration-modal.modal.fade(tabindex="-1" role="dialog" aria-labelledby="table-configuration-modal-label" aria-hidden="true")
@@ -17,14 +17,14 @@ block body
                 li.list-group-item.hr.inactive-zone Скрытая область
 
             .modal-footer
-              
+
               button#cols_reset.btn.btn-danger.mr-auto(type="button" data-dismiss="modal") Сбросить
               button.btn.btn-secondary(type="button" data-dismiss="modal") Отмена
               button#cols_apply.btn.btn-primary(type="button") Применить
 
   .card#make-me-table-width
     .card-header
-      .float-left 
+      .float-left
         button#filters-state-button.btn.btn-primary.d-flex.justify-content-center.align-items-center(data-toggle="popover" title=" " data-content=" ")
           i.fal.fa-filter
           span#filters-count-badge.green-circle-badge.d-none
@@ -32,18 +32,19 @@ block body
         a.btn.btn-success(type="button" href="/passport/edit")
           i.far.fa-plus-circle
           span.add-btn-text|  Добавить
-        | &nbsp; 
+        | &nbsp;
         a.btn.btn-primary(type="button" href="/download/nomenclature")
-          i.fa.fa-file-excel   
-        | &nbsp;          
+          i.fa.fa-file-excel
+        | &nbsp;
         button.btn.btn-primary(type="button" data-toggle="modal" data-target="#table-configuration-modal")
           i.far.fa-cog
         | &nbsp;
+
+    #jsGrid
     .card-body
-      #jsGrid
       #externalPager.float-right
-      
-      
+
+
 append script
     script.
       window.table_url = 'passport'

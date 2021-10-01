@@ -1,6 +1,9 @@
-
-script#filter-manager-template(type='text/x-template').
-  <div id="filter-manager"  v-if="this.$store.state.isFiltersManagerVisible">
-    <p class="filters-state-popover-btn" id="clear-filters" @click="clearFilters">Сбросить все фильтры</p>
-    <p class="filters-state-popover-btn" id="clear-sorting">Сбросить сортировку</p>
+script(type='text/x-template' id="filter-manager-template").
+  <div id="filter-manager" v-if="this.$store.state.isFiltersManagerVisible">
+    <p class="filters-state-popover-btn" id="clear-filters" @click="clearFilters">
+      Сбросить все фильтры
+    </p>
+    <p class="filters-state-popover-btn" id="clear-sorting">
+      Сбросить сортировку
+    </p>
   </div>

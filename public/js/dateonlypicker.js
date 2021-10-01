@@ -1,11 +1,19 @@
 /* globals $, moment */
 const dateonlypickerInitialisationFunction = () => {
   $('.dateonlypicker_help').hide()
-  const initDataonlypicker = el => {
+  const initDataonlypicker = (el) => {
     const required = $(el).attr('required')
     /* eslint no-nested-ternary: "off" */
-    const localValue = $(el).val() ? $(el).val().includes('-') ? moment($(el).val()).format('DD.MM.YYYY') : $(el).val() : ''
-    const hiddenInput = $(el.outerHTML.replace(/dateonlypicker/, 'dateonlypicker_value').replace(/type=.text./, 'type="hidden"'))
+    const localValue = $(el).val()
+      ? $(el).val().includes('-')
+        ? moment($(el).val()).format('DD.MM.YYYY')
+        : $(el).val()
+      : ''
+    const hiddenInput = $(
+      el.outerHTML
+        .replace(/dateonlypicker/, 'dateonlypicker_value')
+        .replace(/type=.text./, 'type="hidden"')
+    )
 
     $(el).attr('name', '')
     $(el).after(hiddenInput)
@@ -20,15 +28,7 @@ const dateonlypickerInitialisationFunction = () => {
         weekLabel: 'Н',
         applyLabel: 'Применить',
         cancelLabel: 'Очистить',
-        daysOfWeek: [
-          'Вс',
-          'Пн',
-          'Вт',
-          'Ср',
-          'Чт',
-          'Пт',
-          'Сб',
-        ],
+        daysOfWeek: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
         monthNames: [
           'Январь',
           'Февраль',

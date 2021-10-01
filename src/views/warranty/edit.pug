@@ -10,7 +10,7 @@ block body
       .form-group
         label(for="passportId") Паспорт оборудования
         select#passportId.form-control(name="passportId")
-          option(value='') ___
+          option(value='') Выбрать из списка
           each val in passport
             if instance.passportId == val.id
               option(selected value=val.id)= val.factory_id + ' (' + val['nomenclature.title'] + ')'

@@ -1,18 +1,17 @@
-/* globals $, window, document,  */
+/* globals $, */
 
-window.table_filter = filter => row => window.fields.reduce((acc, field) => {
-  const { name } = field
-
-  if (field.type == 'number' || field.type == 'date') {
-    return acc && (!filter[name] || `${row[name]}`.startsWith(filter[name]))
-  }
-
-  return (
-    acc
-      && (!filter[name]
-        || (row[name] || '').toLowerCase().includes(filter[name].toLowerCase()))
-  )
-}, true)
+window.table_filter = filter => row =>
+  window.fields.reduce((acc, field) => {
+    const { name } = field
+    if (field.type == "number" || field.type == "date") {
+      return acc && (!filter[name] || `${row[name]}`.startsWith(filter[name]))
+    }
+    return (
+      acc &&
+      (!filter[name] ||
+        (row[name] || "").toLowerCase().includes(filter[name].toLowerCase()))
+    )
+  }, true)
 
 $(() => {
   // GLOBAL STATE & INIT
@@ -27,42 +26,42 @@ $(() => {
   const query = Object.fromEntries(urlSearchParams.entries())
 
   let activeFiltersAmount = 0
-  const filtersBadge = $('#filters-count-badge')
+  const filtersBadge = $("#filters-count-badge")
 
   const clearFiltersBadge = () => {
     activeFiltersAmount = 0
-    filtersBadge.addClass('d-none')
+    filtersBadge.addClass("d-none")
   }
 
   const changeFiltersBadge = numberToAddOrReduce => {
     activeFiltersAmount += numberToAddOrReduce
     if (activeFiltersAmount <= 0) clearFiltersBadge()
     filtersBadge.text(activeFiltersAmount.toString())
-    filtersBadge.removeClass('d-none')
+    filtersBadge.removeClass("d-none")
   }
 
   const { localStorage } = window
 
   localStorage.clear()
 
-  $('#cols_order').sortable({
-    placeholder: 'drop-placeholder',
+  $("#cols_order").sortable({
+    placeholder: "drop-placeholder",
   })
   let activeFiltersArr = []
   let activatedFilterPopovers = []
   const hideAllPopovers = () => {
-    $('.filter').popover('hide')
-    $('#filters-state-button').popover('hide')
+    $(".filter").popover("hide")
+    $("#filters-state-button").popover("hide")
   }
 
-  $('body').click(() => {
+  $("body").click(() => {
     hideAllPopovers()
-  });
+  })
 
   // Displaying and Positioning columns according to positions
-  (() => {
+  ;(() => {
     fields.map((el, id) => Object.assign(el, { pos: -1, id }))
-    const cols = (query.cols || '').split(',').filter(el => fields[el])
+    const cols = (query.cols || "").split(",").filter(el => fields[el])
 
     if (cols.length) {
       cols.map((i, n) => (fields[i].pos = +n))
@@ -71,49 +70,50 @@ $(() => {
       fields.map(el => (el.pos = 1))
     }
 
-    fields.map(el => $('#cols_order .hr')[el.pos > -1 ? 'before' : 'after'](
-      `<li class="list-group-item item" data-n="${el.id}">${el.title}</li>`,
-    ))
+    fields.map(el =>
+      $("#cols_order .hr")[el.pos > -1 ? "before" : "after"](
+        `<li class="list-group-item item" data-n="${el.id}">${el.title}</li>`
+      )
+    )
     fields = fields.filter(el => el.pos > -1)
     window.fields = fields
 
-    $('#cols_apply').click(() => {
-      let order = [...$('#cols_order *')].map(el => $(el).data('n'))
+    $("#cols_apply").click(() => {
+      let order = [...$("#cols_order *")].map(el => $(el).data("n"))
 
       order = order.slice(0, order.indexOf(undefined))
-      urlSearchParams.set('cols', order)
+      urlSearchParams.set("cols", order)
       document.location.href = `/${
         window.table_url
       }?${urlSearchParams.toString()}`
     })
-    $('#cols_reset').click(() => {
+    $("#cols_reset").click(() => {
       document.location.href = `/${window.table_url}`
     })
   })()
 
   // GRID load & render
-  let tableData;
-
-  (() => {
-    $('#jsGrid').jsGrid({
-      height: 'auto',
-      width: '',
+  let tableData
+  ;(() => {
+    $("#jsGrid").jsGrid({
+      height: "auto",
+      width: "",
       editing: false,
       filtering: false,
       autoload: true,
       sorting: true,
       paging: true,
-      loadMessage: 'Загрузка...',
-      noDataContent: 'Нет данных',
-      pagerContainer: '#externalPager',
+      loadMessage: "Загрузка...",
+      noDataContent: "Нет данных",
+      pagerContainer: "#externalPager",
       pageSize: 20,
       pageButtonCount: 15,
       pagerFormat:
-        'Страницы: {first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} из {pageCount}',
-      pagePrevText: '&#x23F4',
-      pageNextText: '&#x23F5',
-      pageFirstText: '&#x23EE',
-      pageLastText: '&#x23ED',
+        "Страницы: {first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} из {pageCount}",
+      pagePrevText: "&#x23F4",
+      pageNextText: "&#x23F5",
+      pageFirstText: "&#x23EE",
+      pageLastText: "&#x23ED",
       rowClick(args) {
         window.location.href = `/${window.table_url}/edit/${args.item.id}`
       },
@@ -128,7 +128,7 @@ $(() => {
             url: `${window.backend_addr}/api/${window.table_url}?range=%5B0%2C1000000%5D`,
             success(response) {
               deferred.resolve(
-                (tableData = response.map(window.table_formatter)),
+                (tableData = response.map(window.table_formatter))
               )
             },
           })
@@ -138,11 +138,11 @@ $(() => {
       },
       fields: window.fields,
     })
-  })();
+  })()
 
   // Filter state popover init
-  (() => {
-    $('#filters-state-button').popover({
+  ;(() => {
+    $("#filters-state-button").popover({
       html: true,
       template: `<div class="popover" id="filters-state-popover" role="tooltip">
             <div class="arrow"></div>
@@ -151,13 +151,13 @@ $(() => {
           </div>`,
     })
 
-    const filterManager = $('#filter-manager')
+    const filterManager = $("#filter-manager")
 
-    $('#filters-state-button').click(event => {
+    $("#filters-state-button").click(event => {
       event.stopPropagation()
       // window.store.commit('toggleFiltersManagerVisibility')
       console.log(window.store.state.isFiltersManagerVisible)
-      const popover = $('.filters-state-popover-body')
+      const popover = $(".filters-state-popover-body")
 
       popover.append(filterManager)
 
@@ -165,88 +165,88 @@ $(() => {
         popoverEvent.stopPropagation()
       })
 
-      $('#clear-filters').click(() => {
-        console.log('work')
+      $("#clear-filters").click(() => {
+        console.log("work")
         clearFiltersBadge()
         activeFiltersArr = []
         activatedFilterPopovers = []
         activeFiltersAmount = 0
-        $('.filter').removeClass('fas fa-filter').addClass('fal fa-filter')
+        $(".filter").removeClass("fas fa-filter").addClass("fal fa-filter")
 
-        const onlySort = $('#jsGrid').jsGrid('getSorting')
+        const onlySort = $("#jsGrid").jsGrid("getSorting")
 
-        localStorage.setItem('filterParams', JSON.stringify(onlySort))
-        $('#jsGrid')
-          .jsGrid('loadData', onlySort)
+        localStorage.setItem("filterParams", JSON.stringify(onlySort))
+        $("#jsGrid")
+          .jsGrid("loadData", onlySort)
           .done(() => {
-            $('#jsGrid').jsGrid('refresh')
+            $("#jsGrid").jsGrid("refresh")
           })
         hideAllPopovers()
       })
 
-      $('#clear-sorting').click(() => {
+      $("#clear-sorting").click(() => {
         const allFilters = JSON.parse(
-          localStorage.getItem('filterParams') || '{}',
+          localStorage.getItem("filterParams") || "{}"
         )
 
         allFilters.order = undefined
         allFilters.sortField = undefined
         allFilters.sortOrder = undefined
-        localStorage.setItem('filterParams', JSON.stringify(allFilters))
-        $('#jsGrid')
-          .jsGrid('loadData', allFilters)
+        localStorage.setItem("filterParams", JSON.stringify(allFilters))
+        $("#jsGrid")
+          .jsGrid("loadData", allFilters)
           .done(() => {
-            $('#jsGrid').jsGrid('refresh')
+            $("#jsGrid").jsGrid("refresh")
           })
         hideAllPopovers()
       })
 
       if (activeFiltersAmount > 0) {
         popover.append(
-          '<div class="filters-state-popover-titles-container"></div>',
+          '<div class="filters-state-popover-titles-container"></div>'
         )
         activeFiltersArr.map(elem => {
           const { name } = elem
 
-          $('.filters-state-popover-titles-container').append(
+          $(".filters-state-popover-titles-container").append(
             `<div class="filters-state-popover-single-title-container" id="filter-container-${name}">
             <p class="filters-state-popover-filter-title">
               ${elem.title}
             </p>
             <i class="fal fa-times filters-state-popover-filter-delete"
               id="delete-filter-${name}"></i>
-            </div>`,
+            </div>`
           )
           $(`#delete-filter-${name}`).click(() => {
-            const params = JSON.parse(localStorage.getItem('filterParams'))
+            const params = JSON.parse(localStorage.getItem("filterParams"))
 
             delete params[name]
-            $('#jsGrid')
-              .jsGrid('loadData', params)
+            $("#jsGrid")
+              .jsGrid("loadData", params)
               .done(() => {
-                localStorage.setItem('filterParams', JSON.stringify(params))
-                $('#jsGrid').jsGrid('refresh')
+                localStorage.setItem("filterParams", JSON.stringify(params))
+                $("#jsGrid").jsGrid("refresh")
               })
 
-            $(`#filter-${name}`).addClass('fal').removeClass('fas')
+            $(`#filter-${name}`).addClass("fal").removeClass("fas")
             changeFiltersBadge(-1)
             activeFiltersArr.filter(el => el.name !== name)
 
-            $(`#filter-${name}`).popover('hide')
+            $(`#filter-${name}`).popover("hide")
             $(`#filter-container-${name}`).remove()
           })
         })
       }
     })
-  })();
+  })()
 
   // Single filter popover init
-  (() => {
-    const headers = $('.jsgrid-header-sortable')
+  ;(() => {
+    const headers = $(".jsgrid-header-sortable")
     const initInputByField = field => {
       const { name } = field
 
-      const maybeParams = localStorage.getItem('filterParams')
+      const maybeParams = localStorage.getItem("filterParams")
 
       const excistingParams = maybeParams ? JSON.parse(maybeParams) : {}
 
@@ -264,9 +264,9 @@ $(() => {
       </div>
       `
       const initFilterButton = $(
-        '<button class="btn mb-3 float-right">Применить</button>',
+        '<button class="btn mb-3 float-right">Применить</button>'
       )
-      const popover = $('.popover-body-filter-single')
+      const popover = $(".popover-body-filter-single")
 
       popover.click(event => {
         event.stopPropagation()
@@ -280,30 +280,30 @@ $(() => {
 
         excistingParams[name] = selectValue
 
-        $('#jsGrid')
-          .jsGrid('loadData', excistingParams)
+        $("#jsGrid")
+          .jsGrid("loadData", excistingParams)
           .done(() => {
             localStorage.setItem(
-              'filterParams',
-              JSON.stringify(excistingParams),
+              "filterParams",
+              JSON.stringify(excistingParams)
             )
-            $('#jsGrid').jsGrid('refresh')
+            $("#jsGrid").jsGrid("refresh")
           })
 
         $(`#filter-${name}`)
-          .removeClass('fal fa-filter')
-          .addClass('fas fa-filter')
+          .removeClass("fal fa-filter")
+          .addClass("fas fa-filter")
         changeFiltersBadge(+1)
         activeFiltersArr.push({ name, title: field.title })
-        $(`#filter-${name}`).popover('hide')
+        $(`#filter-${name}`).popover("hide")
       })
       $(popover).append(singleSelect)
 
-      $('.select2popover').select2({
-        placeholder: 'поиск по названию...',
+      $(".select2popover").select2({
+        placeholder: "поиск по названию...",
         dropdownParent: $(`#popover-body-${name}`),
       })
-      $('.text-field-container').click(event => {
+      $(".text-field-container").click(event => {
         event.stopPropagation()
       })
       $(popover).append(initFilterButton)
@@ -311,7 +311,7 @@ $(() => {
 
     window.fields.map((el, id) => {
       const filterSingle = $(
-        `<i id= "filter-${el.name}" class="filter fal fa-filter p-1" data-toggle="popover" title=" " data-content=" "/>`,
+        `<i id= "filter-${el.name}" class="filter fal fa-filter p-1" data-toggle="popover" title=" " data-content=" "/>`
       )
 
       $(headers[id]).prepend(filterSingle)
@@ -327,7 +327,7 @@ $(() => {
       filterSingle.click(event => {
         event.stopPropagation()
         activatedFilterPopovers.map(popoverId => {
-          if (popoverId != `#filter-${el.name}`) $(popoverId).popover('hide')
+          if (popoverId != `#filter-${el.name}`) $(popoverId).popover("hide")
         })
         activatedFilterPopovers = [`#filter-${el.name}`]
         initInputByField(el)
@@ -335,7 +335,7 @@ $(() => {
     })
   })()
 
-  const tableWidth = $('#jsGrid').width()
+  const tableWidth = $("#jsGrid").width()
 
-  $('#make-me-table-width').css('max-width', `${tableWidth + 32}px`)
+  $("#make-me-table-width").css("max-width", `${tableWidth + 32}px`)
 })

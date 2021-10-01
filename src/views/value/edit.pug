@@ -19,7 +19,7 @@ block body
             window.location.search = searchParams.toString()
           }
         select#unitId.form-control(name="passportId" onchange="changeNomenclatureId(this)")
-          option(value='') ___
+          option(value='') Выбрать из списка
           each val in passport
             if instance.passportId == val.id
               option(selected value=val.id, data-nomenclature-id=val.nomenclatureId)= val['factory_id'] + ' (' + val['nomenclature.title']+ ')'
@@ -29,7 +29,7 @@ block body
         .form-group
           label(for="enabledParameterId") Параметер
           select#unitId.form-control(name="enabledParameterId")
-            option(value='') ___
+            option(value='') Выбрать из списка
             each val in enabledparameter.filter(el => el.nomenclatureId == nomenclatureId)
               if instance.enabledParameterId == val.id
                 option(selected value=val.id)= `${val['nomenclature_parameter.title']} (${val['nomenclature_parameter.unit.short']})`

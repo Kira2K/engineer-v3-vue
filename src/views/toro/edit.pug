@@ -16,7 +16,7 @@ block body
       .form-group
         label(for="passportId") Паспорт оборудования
         select#passportId.form-control(name="passportId")
-          option(value='') ___
+          option(value='') Выбрать из списка
           each val in passport
             if instance.passportId == val.id
               option(selected value=val.id)= val.factory_id + ' (' + val['nomenclature.title'] + ')'
@@ -25,7 +25,7 @@ block body
       .form-group
         label(for="branchId") Подразделение
         select#branchId.form-control(name="branchId")
-          option(value='') ___
+          option(value='') Выбрать из списка
           each val in branch
             if instance.branchId == val.id
               option(selected value=val.id)= val.title
@@ -34,7 +34,7 @@ block body
       .form-group
         label(for="malfunctionTypeId") Тип неисправности
         select#malfunctionTypeId.form-control(name="malfunctionTypeId")
-          option(value='') ___
+          option(value='') Выбрать из списка
           each val in malfunction_type
             if instance.malfunctionTypeId == val.id
               option(selected value=val.id)= val.title
@@ -43,7 +43,7 @@ block body
       .form-group
         label(for="repairTypeId") Тип ремонтных работ
         select#repairTypeId.form-control(name="repairTypeId")
-          option(value='') ___
+          option(value='') Выбрать из списка
           each val in repair_type
             if instance.repairTypeId == val.id
               option(selected value=val.id)= val.title
