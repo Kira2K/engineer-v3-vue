@@ -5,6 +5,7 @@ html(lang='en')
   head
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
+    <script src="https://unpkg.com/http-vue-loader"></script>
     block title
       title Maximus Инженер
     block css
@@ -95,6 +96,7 @@ html(lang='en')
               li.nav-item
                 a.nav-link(href='/')
                   ion-icon(name='star')
+                  my-component
                   p Домашняя страница
 
               li.nav-item.menu-open#firstMenuOpen

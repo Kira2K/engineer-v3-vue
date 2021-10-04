@@ -1,4 +1,4 @@
-/* globals $, Vue ,Vuex,dateonlypickerInitialisationFunction */
+/* globals $, Vue ,Vuex,dateonlypickerInitialisationFunction,httpVueLoader */
 
 $(() => {
   $('[data-toggle="popover"]').popover()
@@ -26,6 +26,9 @@ $(() => {
   const vue = new Vue({
     el: "#vue-initter",
     store,
+    components: {
+      "my-component": httpVueLoader("../public/my-component.vue"),
+    },
     mounted() {
       dateonlypickerInitialisationFunction()
     },

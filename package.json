@@ -31,6 +31,7 @@
     "express": "^4.17.1",
     "express-sequelize-crud": "^6.1.5",
     "express-session": "^1.17.2",
+    "http-vue-loader": "^1.4.2",
     "json2csv": "^5.0.6",
     "keycloak-connect": "^14.0.0",
     "lzma": "^2.3.2",
