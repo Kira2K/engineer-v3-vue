@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.nomenclature.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
       this.belongsTo(models.nomenclature);
-      models.counterparty.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
+      models.counterparty.hasMany(this)
       this.belongsTo(models.counterparty);
 
       this.addScope('defaultScope', {
