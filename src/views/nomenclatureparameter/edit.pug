@@ -10,7 +10,7 @@ block body
       .form-group
         label(for="unitId") Единица измерения
         select#unitId.form-control(name="unitId")
-          option(value='') ___
+          option(value='') Выбрать из списка
           each val in unit
             if instance.unitId == val.id
               option(selected value=val.id)= val.title + ' (' + val.short + ')'
