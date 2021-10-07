@@ -64,7 +64,7 @@ mixin select(key, text, options)
     - var err = errors && errors.find(e => e.path == key)
     if err
       select.select.form-control.is-invalid(id=key name=key)
-        option(value='') ___
+        option(value='') Выбрать из списка
         each val in options
           if instance[key] == val.id
             option(selected value=val.id)= val.__title
@@ -73,7 +73,7 @@ mixin select(key, text, options)
       .error.invalid-feedback= err.message
     else
       select.select.form-control(id=key name=key)
-        option(value='') ___
+        option(value='') Выбрать из списка
         each val in options
           if instance[key] == val.id
             option(selected value=val.id)= val.__title
@@ -87,7 +87,7 @@ mixin select_required(key, text, options)
     - var err = errors && errors.find(e => e.path == key)
     if err
       select.select.form-control.is-invalid(id=key name=key required)
-        option(value='') ___
+        option(value='') Выбрать из списка
         each val in options
           if instance[key] == val.id
             option(selected value=val.id)= val.__title
@@ -96,7 +96,7 @@ mixin select_required(key, text, options)
       .error.invalid-feedback= err.message
     else
       select.select.form-control(id=key name=key required)
-        option(value='') ___
+        option(value='') Выбрать из списка
         each val in options
           if instance[key] == val.id
             option(selected value=val.id)= val.__title
@@ -109,7 +109,7 @@ mixin select2(key, text, options)
     - var err = errors && errors.find(e => e.path == key)
     if err
       select.select2.form-control.is-invalid(id=key name=key)
-        option(value='') ___
+        option(value='') Выбрать из списка
         each val in options
           if instance[key] == val.id
             option(selected value=val.id)= val.__title
@@ -118,7 +118,7 @@ mixin select2(key, text, options)
       .error.invalid-feedback= err.message
     else
       select.select2.form-control(id=key name=key)
-        option(value='') ___
+        option(value='') Выбрать из списка
         each val in options
           if instance[key] == val.id
             option(selected value=val.id)= val.__title
@@ -132,7 +132,7 @@ mixin select2_required(key, text, options)
     - var err = errors && errors.find(e => e.path == key)
     if err
       select.select2.form-control.is-invalid(id=key name=key required)
-        option(value='' disabled) ___
+        option(value='' disabled) Выбрать из списка
         each val in options
           if instance[key] == val.id
             option(selected value=val.id)= val.__title
@@ -141,7 +141,7 @@ mixin select2_required(key, text, options)
       .error.invalid-feedback= err.message
     else
       select.select2.form-control(id=key name=key required)
-        option(value='' disabled) ___
+        option(value='' disabled) Выбрать из списка
         each val in options
           if instance[key] == val.id
             option(selected value=val.id)= val.__title

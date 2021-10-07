@@ -11,7 +11,7 @@ block body
       .form-group
         label(for="nomenclatureId") Номенклатура
         select#nomenclatureId.form-control(name="nomenclatureId")
-          option(value='') ___
+          option(value='') Выбрать из списка
           each val in nomenclature
             if instance.nomenclatureId == val.id
               option(selected value=val.id)= val.title
@@ -20,7 +20,7 @@ block body
       .form-group
         label(for="passportId") Паспорт
         select#passportId.form-control(name="passportId")
-          option(value='') ___
+          option(value='') Выбрать из списка
           each val in passport
             if instance.passportId == val.id
               option(selected value=val.id)= val.factory_id + ' (' + val['nomenclature.title'] + ')'
