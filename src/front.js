@@ -116,8 +116,8 @@ front.get('/:module', async (req, res, next) => {
   const { module } = req.params
   const { filter, sort, range } = req.query
   const custom = customLists.includes(module) ? 's' : ''
-  const rest = await fetch(`${backendAddr}/api/${module}${custom}?range=${range || ''}&sort=${sort || ''}&filter=${filter || ''}`).then(res => res.json())
-  res.locals.list = rest
+  // const rest = await fetch(`${backendAddr}/api/${module}${custom}?range=${range || ''}&sort=${sort || ''}&filter=${filter || ''}`).then(res => res.json())
+  // res.locals.list = rest
   next()
 })
 
