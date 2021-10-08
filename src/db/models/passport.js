@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
             model: models.nomenclature.unscoped(),
             include: [
               {
-                model: models.nomenclature_vendor.unscoped(),
+                model: models.nomenclature_vendor,
                 as: 'nv',
               },
               {
