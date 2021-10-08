@@ -21,7 +21,7 @@ block body
               option(value=val.id)= val.title
       .form-group
         label(for="title") Наименование
-        input#title.form-control(name="title" type="text" placeholder="" value=instance.title)
+        input#title.form-control(name="title" type="text" placeholder="Ввести с клавиатуры" value=instance.title)
     .card-footer
       if instance.id
         button.btn.btn-primary(type="submit") Сохранить
