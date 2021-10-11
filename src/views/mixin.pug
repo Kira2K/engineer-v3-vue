@@ -11,10 +11,10 @@ mixin input(key, text)
     label(for=key)= text
     - var err = errors && errors.find(e => e.path == key)
     if err
-      input.form-control.is-invalid(id=key name=key type="text" placeholder="" value=instance[key])
+      input.form-control.is-invalid(id=key name=key type="text" placeholder="Ввести с клавиатуры" value=instance[key])
       .error.invalid-feedback= err.message
     else
-      input.form-control(id=key name=key type="text" placeholder="" value=instance[key])
+      input.form-control(id=key name=key type="text" placeholder="Ввести с клавиатуры" value=instance[key])
 
 mixin input_required(key, text)
   .form-group
@@ -22,10 +22,10 @@ mixin input_required(key, text)
       span.required *
     - var err = errors && errors.find(e => e.path == key)
     if err
-      input.form-control.is-invalid(id=key name=key type="text" placeholder="" value=instance[key] required)
+      input.form-control.is-invalid(id=key name=key type="text" placeholder="Ввести с клавиатуры" value=instance[key] required)
       .error.invalid-feedback= err.message
     else
-      input.form-control(id=key name=key type="text" placeholder="" value=instance[key] required)
+      input.form-control(id=key name=key type="text" placeholder="Ввести с клавиатуры" value=instance[key] required)
 
 mixin dateonly_single(key, text)
   .form-group
@@ -33,11 +33,11 @@ mixin dateonly_single(key, text)
     .input-group
       - var err = errors && errors.find(e => e.path == key)
       if err
-        input.form-control.is-invalid.dateonlypicker(id=key type='text' name=key value=instance[key])
+        input.form-control.is-invalid.dateonlypicker(id=key type='text' name=key value=instance[key] placeholder="Выберите дату")
         .input-group-append: .input-group-text: label(for=key): i.far.fa-calendar
         .error.invalid-feedback= err.message
       else
-        input.form-control.dateonlypicker(id=key type='text' name=key value=instance[key])
+        input.form-control.dateonlypicker(id=key type='text' name=key value=instance[key] placeholder="Выберите дату")
         .input-group-append: .input-group-text: label(for=key): i.far.fa-calendar
     small.form-text.text-muted.dateonlypicker_help Please specify data in the form of YYYY-MM-DD
     block
@@ -49,11 +49,11 @@ mixin dateonly_single_required(key, text)
     .input-group
       - var err = errors && errors.find(e => e.path == key)
       if err
-        input.form-control.is-invalid.dateonlypicker(id=key type='text' name=key value=instance[key] required)
+        input.form-control.is-invalid.dateonlypicker(id=key type='text' name=key value=instance[key] required placeholder="Выберите дату")
         .input-group-append: .input-group-text: label(for=key): i.far.fa-calendar
         .error.invalid-feedback= err.message
       else
-        input.form-control.dateonlypicker(id=key type='text' name=key value=instance[key] required)
+        input.form-control.dateonlypicker(id=key type='text' name=key value=instance[key] required placeholder="Выберите дату")
         .input-group-append: .input-group-text: label(for=key): i.far.fa-calendar
     small.form-text.text-muted.dateonlypicker_help Please specify data in the form of YYYY-MM-DD
     block
