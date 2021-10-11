@@ -34,11 +34,11 @@ mixin dateonly_single(key, text)
       - var err = errors && errors.find(e => e.path == key)
       if err
         input.form-control.is-invalid.dateonlypicker(id=key type='text' name=key value=instance[key])
-        .input-group-append: .input-group-text: i.fal.fa-calendar
+        .input-group-append: .input-group-text: label(for=key): i.far.fa-calendar
         .error.invalid-feedback= err.message
       else
         input.form-control.dateonlypicker(id=key type='text' name=key value=instance[key])
-        .input-group-append: .input-group-text: i.fal.fa-calendar
+        .input-group-append: .input-group-text: label(for=key): i.far.fa-calendar
     small.form-text.text-muted.dateonlypicker_help Please specify data in the form of YYYY-MM-DD
     block
 
@@ -50,11 +50,11 @@ mixin dateonly_single_required(key, text)
       - var err = errors && errors.find(e => e.path == key)
       if err
         input.form-control.is-invalid.dateonlypicker(id=key type='text' name=key value=instance[key] required)
-        .input-group-append: .input-group-text: i.fal.fa-calendar
+        .input-group-append: .input-group-text: label(for=key): i.far.fa-calendar
         .error.invalid-feedback= err.message
       else
         input.form-control.dateonlypicker(id=key type='text' name=key value=instance[key] required)
-        .input-group-append: .input-group-text: i.fal.fa-calendar
+        .input-group-append: .input-group-text: label(for=key): i.far.fa-calendar
     small.form-text.text-muted.dateonlypicker_help Please specify data in the form of YYYY-MM-DD
     block
 
