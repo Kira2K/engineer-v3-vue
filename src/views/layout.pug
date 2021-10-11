@@ -227,6 +227,9 @@ html(lang='en')
           color: #c9ebff;
           border: 1px solid #357ebd;
           border-radius: 3px;}
+        .dateonlypicker:focus  { clip-path: inset(-4px 0px -4px -4px) }
+        .dateonlypicker:focus ~ .input-group-append { box-shadow: 0 0 0 0.25rem rgb(76 155 232 / 25%); clip-path: inset(-4px -4px -4px 0px) }
+        .dateonlypicker.is-invalid:focus ~ .input-group-append { box-shadow: 0 0 0 0.25rem rgba(217, 83, 79, 0.25); }
   body.hold-transition.sidebar-mini.layout-footer-fixed
     .wrapper
       // Navbar
