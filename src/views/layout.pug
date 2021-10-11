@@ -361,7 +361,7 @@ html(lang='en')
             -var action = { create: 'создал', edit: 'изменил', delete: 'удалил'}
             strong=  action[lastlog[0].action] || lastlog[0].action
             | 
-            strong: a.btn.btn-sm(href=lastlog[0].module + '/edit/' + lastlog[0].extra.instanceId)= lastlog[0].extra.instanceId
+            strong: a.btn.btn-sm(href='/' + lastlog[0].module + '/edit/' + lastlog[0].extra.instanceId)= lastlog[0].extra.instanceId
             |  в 
             strong= (i10n.modules[lastlog[0].module] || { title: lastlog[0].module }).title
             | 

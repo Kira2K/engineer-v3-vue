@@ -1,4 +1,5 @@
 require('dotenv').config()
+const _ = require('lodash')
 const debug = require('debug')
 const express =  require('express')
 const bodyParser = require('body-parser')
@@ -18,19 +19,22 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(morgan('dev'))
 
-app.use(crud('/api/unit', sequelizeCrud(db.unit), {
-    filters: {
-      id: value => ({
-        [Op.gt]: value,
-      }),
-    }
-  }
-))
-app.use(crud('/api/pcheck', {
-  getList: ({ filter, limit, offset, order }) => {
-    return { rows: [{ filter, limit, offset, order }]}
-  }
-}))
+app.get('/api/keys/:model', async (req, res) => {
+  var { model } = req.params
+  res.send( Object.keys(await db[model].findOne({ raw: true })) )
+})
+
+app.get('/api/list/:model', async (req, res) => {
+  var { model } = req.params
+  console.log(req.query)
+  var fields = JSON.parse(req.query.fields || '[]')
+  var aliases = JSON.parse(req.query.aliases || '{}')
+  var result = await db.passport.findAndCountAll({ limit: 5e10, raw: true })
+  if (fields && fields.length) result.rows = result.rows.map(el => _.mapKeys(_.pick(el, fields), (val, key) => aliases[key] || key.replace(/^.+\./, '')))
+  res.send(result)
+})
+
+app.use(crud('/api/unit', sequelizeCrud(db.unit)))
 app.use(crud('/api/nomenclatureclass', sequelizeCrud(db.nomenclature_class)))
 app.use(crud('/api/nomenclaturegroup', sequelizeCrud(db.nomenclature_group)))
 app.use(crud('/api/nomenclaturevendor', sequelizeCrud(db.nomenclature_vendor)))
@@ -44,34 +48,6 @@ app.use(crud('/api/counterparty', sequelizeCrud(db.counterparty)))
 app.use(crud('/api/complectation', sequelizeCrud(db.complectation)))
 app.use(crud('/api/malfunction_type', sequelizeCrud(db.malfunction_type)))
 app.use(crud('/api/part', sequelizeCrud(db.part)))
-app.use(crud('/api/passports', {
-  getList: async ({ filter, limit, offset, order }) => {
-    const where = {}
-    if (filter.produced) where.produced = { [Op.between]: [filter.produced[0], filter.produced[1]] }
-
-    return await db.passport.findAndCountAll({ limit, offset, order,
-      where,
-      include: [
-/*        {
-          model: db.nomenclature.unscoped(),
-          where: {
-            title: {
-              [Op.iLike]: `%${filter['nomenclature.title'] || ''}%`
-            }
-          }
-        },
-        {
-          model: db.counterparty.unscoped(),
-          where: {
-            title: {
-              [Op.iLike]: `%${filter['counterparty.title'] || ''}%`
-            }
-          }
-        },*/
-      ]
-    })
-  }
-}))
 app.use(crud('/api/passport', sequelizeCrud(db.passport)))
 app.use(crud('/api/repair_type', sequelizeCrud(db.repair_type)))
 app.use(crud('/api/toro', sequelizeCrud(db.toro)))
