@@ -294,6 +294,12 @@ input::placeholder {
   background: #385775 !important;
 }
 
+.dateonlypicker:focus  {
+  box-shadow: none;
+}
+.daterangepicker-focused {
+  box-shadow: 0 0 0 0.25rem rgb(76 155 232 / 25%);
+}
 .daterangepicker td.off,
 .daterangepicker td.off.in-range,
 .daterangepicker td.off.start-date,
