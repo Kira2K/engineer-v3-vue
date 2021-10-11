@@ -15,7 +15,7 @@ $(() => {
     $(el).daterangepicker({
       singleDatePicker: true,
       showDropdowns: true,
-      cancelButtonClasses: !!required ? 'd-none' : '',
+      cancelButtonClasses: required ? 'd-none' : '',
       locale: {
         format: 'DD.MM.YYYY',
         weekLabel: 'Н',
