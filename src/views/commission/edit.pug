@@ -14,7 +14,7 @@ block body
       +input('ip',  'IP адрес')
       +input('mac',  'MAC адрес')
       - passport.map((el, n) => el['__title'] = `${n} ${el['nomenclature.model']} арт. ${el['nomenclature.vendor_id'] || '__'} изг. ${el['nomenclature.nv.title']}`)
-      +select2_required('passportId', 'Экземпляр борудования', passport)
+      +select2_required('passportId', 'Экземпляр оборудования', passport)
       - branch.map(el => el['__title'] = el.title)
       +select2_required('branchId', 'Подразделение', branch)
 
