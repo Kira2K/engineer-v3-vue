@@ -56,13 +56,6 @@ $(() => {
   }
 
   $('.dateonlypicker').map((i, el) => {
-    const parent = $(el).parent()
-    $(el).click(()=> {
-      parent.addClass('daterangepicker-focused')
-    })
-    $(el).focusout(()=> {
-      parent.removeClass('daterangepicker-focused')
-    })
     if ($(el).val()) return initDataonlypicker(el)
     let init
 
