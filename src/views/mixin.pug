@@ -151,7 +151,7 @@ mixin select2_required(key, text, options)
 mixin multiselect(key, text, options, fkey)
   .form-group
     label(for=key)= text
-    select.form-control.select2(id=key name=key multiple)
+    select.form-control.select2(id=key name=key multiple data-placeholder="Выбрать из списка")
       each val in options
         if locals[key].find(el => el[fkey] == val.id)
           option(selected value=val.id)= val.__title
