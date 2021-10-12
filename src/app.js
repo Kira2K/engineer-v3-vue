@@ -29,7 +29,7 @@ app.get('/api/list/:model', async (req, res) => {
   console.log(req.query)
   var fields = JSON.parse(req.query.fields || '[]')
   var aliases = JSON.parse(req.query.aliases || '{}')
-  var result = await db.passport.findAndCountAll({ limit: 5e10, raw: true })
+  var result = await db[model].findAndCountAll({ limit: 5e10, raw: true })
   if (fields && fields.length) result.rows = result.rows.map(el => _.mapKeys(_.pick(el, fields), (val, key) => aliases[key] || key.replace(/^.+\./, '')))
   res.send(result)
 })
