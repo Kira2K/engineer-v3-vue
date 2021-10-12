@@ -28,6 +28,8 @@ const memoryStore = new session.MemoryStore();
 const front = express()
 const customLists = ['passport']
 
+const prepare_query = obj => encodeURIComponent(JSON.stringify(obj))
+
 front.use(favicon('src/views/favicon.ico'))
 
 front.use('/plugins', express.static('node_modules/admin-lte/plugins'))
@@ -77,7 +79,6 @@ front.get('/login', keycloak.protect(), function (req, res) {
 front.get('/download/:module', async (req, res, next) => {
   const { module } = req.params
   if (!i10n[module] || !i10n[module].fields) return res.status(501).send()
-  const prepare_query = obj => encodeURIComponent(JSON.stringify(obj))
   const filename = `/tmp/engineer-${module}`
 
   const fields = i10n[module].fields.map(el => el.src || el.value)
@@ -197,7 +198,8 @@ front.get('/toro/:action/:id?', async (req, res, next) => {
 })
 
 front.get('/warranty/:action/:id?', async (req, res, next) => {
-  res.locals.passport = await fetch(`${backendAddr}/api/passport?range=[0,1000000]`).then(res => res.json())
+  res.locals.passport = (await fetch(`${backendAddr}/api/list/passport?fields=${prepare_query(['id', 'nomenclature.model', 'nomenclature.vendor_id', 'extra'])}`).then(res => res.json())).rows
+  console.log(res.locals.passport)
   next()
 })
 
