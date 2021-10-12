@@ -1,10 +1,35 @@
 fields:
-  id: №
-  designation: Обозначение
-  title: Наименование
-  "unit.short": Единицы измерения
-  "nm.nt.ng.nc.title": Класс номенклатуры
-  "nm.nt.ng.title": Группа номенклатуры
-  "nm.nt.title": Тип номенклатуры
-  "nm.title": Модель номенклатуры
-  createdAt: Дата создания
+- value: id
+  label: Код
+  type: number
+  width: 70
+- value: model
+  label: Модель
+  width: 280
+- value: vendor_id
+  label: Артикул
+  width: 140
+- value: unit
+  label: Ед изм.
+  src: unit.short
+  width: 110
+- value: class
+  label: Класс
+  src: nv.nt.ng.nc.title
+  width: 220
+- value: group
+  label: Группа
+  src: nv.nt.ng.title
+  width: 220
+- value: type
+  label: Тип
+  src: nv.nt.title
+  width: 220
+- value: vendor
+  label: Производитель
+  src: nv.title
+  width: 220
+- value: createdAt
+  label: Дата создания
+  type: date
+  width: 180

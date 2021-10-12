@@ -77,12 +77,19 @@ front.get('/login', keycloak.protect(), function (req, res) {
 front.get('/download/:module', async (req, res, next) => {
   const { module } = req.params
   if (!i10n[module] || !i10n[module].fields) return res.status(501).send()
+  const prepare_query = obj => encodeURIComponent(JSON.stringify(obj))
   const filename = `/tmp/engineer-${module}`
-  const fields = Object.keys(i10n[module].fields).map(key => ({label: i10n[module].fields[key], value: key}))
-  const rest = await fetch(`${backendAddr}/api/${module}?range=[0,1000000]`).then(res => res.json())
-  const json2csv = new Parser({ fields });
-  const csv = json2csv.parse(rest);
+
+  const fields = i10n[module].fields.map(el => el.src || el.value)
+  const aliases = i10n[module].fields.reduce((acc, el) => (el.src ? Object.assign(acc, { [el.src]: el.value }) : 1) && acc, {})
+  const parser_conf = i10n[module].fields.map(el => ({ value: el.value, label: el.label }))
+
+  const rest = await fetch(`${backendAddr}/api/list/${module}?fields=${prepare_query(fields)}&aliases=${prepare_query(aliases)}`).then(res => res.json())
+
+  const json2csv = new Parser({ fields: parser_conf });
+  const csv = json2csv.parse(rest.rows);
   await fs.writeFile(`${filename}.csv`, csv);
+
   const workbook = new Excel.Workbook();
   const worksheet = await workbook.csv.readFile(`${filename}.csv`);
   await workbook.xlsx.writeFile(`${filename}.xlsx`);

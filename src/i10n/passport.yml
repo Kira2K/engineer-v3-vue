@@ -1,17 +1,59 @@
 fields:
-  id: №
-  "nomenclature.title": Оборудование
-  factory_id: Заводской номер
-  warranty: Срок гарантии
-  f1: Дата начала гарантии
-  warranty_expiration: Дата окончания гарантии
-  f2: Сер №
-  f3: МО
-  f4: Подразделение МО
-  f5: Состояние
-  f6: Изготовитель
-  extra: Особые отметки
-  f7: Дата ввода в эксплуатацию
-  accepted_runtime: Допустимая наработка
-  max_runtime: Предельная наработка
-  createdAt: Дата создания
+- value: id
+  label: Код
+  type: number
+  width: 70
+- value: model
+  label: Модель
+  src: nomenclature.model
+  width: 240
+- value: vendor_id
+  label: Заводской номер
+  src: nomenclature.vendor_id
+  width: 280
+- value: serial
+  label: Сер. №
+- value: partnumber
+  label: № партии
+  width: 120
+- value: produced
+  label: Изготовлен
+  type: date
+  width: 130
+- value: state
+  label: Состояние
+  width: 150
+- value: vendor
+  label: Изотовитель
+  src: nomenclature.nv.title
+  width: 130
+- value: type
+  label: Тип
+  src: nomenclature.nv.nt.title
+  width: 130
+- value: group
+  label: Группа
+  src: nomenclature.nv.nt.ng.title
+  width: 260
+- value: class
+  label: Класс
+  src: nomenclature.nv.nt.ng.nc.title
+  width: 290
+- value: mac
+  label: MAC адрес
+  src: commissions.mac
+  width: 130
+- value: ip
+  label: IP адрес
+  src: commissions.ip
+- value: mo
+  label: MO
+  src: commissions.branch.title
+  width: 150
+- value: extra
+  label: Особые отметки
+  width: 240
+- value: createdAt
+  label: Дата создания
+  type: date
+  width: 160
