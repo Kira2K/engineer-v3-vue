@@ -226,7 +226,12 @@ html(lang='en')
         .monthselect, .yearselect {background:#2a445e;
           color: #c9ebff;
           border: 1px solid #357ebd;
+          outline: none;
           border-radius: 3px;}
+          .monthselect option, .yearselect option {background:#2a445e;
+            font-size: 12px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: normal;}
         .dateonlypicker:focus  { clip-path: inset(-4px 0px -4px -4px) }
         .dateonlypicker:focus ~ .input-group-append { box-shadow: 0 0 0 0.25rem rgb(76 155 232 / 25%); clip-path: inset(-4px -4px -4px 0px) }
         .dateonlypicker.is-invalid:focus ~ .input-group-append { box-shadow: 0 0 0 0.25rem rgba(217, 83, 79, 0.25); }
