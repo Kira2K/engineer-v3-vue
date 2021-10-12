@@ -199,12 +199,11 @@ front.get('/toro/:action/:id?', async (req, res, next) => {
 
 front.get('/warranty/:action/:id?', async (req, res, next) => {
   res.locals.passport = (await fetch(`${backendAddr}/api/list/passport?fields=${prepare_query(['id', 'nomenclature.model', 'nomenclature.vendor_id', 'extra'])}`).then(res => res.json())).rows
-  console.log(res.locals.passport)
   next()
 })
 
 front.get('/runtime/:action/:id?', async (req, res, next) => {
-  res.locals.passport = await fetch(`${backendAddr}/api/passport?range=[0,1000000]`).then(res => res.json())
+  res.locals.passport = (await fetch(`${backendAddr}/api/list/passport?fields=${prepare_query(['id', 'nomenclature.model', 'nomenclature.vendor_id', 'extra'])}`).then(res => res.json())).rows
   next()
 })
 
