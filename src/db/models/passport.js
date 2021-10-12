@@ -82,7 +82,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     commissioned: {
       type: DataTypes.DATEONLY,
-
+      validate: {
+        isGreaterThanProduced(value) {
+          if (value < this.produced) {
+            throw new Error('Commissioned date must be greater than Produced');
+          }
+        }
+      }
 
     },
     extra: {
