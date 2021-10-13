@@ -22,7 +22,7 @@ const dateonlypickerInitialisationFunction = () => {
     $(el).daterangepicker({
       singleDatePicker: true,
       showDropdowns: true,
-      autoApply: !!required,
+      cancelButtonClasses: required ? 'd-none' : '',
       locale: {
         format: 'DD.MM.YYYY',
         weekLabel: 'Н',

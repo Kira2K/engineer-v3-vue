@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.nomenclature.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
       this.belongsTo(models.nomenclature);
-      models.counterparty.hasMany(this, { foreignKey: { allowNull: false, validate: { notEmpty: true } } })
+      models.counterparty.hasMany(this)
       this.belongsTo(models.counterparty);
 
       this.addScope('defaultScope', {
@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
             model: models.nomenclature.unscoped(),
             include: [
               {
-                model: models.nomenclature_vendor.unscoped(),
+                model: models.nomenclature_vendor,
                 as: 'nv',
               },
               {
@@ -82,7 +82,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     commissioned: {
       type: DataTypes.DATEONLY,
-
+      validate: {
+        isGreaterThanProduced(value) {
+          if (value < this.produced) {
+            throw new Error('Commissioned date must be greater than Produced');
+          }
+        }
+      }
 
     },
     extra: {

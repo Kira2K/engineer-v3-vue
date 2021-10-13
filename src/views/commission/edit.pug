@@ -14,13 +14,19 @@ block body
       +input('ip',  'IP адрес')
       +input('mac',  'MAC адрес')
       - passport.map((el, n) => el['__title'] = `${n} ${el['nomenclature.model']} арт. ${el['nomenclature.vendor_id'] || '__'} изг. ${el['nomenclature.nv.title']}`)
-      +select2_required('passportId', 'Экземпляр борудования', passport)
+      +select2_required('passportId', 'Экземпляр оборудования', passport)
       - branch.map(el => el['__title'] = el.title)
       +select2_required('branchId', 'Подразделение', branch)
 
     .card-footer
       if instance.id
-        button.btn.btn-primary(type="submit") Сохранить
+        if instance.passportId
+          button.btn.btn-primary(type="submit" formaction=`?redirectTo=/passport/edit/${instance.passportId}`) Сохранить
+        else
+          button.btn.btn-primary(type="submit") Сохранить
         // a.float-right.btn.btn-danger(href=`/commission/delete/${instance.id}`) Удалить
       else
-        button.btn.btn-primary(type="submit") Добавить
+        if instance.passportId
+          button.btn.btn-primary(type="submit" formaction=`?redirectTo=/passport/edit/${instance.passportId}`) Добавить
+        else
+          button.btn.btn-primary(type="submit") Добавить

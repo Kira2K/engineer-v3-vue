@@ -1,6 +1,6 @@
 body {
   color: #c9ebff;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
 }
 .content-wrapper {
@@ -19,15 +19,10 @@ body {
 
 .main-footer {
   background: #121b25;
-  border: none;
-  margin-bottom: 24px;
-  height: 100px;
 }
-
 .card {
   border-radius: 4px;
 }
-
 .card-header {
   background: #213345;
 }
@@ -93,12 +88,28 @@ input {
 
 .popover {
   background: rgba(37, 56, 78, 1);
+  z-index: 999;
 }
 .select2 {
   z-index: 1000;
 }
 .popover .arrow::after {
   border-right-color: rgba(37, 56, 78, 1);
+}
+.filters-state-popover-body {
+  font-size: 14px;
+  line-height: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.filters-state-popover-btn {
+  color: #80c5ed;
+  cursor: pointer;
+  margin-bottom: 0px;
+}
+.filters-state-popover-btn:hover {
+  color: #73d0f5;
 }
 
 #clear-filters {
@@ -109,7 +120,33 @@ input {
   margin-top: 8px;
   margin-bottom: 16px;
 }
+.filters-state-popover-titles-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: -6px;
+}
+.filters-state-popover-single-title-container {
+  margin-top: 9px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1px 8px;
+  border: 1px solid #385775;
+  border-radius: 4px;
+}
 
+.filters-state-popover-filter-title {
+  margin: 0;
+  padding-bottom: 2px;
+  white-space: nowrap;
+}
+.filters-state-popover-filter-delete {
+  margin-left: 5px;
+  width: 80%;
+  cursor: pointer;
+}
 .ui-sortable .item {
   user-select: none;
   cursor: pointer;
@@ -209,9 +246,6 @@ ol.breadcrumb li a {
 .jsgrid-header-sort:before {
   content: none;
 }
-.fal.fa-calendar {
-  color: #718eab;
-}
 .jsgrid-header-sortable > .fa-arrow-up:before,
 .jsgrid-header-sortable > .fa-arrow-down:before {
   display: none;
@@ -239,4 +273,66 @@ ol.breadcrumb li a {
 }
 .select2-container {
   min-width: 150px;
+}
+.input-group-text label {
+  margin-bottom: 0;
+}
+.input-group-text label i {
+  font-size: 18px;
+}
+.drp-buttons .cancelBtn:hover {
+  color: #c9ebff;
+}
+.show-calendar:after,
+.show-calendar:before {
+  display: none;
+}
+.daterangepicker {
+  font-family: "Roboto", sans-serif;
+  font-weight: normal;
+  margin-top: 4px;
+}
+.daterangepicker td.active,
+.daterangepicker td.active:hover {
+  background-color: #357ebd;
+}
+.monthselect,
+.yearselect {
+  background: #2a445e;
+  color: #c9ebff;
+  border: 1px solid #357ebd;
+  outline: none;
+  border-radius: 3px;
+}
+.monthselect option,
+.yearselect option {
+  background: #2a445e;
+  font-size: 12px;
+  font-family: "Roboto", sans-serif;
+  font-weight: normal;
+}
+.dateonlypicker:focus {
+  clip-path: inset(-4px 0px -4px -4px);
+}
+.dateonlypicker:focus ~ .input-group-append {
+  box-shadow: 0 0 0 0.25rem rgb(76 155 232 / 25%);
+  clip-path: inset(-4px -4px -4px 0px);
+}
+.dateonlypicker.is-invalid:focus ~ .input-group-append {
+  box-shadow: 0 0 0 0.25rem rgba(217, 83, 79, 0.25);
+}
+.select2-container--default.select2-container--disabled
+  .select2-selection--single {
+  outline: none;
+  border-color: transparent;
+  cursor: not-allowed;
+  background-color: rgb(27, 43, 58);
+}
+.select2-selection__arrow b {
+  display: none;
+}
+.select2-selection__arrow::after {
+  font-family: "Font Awesome 5 Pro";
+  font-weight: 900;
+  content: "\f078";
 }

@@ -125,10 +125,14 @@ $(() => {
             return tableData.filter(window.table_filter(filter))
           }
           $.ajax({
-            url: `${window.backend_addr}/api/${window.table_url}?range=%5B0%2C1000000%5D`,
+            url: `${window.backend_addr}/api/${
+              window.table_list || window.table_url
+            }${window.table_list ? "" : "?range=%5B0%2C1000000%5D"}`,
             success(response) {
               deferred.resolve(
-                (tableData = response.map(window.table_formatter))
+                (tableData = window.table_list
+                  ? response.rows
+                  : response.map(window.table_formatter))
               )
             },
           })

@@ -19,6 +19,9 @@ block body
       if instance.id
         +dummy_input('id', 'Код')
       .row
+        if instance.nomenclature && instance.nomenclature.nv
+          - instance.vendor_id = instance.nomenclature.vendor_id
+          - instance.vendor = instance.nomenclature.nv.title
         .col-xl-3.col-lg-6
           - nomenclature.map(el => el['__title'] = el.model)
           +select2_required('nomenclatureId', 'Номенклатура', nomenclature)
@@ -27,12 +30,10 @@ block body
         .col-xl-3.col-lg-6
           +input('serial',  'Серийный номер')
         .col-xl-3.col-lg-6
-          - instance.vendor_id = instance.nomenclature.vendor_id
           +dummy_input('vendor_id',  'Заводской номер')
         .col-xl-3.col-lg-6
           +input('partnumber',  'Номер партии')
         .col-xl-3.col-lg-6
-          - instance.vendor = instance.nomenclature.nv.title
           +dummy_input('vendor', 'Изготовитель')
         .col-xl-3.col-lg-6
           +dateonly_single_required('produced', 'Дата изготовления')

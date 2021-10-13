@@ -37,6 +37,7 @@ html(lang='en')
       link(rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css' integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p' crossorigin='anonymous')
   body.hold-transition.sidebar-mini
     .wrapper#vue-initter
+
       // Navbar
       nav.main-header.navbar.navbar-expand
         // Left navbar links
@@ -180,7 +181,7 @@ html(lang='en')
             -var action = { create: 'создал', edit: 'изменил', delete: 'удалил'}
             strong=  action[lastlog[0].action] || lastlog[0].action
             |
-            strong: a.btn.btn-sm(href=lastlog[0].module + '/edit/' + lastlog[0].extra.instanceId)= lastlog[0].extra.instanceId
+            strong: a.btn.btn-sm(href='/' + lastlog[0].module + '/edit/' + lastlog[0].extra.instanceId)= lastlog[0].extra.instanceId
             |  в
             strong= (i10n.modules[lastlog[0].module] || { title: lastlog[0].module }).title
             |
@@ -222,7 +223,7 @@ html(lang='en')
         }
       script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js')
       script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.js')
-      script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.js')
+
       script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.js')
 
 
@@ -251,12 +252,14 @@ html(lang='en')
 
       script(src='/public/js/footable.min.js')
 
+      //- rework to npm!
       script(src='https://unpkg.com/vue@2.6.14/dist/vue.js')
       script(src='https://unpkg.com/vuex')
       script(src='//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js')
       script(src='//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js')
       script(src='/public/js/layout.js')
       script(src='/public/filterManager/index.js')
+
       if errors
         script.
           $(() => {

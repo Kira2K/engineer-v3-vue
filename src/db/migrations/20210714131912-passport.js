@@ -52,7 +52,7 @@ module.exports = {
         }
       },
       counterparty_id: {
-        allowNull: false,
+
         type: Sequelize.INTEGER,
         references: {
           model: 'counterparty'

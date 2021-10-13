@@ -31,28 +31,11 @@ $(() => {
     },
     mounted() {
       dateonlypickerInitialisationFunction()
+      $(".select2").select2()
     },
   })
   window.store = store
-  $(".select2").select2()
-
-  // - dateonlypickerCalendarInit
-  $(".dateonlypicker").map((i, el) => {
-    const parent = $(el).parent()
-    const t = $(parent).children()
-    console.log($(t))
-    $(parent)
-      .children()
-      .map((_i, child) => {
-        if ($(child).attr("class") == "input-group-append") {
-          $(child).click(() => {
-            el.click()
-          })
-        }
-      })
-  })
   // - Menu init
-
   $("#firstMenuOpen").click(() => {
     $("#firstMenuOpenIcon").toggleClass("open")
   })

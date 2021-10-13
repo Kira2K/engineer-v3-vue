@@ -16,7 +16,24 @@ block body
       if instance.id
         +dummy_input('id', 'Код')
       .row
-        .col-12
+        - var uniqById = (el, i, all) => all.findIndex(al => al.id == el.id) == i
+        - var sortByTitle = (a, b) => a.__title > b.__title ? (a.__title == b.__title ? 0 : 1) : -1
+        - var p_class = parent.map(el => ({id: el["nt.ng.nc.id"], __title: el["nt.ng.nc.title"]})).filter(uniqById).sort(sortByTitle)
+        - var p_group = parent.map(el => ({id: el["nt.ng.id"], __title: el["nt.ng.title"], parent: el["nt.ng.nomenclature_class_id"]})).filter(uniqById).sort(sortByTitle)
+        - var p_type = parent.map(el => ({id: el["nt.id"], __title: el["nt.title"], parent: el["nt.nomenclature_group_id"]})).filter(uniqById).sort(sortByTitle)
+        - var p_vendor = parent.map(el => ({id: el["id"], __title: el["title"], parent: el["nomenclature_type_id"]})).filter(uniqById).sort(sortByTitle)
+        - parent.filter(el => el.id == instance.nomenclatureVendorId).map(el => { instance.nomenclatureClassId = el["nt.ng.nomenclature_class_id"]; instance.nomenclatureGroupId = el["nt.nomenclature_group_id"]; instance.nomenclatureTypeId = el["nomenclature_type_id"]})
+        script.
+          var { p_group, p_type, p_vendor } = !{JSON.stringify({ p_group, p_type, p_vendor })}
+        .col-xl-3
+          +select2_required('nomenclatureClassId', 'Класс номенклатуры', p_class)
+        .col-xl-3
+          +select2_required('nomenclatureGroupId', 'Группа номенклатуры', p_group)
+        .col-xl-3
+          +select2_required('nomenclatureTypeId', 'Тип номенклатуры', p_type)
+        .col-xl-3
+          +select2_required('nomenclatureVendorId', 'Производитель номенклатуры', p_vendor)
+        //.col-12
           - parent.map(el => el['__title'] = el['nt.ng.nc.title'] + ' > ' + el['nt.ng.title'] + ' > ' + el['nt.title'] + ' > ' + el.title)
           +select2_required('nomenclatureVendorId', 'Классификация номенклатуры', parent)
         .col-xl-4
@@ -37,3 +54,37 @@ block body
         // a.float-right.btn.btn-danger(href=`/nomenclature/delete/${instance.id}`) Удалить
       else
         button.btn.btn-primary(type="submit") Добавить
+
+append script
+  script.
+    $(() => {
+      $('#nomenclatureClassId').on('select2:select', function (e) {
+        var children = p_group.filter(el => el.parent == e.params.data.id).map(el => el.id).concat(0)
+        $('#nomenclatureTypeId, #nomenclatureVendorId').attr('disabled', '')
+        $('#nomenclatureGroupId').attr('disabled', null)
+        $('#nomenclatureGroupId option').attr('hidden', '');
+        [...$('#nomenclatureGroupId option')].filter(el => children.includes(+el.value)).map(el => $(el).removeAttr('hidden'))
+        $('#nomenclatureGroupId, #nomenclatureTypeId, #nomenclatureVendorId').val('')
+        $('#nomenclatureGroupId, #nomenclatureTypeId, #nomenclatureVendorId').select2({templateResult: option => option.element && !option.element.hasAttribute('hidden') ? option.text : null })
+      })
+      $('#nomenclatureGroupId').on('select2:select', function (e) {
+        var children = p_type.filter(el => el.parent == e.params.data.id).map(el => el.id).concat(0)
+        $('#nomenclatureVendorId').attr('disabled', '')
+        $('#nomenclatureTypeId').attr('disabled', null)
+        $('#nomenclatureTypeId option').attr('hidden', '');
+        [...$('#nomenclatureTypeId option')].filter(el => children.includes(+el.value)).map(el => $(el).removeAttr('hidden'))
+        $('#nomenclatureTypeId, #nomenclatureVendorId').val('')
+        $('#nomenclatureTypeId, #nomenclatureVendorId').select2({templateResult: option => option.element && !option.element.hasAttribute('hidden') ? option.text : null })
+      })
+      $('#nomenclatureTypeId').on('select2:select', function (e) {
+        var children = p_vendor.filter(el => el.parent == e.params.data.id).map(el => el.id).concat(0)
+        $('#nomenclatureVendorId').attr('disabled', null)
+        $('#nomenclatureVendorId option').attr('hidden', '');
+        [...$('#nomenclatureVendorId option')].filter(el => children.includes(+el.value)).map(el => $(el).removeAttr('hidden'))
+        $('#nomenclatureVendorId').val('')
+        $('#nomenclatureTypeId, #nomenclatureVendorId').select2({templateResult: option => option.element && !option.element.hasAttribute('hidden') ? option.text : null })
+      })
+    })
+  if !instance.nomenclatureVendorId
+    script.
+      $(() => $('#nomenclatureClassId, #nomenclatureGroupId, #nomenclatureTypeId, #nomenclatureVendorId').val('').select2() && $('#nomenclatureGroupId, #nomenclatureTypeId, #nomenclatureVendorId').attr('disabled', ''))

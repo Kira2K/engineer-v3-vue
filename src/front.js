@@ -28,6 +28,8 @@ const memoryStore = new session.MemoryStore();
 const front = express()
 const customLists = ['passport']
 
+const prepare_query = obj => encodeURIComponent(JSON.stringify(obj))
+
 front.use(favicon('src/views/favicon.ico'))
 
 front.use('/plugins', express.static('node_modules/admin-lte/plugins'))
@@ -78,11 +80,17 @@ front.get('/download/:module', async (req, res, next) => {
   const { module } = req.params
   if (!i10n[module] || !i10n[module].fields) return res.status(501).send()
   const filename = `/tmp/engineer-${module}`
-  const fields = Object.keys(i10n[module].fields).map(key => ({label: i10n[module].fields[key], value: key}))
-  const rest = await fetch(`${backendAddr}/api/${module}?range=[0,1000000]`).then(res => res.json())
-  const json2csv = new Parser({ fields });
-  const csv = json2csv.parse(rest);
+
+  const fields = i10n[module].fields.map(el => el.src || el.value)
+  const aliases = i10n[module].fields.reduce((acc, el) => (el.src ? Object.assign(acc, { [el.src]: el.value }) : 1) && acc, {})
+  const parser_conf = i10n[module].fields.map(el => ({ value: el.value, label: el.label }))
+
+  const rest = await fetch(`${backendAddr}/api/list/${module}?fields=${prepare_query(fields)}&aliases=${prepare_query(aliases)}`).then(res => res.json())
+
+  const json2csv = new Parser({ fields: parser_conf });
+  const csv = json2csv.parse(rest.rows);
   await fs.writeFile(`${filename}.csv`, csv);
+
   const workbook = new Excel.Workbook();
   const worksheet = await workbook.csv.readFile(`${filename}.csv`);
   await workbook.xlsx.writeFile(`${filename}.xlsx`);
@@ -116,8 +124,8 @@ front.get('/:module', async (req, res, next) => {
   const { module } = req.params
   const { filter, sort, range } = req.query
   const custom = customLists.includes(module) ? 's' : ''
-  const rest = await fetch(`${backendAddr}/api/${module}${custom}?range=${range || ''}&sort=${sort || ''}&filter=${filter || ''}`).then(res => res.json())
-  res.locals.list = rest
+  // const rest = await fetch(`${backendAddr}/api/${module}${custom}?range=${range || ''}&sort=${sort || ''}&filter=${filter || ''}`).then(res => res.json())
+  // res.locals.list = rest
   next()
 })
 
@@ -190,12 +198,12 @@ front.get('/toro/:action/:id?', async (req, res, next) => {
 })
 
 front.get('/warranty/:action/:id?', async (req, res, next) => {
-  res.locals.passport = await fetch(`${backendAddr}/api/passport?range=[0,1000000]`).then(res => res.json())
+  res.locals.passport = (await fetch(`${backendAddr}/api/list/passport?fields=${prepare_query(['id', 'nomenclature.model', 'nomenclature.vendor_id', 'extra'])}`).then(res => res.json())).rows
   next()
 })
 
 front.get('/runtime/:action/:id?', async (req, res, next) => {
-  res.locals.passport = await fetch(`${backendAddr}/api/passport?range=[0,1000000]`).then(res => res.json())
+  res.locals.passport = (await fetch(`${backendAddr}/api/list/passport?fields=${prepare_query(['id', 'nomenclature.model', 'nomenclature.vendor_id', 'extra'])}`).then(res => res.json())).rows
   next()
 })
 
@@ -268,7 +276,7 @@ front.post('/:module/edit/:id?', async (req, res, next) => {
   })
   if (id) res.cookie(`success`, { type: 'update', module, id })
   else res.cookie(`success`, { type: 'create', module, id: instanceId })
-  return res.redirect(302, `/${module}`)
+  return res.redirect(302, req.query.redirectTo || `/${module}`)
 })
 
 front.post('/:module/delete/:id', async (req, res, next) => {

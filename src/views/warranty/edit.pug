@@ -6,16 +6,11 @@ block body
     .card-header
       h3.card-title Новая гарантия
     .card-body
-      +dummy_input('id', 'Код')
+      if instance.id
+        +dummy_input('id', 'Код')
       .form-group
-        label(for="passportId") Паспорт оборудования
-        select#passportId.form-control(name="passportId")
-          option(value='') Выбрать из списка
-          each val in passport
-            if instance.passportId == val.id
-              option(selected value=val.id)= val.factory_id + ' (' + val['nomenclature.title'] + ')'
-            else
-              option(value=val.id)= val.factory_id + ' (' + val['nomenclature.title'] + ')'
+        - passport.map(el => el['__title'] = el.model + ': ' + el.extra + (el.vendor_id ? ' (' + el.vendor_id + ')' : ''))
+        +select2_required('passportId', 'Паспорт оборудования', passport)
       .row
         .col
           +input('warranty_runtime',  'Гарантийная наработка')
@@ -25,8 +20,13 @@ block body
           +dateonly_single_required('expiration', 'Окончание гарантии')
     .card-footer
       if instance.id
-        button.btn.float-right.ml-3(type="submit") Сохранить
-        button.btn.float-right.ml-3(href="/runtime") Отмена
-        // a.float-left.btn(href=`/runtime/delete/${instance.id}`) Удалить
+        if instance.passportId
+          button.btn.btn-primary(type="submit" formaction=`?redirectTo=/passport/edit/${instance.passportId}`) Сохранить
+        else
+          button.btn.btn-primary(type="submit") Сохранить
+        // a.float-right.btn.btn-danger(href=`/commission/delete/${instance.id}`) Удалить
       else
-        button.btn.float-right(type="submit") Добавить
+        if instance.passportId
+          button.btn.btn-primary(type="submit" formaction=`?redirectTo=/passport/edit/${instance.passportId}`) Добавить
+        else
+          button.btn.btn-primary(type="submit") Добавить
