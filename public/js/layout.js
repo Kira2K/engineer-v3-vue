@@ -27,7 +27,7 @@ $(() => {
     el: "#vue-initter",
     store,
     components: {
-      "my-component": httpVueLoader("../public/my-component.vue"),
+      "my-component": httpVueLoader("/public/my-component.vue"),
     },
     mounted() {
       dateonlypickerInitialisationFunction()
