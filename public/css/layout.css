@@ -16,10 +16,6 @@ body {
   transform: rotate(180deg);
   transition: transform 0.4s linear;
 }
-
-.main-footer {
-  background: #121b25;
-}
 .card {
   border-radius: 4px;
 }

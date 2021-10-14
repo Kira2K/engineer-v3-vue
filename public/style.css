@@ -41,6 +41,10 @@ body {
 
 .main-footer {
   background: #213345;
+  border: none;
+  margin-bottom: 24px;
+  height: 100px;
+  border-radius: 2px;
 }
 
 .nav-tabs {
